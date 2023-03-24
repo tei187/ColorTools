@@ -2,134 +2,131 @@
 
 namespace tei187\ColorTools\StandardIlluminants;
 
-use tei187\ColorTools\Traits\Chromaticity;
-
 /**
- * Standard illuminants chromaticity x,y coordinates at 2 degree standard colorimetric observer (CIE 1931).
+ * 
  * 
  * @link https://en.wikipedia.org/wiki/Standard_illuminant#White_points_of_standard_illuminants
  */
-Class WhitePoint2 {
-    use Chromaticity;
+Class Tristimulus2 {
     
     /** 
      * Incadescent / tungsten. 
      */
-    const A = [ 0.44757, 0.40745 ];
+    const A = [ 1.09847, 1.00000, 0.35582 ];
     /** 
      * (obsolete) Direct sunlight at noon.
      */
-    const B = [ 0.34842, 0.35161 ];
+    const B = [ 0.99093, 1.00000, 0.85313 ];
     /**
      * (obsolete) Average / North sky daylight / NTSC 1953, PAL-M.
      */
-    const C = [ 0.31006, 0.31616 ];
+    const C = [ 0.98071, 1.00000, 1.18225 ];
     /**
      * Horizon light, ICC profile PCS.
      */
-    const D50 = [ 0.34567, 0.3585 ];
+    const D50 = [ 0.96421, 1.00000, 0.82519 ];
     /**
      * Mid-morning / mid-afternoon daylight.
      */
-    const D55 = [ 0.33242, 0.34743 ];
+    const D55 = [ 0.95680, 1.00000, 0.92148 ];
     /**
      * Noon daylight: television, sRGB color space.
      */
-    const D65 = [ 0.31271, 0.32902 ];
+    const D65 = [ 0.95043, 1.00000, 1.08890 ];
     /**
      * North sky daylight.
      */
-    const D75 = [ 0.29902, 0.31485 ];
+    const D75 = [ 0.94972, 1.00000, 1.22639 ];
     /**
      * High-efficiency blue phosphor monitors, BT.2035.
      */
-    const D93 = [ 0.28315, 0.29711 ];
+    const D93 = [ 0.95301, 1.00000, 1.41274 ];
     /**
      * Equal energy.
      */
-    const E = [ 0.33333, 0.33333 ];
+    const E = [ 1, 1, 1 ];
     /**
      * Daylight fluorescent.
      */
-    const F1 = [ 0.3131, 0.33727 ];
+    const F1 = [ 0.92834, 1.00000, 1.03665 ];
     /**
      * Cool white fluorescent.
      */
-    const F2 = [ 0.37208, 0.37529 ];
+    const F2 = [ 0.99145, 1.00000, 0.67316 ];
     /**
      * White fluorescent.
      */
-    const F3 = [ 0.4091, 0.3943 ];
+    const F3 = [ 1.03753, 1.00000, 0.49861 ];
     /**
      * Warm white fluorescent.
      */
-    const F4 = [ 0.44018, 0.40329 ];
+    const F4 = [ 1.09147, 1.00000, 0.38813 ];
     /**
      * Daylight fluorescent.
      */
-    const F5 = [ 0.31379, 0.34531 ];
+    const F5 = [ 0.90872, 1.00000, 0.98723 ];
     /**
      * Light white fluorescent.
      */
-    const F6 = [ 0.3779, 0.38835 ];
+    const F6 = [ 0.97309, 1.00000, 0.60191 ];
     /**
      * D65 simulator, daylight simulator.
      */
-    const F7 = [ 0.31292, 0.32933 ];
+    const F7 = [ 0.95017, 1.00000, 1.08630 ];
     /**
      * D50 simulator, Sylvania F40 Design 50.
      */
-    const F8 = [ 0.34588, 0.35875 ];
+    const F8 = [ 0.96413, 1.00000, 0.82333 ];
     /**
      * Cool white deluxe fluorescent.
      */
-    const F9 = [ 0.37417, 0.37281 ];
+    const F9 = [ 1.00365, 1.00000, 0.67868 ];
     /**
      * Philips TL85, Ultralume 50.
      */
-    const F10 = [ 0.34609, 0.35986 ];
+    const F10 = [ 0.96174, 1.00000, 0.81712 ];
     /**
      * Philips TL84, Ultralume 40.
      */
-    const F11 = [ 0.38052, 0.37713 ];
+    const F11 = [ 1.00899, 1.00000, 0.64262 ];
     /**
      * Philips TL83, Ultralume 30.
      */
-    const F12 = [ 0.43695, 0.40441 ];
+    const F12 = [ 1.08046, 1.00000, 0.39228 ];
     /**
      * Phosphor-converted blue.
      */
-    const LED_B1 = [ 0.456, 0.4078 ];
+    const LED_B1 = [ 1.11820, 1.00000, 0.33399 ];
     /**
      * Phosphor-converted blue.
      */
-    const LED_B2 = [ 0.4357, 0.4012 ];
+    const LED_B2 = [ 1.08599, 1.00000, 0.40653 ];
     /**
      * Phosphor-converted blue.
      */
-    const LED_B3 = [ 0.3756, 0.3723 ];
+    const LED_B3 = [ 1.00886, 1.00000, 0.67714 ];
     /**
      * Phosphor-converted blue.
      */
-    const LED_B4 = [ 0.3422, 0.3502 ];
+    const LED_B4 = [ 0.97716, 1.00000, 0.87836 ];
     /**
      * Phosphor-converted blue.
      */
-    const LED_B5 = [ 0.3118, 0.3236 ];
+    const LED_B5 = [ 0.96354, 1.00000, 1.12670 ];
     /**
      * Mixing of phosphor-converted blue LED and red LED (blue-hybrid).
      */
-    const LED_BH1 = [ 0.4474, 0.4066 ];
+    const LED_BH1 = [ 1.10034, 1.00000, 0.35908 ];
     /**
      * Mixing of red, green, and blue LEDs.
      */
-    const LED_RGB1 = [ 0.4557, 0.4211 ];
+    const LED_RGB1 = [ 1.08217, 1.00000, 0.29257 ];
     /**
      * Phosphor-converted blue.
      */
-    const LED_V1 = [ 0.456, 0.4548 ];
+    const LED_V1 = [ 1.00264, 1.00000, 0.19613 ];
     /**
      * Phosphor-converted blue.
      */
-    const LED_V2 = [ 0.3781, 0.3775 ];
+    const LED_V2 = [ 1.00159, 1.00000, 0.64742 ];
 }
