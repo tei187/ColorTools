@@ -3,11 +3,14 @@
 namespace tei187\ColorTools;
 
 use tei187\ColorTools\StandardIlluminants\Tristimulus2;
+use tei187\ColorTools\Traits\Tristimulus;
 
 /**
  * @link http://www.brucelindbloom.com/
  */
 class Convert {
+    use Tristimulus;
+
     //const EPSILON_INTENT = 0.00885645167903563081717167575546;
     const EPSILON = .008856;
     //const KAPPA_INTENT = 903.2962962962962962962962962963;
@@ -46,32 +49,11 @@ class Convert {
     }
 
     public static function xy_to_XYZ(array $data) : array {
-        list($x, $y) = $data;
-
-        return $y == 0
-            ? [
-                'X' => 0,
-                'Y' => 0,
-                'Z' => 0
-              ]
-            : [
-                'X' => $x / $y,
-                'Y' => 1,
-                'Z' => (1 - $x - $y) / $y
-              ];
+        return self::chromaticity_to_tristimulus($data);
     }
 
     public static function XYZ_to_xy(array $data) : array {
-        list($X, $Y, $Z) = $data;
-
-        return $X + $Y + $Z == 0
-            ? [ 
-                'x' => 0, 
-                'y' => 0
-              ]
-            : [ 'x' => $X / ($X + $Y + $Z),
-                'y' => $Y / ($X + $Y + $Z)
-              ];
+        return self::tristimulus_to_chromaticity($data);
     }
 
     public static function xyY_to_XYZ(array $data) : array {
