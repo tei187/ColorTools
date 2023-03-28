@@ -60,7 +60,14 @@ class Adaptation {
         ];
     }
 
-    static function matricesMultiply(array $m1, array $m2) {
+    /**
+     * Multiplies two 3x3 matrices.
+     *
+     * @param array $m1 3x3 matrix.
+     * @param array $m2 3x3 matrix.
+     * @return array
+     */
+    static function matricesMultiply(array $m1, array $m2) : array {
         return [
             [ 
                 $m1[0][0] * $m2[0][0] + $m1[0][1] * $m2[1][0] + $m1[0][2] * $m2[2][0], 
@@ -81,6 +88,6 @@ class Adaptation {
     }
 
     static public function adapt($wp_src, $wp_dest, $method) {
-        
+
     }
 }
