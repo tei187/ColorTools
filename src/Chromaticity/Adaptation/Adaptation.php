@@ -2,9 +2,7 @@
 
 namespace tei187\ColorTools\Chromaticity\Adaptation;
 
-use tei187\ColorTools\Chromaticity\Adaptation\Matrices\XYZ_Scaling;
-use tei187\ColorTools\Chromaticity\Adaptation\Matrices\Von_Kries;
-use tei187\ColorTools\Chromaticity\Adaptation\Matrices\Bradford;
+use tei187\ColorTools\Chromaticity\Adaptation\Matrices;
 
 class Adaptation {
     /**
@@ -36,22 +34,28 @@ class Adaptation {
         $determinant = $matrix[0][0] * ( $matrix[1][1] * $matrix[2][2] - $matrix[1][2] * $matrix[2][1] ) -
                        $matrix[0][1] * ( $matrix[1][0] * $matrix[2][2] - $matrix[1][2] * $matrix[2][0] ) +
                        $matrix[0][2] * ( $matrix[1][0] * $matrix[2][1] - $matrix[1][1] * $matrix[2][0] );
+        /*$determinant = ( $matrix[0][0] * $matrix[1][1] * $matrix[2][2] ) + 
+                       ( $matrix[0][1] * $matrix[1][2] * $matrix[2][0] ) +
+                       ( $matrix[0][2] * $matrix[1][0] * $matrix[2][1] ) -
+                       ( $matrix[0][0] * $matrix[1][2] * $matrix[2][1] ) - 
+                       ( $matrix[0][1] * $matrix[1][0] * $matrix[2][2] ) -
+                       ( $matrix[0][2] * $matrix[1][1] * $matrix[2][0] );*/
 
         return [
             [
-                ( $matrix[2][0] * $matrix[2][2] - $matrix[1][2] * $matrix[2][1] ) / $determinant, //a
-                ( $matrix[0][2] * $matrix[2][1] - $matrix[0][1] * $matrix[2][2] ) / $determinant, //d
-                ( $matrix[0][1] * $matrix[1][2] - $matrix[0][2] * $matrix[1][1] ) / $determinant, //g
+                ( $matrix[1][1] * $matrix[2][2] - $matrix[1][2] * $matrix[2][1] ) / $determinant,
+                ( $matrix[0][2] * $matrix[2][1] - $matrix[0][1] * $matrix[2][2] ) / $determinant,
+                ( $matrix[0][1] * $matrix[1][2] - $matrix[0][2] * $matrix[1][1] ) / $determinant,
             ],
             [
-                ( $matrix[1][2] * $matrix[2][0] - $matrix[1][0] * $matrix[2][2] ) / $determinant, //b
-                ( $matrix[0][0] * $matrix[2][2] - $matrix[0][2] * $matrix[2][0] ) / $determinant, //e
-                ( $matrix[0][2] * $matrix[1][0] - $matrix[0][0] * $matrix[1][2] ) / $determinant, //h
+                ( $matrix[1][2] * $matrix[2][0] - $matrix[1][0] * $matrix[2][2] ) / $determinant,
+                ( $matrix[0][0] * $matrix[2][2] - $matrix[0][2] * $matrix[2][0] ) / $determinant,
+                ( $matrix[0][2] * $matrix[1][0] - $matrix[0][0] * $matrix[1][2] ) / $determinant,
             ],
             [
-                ( $matrix[1][0] * $matrix[2][1] - $matrix[1][1] * $matrix[2][0] ) / $determinant //c
-                ( $matrix[0][1] * $matrix[2][0] - $matrix[0][0] * $matrix[2][1] ) / $determinant, //f
-                ( $matrix[0][0] * $matrix[1][1] - $matrix[0][1] * $matrix[1][0] ) / $determinant, //i
+                ( $matrix[1][0] * $matrix[2][1] - $matrix[1][1] * $matrix[2][0] ) / $determinant,
+                ( $matrix[0][1] * $matrix[2][0] - $matrix[0][0] * $matrix[2][1] ) / $determinant,
+                ( $matrix[0][0] * $matrix[1][1] - $matrix[0][1] * $matrix[1][0] ) / $determinant,
             ]
         ];
     }
@@ -77,6 +81,6 @@ class Adaptation {
     }
 
     static public function adapt($wp_src, $wp_dest, $method) {
-
+        
     }
 }
