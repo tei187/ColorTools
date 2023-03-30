@@ -4,16 +4,31 @@ namespace tei187\ColorTools\Chromaticity\Adaptation;
 
 use tei187\ColorTools\Chromaticity\Adaptation\Matrices;
 
+/**
+ * Chromatic adaptation handler.
+ * 
+ * @see https://www.xrite.com/pl-pl/service-support/chromaticadaptationwhatisitwhatdoesitdo
+ * @see http://www.russellcottrell.com/photo/matrixCalculator.htm
+ */
 class Adaptation {
     /**
      * Multiplies a 3x3 matrix by 1x3 vector.
      *
-     * @param array $matrix
-     * @param array $vector
+     * @param array $matrix 3x3 array.
+     * @param array $vector Array with 3 values (treated as column).
      * @return array
      */
     static function matrixVector(array $matrix, array $vector) : array {
         $output = [];
+
+        $temp = [];
+        foreach($matrix as $row) {
+            $temp[] = array_values($row);
+        };
+        $matrix = $temp;
+        unset($temp, $row);
+
+        $vector = array_values($vector);
 
         for($i = 0; $i <= 2; $i++) {
             $sum = 0;
@@ -116,10 +131,6 @@ class Adaptation {
             [ .0, $g, .0 ], 
             [ .0, .0, $b ]
         ];
-
-        //$step1 = self::matricesMultiply(self::matrixInvert($M_tran), $M_ADT);
-        //$step2 = self::matricesMultiply($step1, $M_tran);
-        //$step3 = self::matrixVector($step2, $XYZ);
 
         $outcome = 
             self::matrixVector( 
