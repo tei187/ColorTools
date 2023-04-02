@@ -6,7 +6,11 @@ use tei187\ColorTools\StandardIlluminants\Tristimulus2;
 use tei187\ColorTools\Traits\Tristimulus;
 
 /**
- * @link http://www.brucelindbloom.com/
+ * Color equations and conversions based on Bruce Lindbloom's website information.
+ * 
+ * **IMPORTANT:** Whenever reference white point tristimulus is required, by default the values correspond to D65 illuminant based on 2 degrees Standard Observer reference.
+ * 
+ * @see http://www.brucelindbloom.com/
  */
 class Convert {
     use Tristimulus;
@@ -15,7 +19,10 @@ class Convert {
     const EPSILON = .008856;
     //const KAPPA_INTENT = 903.2962962962962962962962962963;
     const KAPPA = 903.3;
+    //const EPSILON_x_KAPPA_INTENT = 7.999999999999971;
     const EPSILON_x_KAPPA = 7.9996248;
+
+// LCh
 
     /**
      * Converts data value from L\*C\*h to L\*a\*b.
@@ -30,6 +37,168 @@ class Convert {
             'L' => $L,
             'a' => $C * cos(deg2rad($h)),
             'b' => $C * sin(deg2rad($h)),
+        ];
+    }
+
+    public static function LCh_to_Luv(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+        return self::XYZ_to_Luv( self::LCh_to_XYZ($data, $WP_RefTristimulus), $WP_RefTristimulus);
+    }
+
+    public static function LCh_to_xyY(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+        return self::XYZ_to_xyY( self::LCh_to_XYZ($data, $WP_RefTristimulus) );
+    }
+
+    public static function LCh_to_XYZ(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+        return self::Lab_to_XYZ( self::LCh_to_Lab($data), $WP_RefTristimulus );
+    }
+
+    public static function LCh_to_LCh_uv(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+        return 
+            self::Luv_to_LCh_uv( 
+                self::XYZ_to_Luv( 
+                    self::Lab_to_XYZ( 
+                        self::LCh_to_Lab($data), 
+                        $WP_RefTristimulus 
+                    ), 
+                    $WP_RefTristimulus
+                ) 
+            );
+    }
+
+// LCh UV
+    public static function LCh_uv_to_Luv(array $data) {
+        list($L, $C, $h) = $data;
+        return [
+            'L' => $L,
+            'u' => $C * cos(deg2rad($h)),
+            'v' => $C * sin(deg2rad($h)),
+        ];
+    }
+
+    public static function LCh_uv_to_LCh(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+        return
+            self::Lab_to_LCh( 
+                self::LCh_uv_to_Lab($data, $WP_RefTristimulus) 
+            );
+    }
+
+    public static function LCh_uv_to_Lab(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+        return 
+            self::XYZ_to_Lab( 
+                self::Luv_to_XYZ( 
+                    self::LCh_uv_to_Luv($data), 
+                    $WP_RefTristimulus
+                ), 
+                $WP_RefTristimulus
+            );
+    }
+
+    public static function LCh_uv_to_XYZ(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+        return
+            self::Luv_to_XYZ(
+                self::LCh_uv_to_Luv($data),
+                $WP_RefTristimulus
+            );
+    }
+
+    public static function LCh_uv_to_xyY(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+        return
+            self::XYZ_to_xyY(
+                self::LCh_uv_to_XYZ($data, $WP_RefTristimulus)
+            );
+    }
+
+// Luv
+
+    public static function Luv_to_XYZ(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+        list($L, $u, $v) = $data;
+        list($X_r, $Y_r, $Z_r) = $WP_RefTristimulus;
+
+        $u_0 = (4 * $X_r) / ($X_r + (15*$Y_r) + (3*$Z_r));
+        $v_0 = (9 * $Y_r) / ($X_r + (15*$Y_r) + (3*$Z_r));
+
+        $Y =
+            $L > self::EPSILON_x_KAPPA
+                ? pow(($L + 16) / 116, 3)
+                : $L / self::KAPPA;
+
+        $a = (1/3) * (((52 * $L) / ($u + (13 * $L * $u_0))) - 1);
+        $b = -5 * $Y;
+        $c = -1 / 3;
+        $d = $Y * (((39 * $L) / ($v + (13*$L*$v_0))) - 5);
+
+        $X = ($d - $b) / ($a - $c);
+
+        return [
+            'X' => $X,
+            'Y' => $L > self::EPSILON_x_KAPPA ? pow(($L + 16) / 116, 3) : $L / self::KAPPA,
+            'Z' => ($X * $a) + $b
+        ];
+    }
+
+    public static function Luv_to_xyY(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+        return self::XYZ_to_xyY( self::Luv_to_XYZ($data, $WP_RefTristimulus) );
+    }
+
+    public static function Luv_to_LCh_uv(array $data) : array {
+        list($L, $u, $v) = $data;
+
+        $atan = rad2deg(atan2($u, $v));
+
+        return [
+            'L' => $L,
+            'C' => sqrt(pow($u, 2) + pow($v, 2)),
+            'h' => $atan >= 0 ? $atan : $atan + 360
+        ];
+    }
+
+    public static function Luv_to_LCh(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+        return
+            self::XYZ_to_LCh(
+                self::Luv_to_XYZ($data, $WP_RefTristimulus),
+                $WP_RefTristimulus
+            );
+    }
+
+    public static function Luv_to_Lab(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+        return 
+            self::XYZ_to_Lab(
+                self::Luv_to_XYZ($data, $WP_RefTristimulus),
+                $WP_RefTristimulus
+            );
+    }
+
+// Lab
+
+    public static function Lab_to_xyY(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        return self::XYZ_to_xyY( self::Lab_to_XYZ($data, $WP_RefTristimulus) );
+    }
+
+    public static function Lab_to_XYZ(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        list($L, $a, $b) = $data;
+        list($X_r, $Y_r, $Z_r) = $WP_RefTristimulus;
+
+        $f_y = ($L + 16) / 116;
+        $f_x = ($a / 500) + $f_y;
+        $f_z = $f_y - ($b / 200);
+
+        $x_r =
+            pow($f_x, 3) > self::EPSILON
+                ? pow($f_x, 3)
+                : ((116 * $f_x) - 16) / self::KAPPA;
+        $y_r =
+            $L > self::EPSILON_x_KAPPA
+                ? pow(($L + 16) / 116, 3)
+                : $L / self::KAPPA;
+        $z_r =
+            pow($f_z, 3) > self::EPSILON
+                ? pow($f_z, 3)
+                : ((116 * $f_z) - 16) / self::KAPPA;
+
+        return [
+            'X' => $x_r * $X_r,
+            'Y' => $y_r * $Y_r,
+            'Z' => $z_r * $Z_r
         ];
     }
 
@@ -48,13 +217,15 @@ class Convert {
         ];
     }
 
-    public static function xy_to_XYZ(array $data) : array {
-        return self::chromaticity_to_tristimulus($data);
+    public static function Lab_to_Luv(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+        return self::XYZ_to_Luv( self::Lab_to_XYZ($data, $WP_RefTristimulus), $WP_RefTristimulus );
     }
 
-    public static function XYZ_to_xy(array $data) : array {
-        return self::tristimulus_to_chromaticity($data);
+    public static function Lab_to_LCh_uv(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        return self::Luv_to_LCh_uv( self::Lab_to_Luv($data, $WP_RefTristimulus) );
     }
+
+// xyY
 
     public static function xyY_to_XYZ(array $data) : array {
         list($x, $y, $Y) = $data;
@@ -64,13 +235,32 @@ class Convert {
                 'X' => 0,
                 'Y' => 0,
                 'Z' => 0
-              ]
+            ]
             : [
                 'X' => ($x * $Y) / $y,
                 'Y' => $Y,
                 'Z' => ((1 - $x - $y) * $Y ) / $y
-              ];
+            ];
     }
+
+    public static function xyY_to_Lab(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+        return self::XYZ_to_Lab( self::xyY_to_XYZ($data), $WP_RefTristimulus );
+    }
+
+    public static function xyY_to_LCh(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+        return self::Lab_to_LCh( self::xyY_to_Lab($data, $WP_RefTristimulus) );
+    }
+
+    public static function xyY_to_Luv(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+        return self::XYZ_to_Luv( self::xyY_to_XYZ($data), $WP_RefTristimulus );
+    }
+
+    public static function xyY_to_LCh_uv(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+        return self::Luv_to_LCh_uv( self::xyY_to_Luv($data, $WP_RefTristimulus) );
+    }
+
+// XYZ
+
 
     public static function XYZ_to_xyY(array $data) : array {
         list($X, $Y, $Z) = $data;
@@ -88,9 +278,9 @@ class Convert {
             ];
     }
 
-    public static function XYZ_to_Lab(array $data, array $whitepointTristimulus = Tristimulus2::D65) : array {
+    public static function XYZ_to_Lab(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
         list($X, $Y, $Z) = $data;
-        list($X_r, $Y_r, $Z_r) = $whitepointTristimulus;
+        list($X_r, $Y_r, $Z_r) = $WP_RefTristimulus;
 
         $x_r = $X / $X_r;
         $y_r = $Y / $Y_r;
@@ -117,37 +307,9 @@ class Convert {
         ];
     }
 
-    public static function Lab_to_XYZ(array $data, array $whitepointTristimulus = Tristimulus2::D65) : array {
-        list($L, $a, $b) = $data;
-        list($X_r, $Y_r, $Z_r) = $whitepointTristimulus;
-
-        $f_y = ($L + 16) / 116;
-        $f_x = ($a / 500) + $f_y;
-        $f_z = $f_y - ($b / 200);
-
-        $x_r =
-            pow($f_x, 3) > self::EPSILON
-                ? pow($f_x, 3)
-                : ((116 * $f_x) - 16) / self::KAPPA;
-        $y_r =
-            $L > self::EPSILON_x_KAPPA
-                ? pow(($L + 16) / 116, 3)
-                : $L / self::KAPPA;
-        $z_r =
-            pow($f_z, 3) > self::EPSILON
-                ? pow($f_z, 3)
-                : ((116 * $f_z) - 16) / self::KAPPA;
-
-        return [
-            'X' => $x_r * $X_r,
-            'Y' => $y_r * $Y_r,
-            'Z' => $z_r * $Z_r
-        ];
-    }
-
-    public static function XYZ_to_Luv(array $data, $whitepointTristimulus = Tristimulus2::D65) : array {
+    public static function XYZ_to_Luv(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
         list($X, $Y, $Z) = $data;
-        list($X_r, $Y_r, $Z_r) = $whitepointTristimulus;
+        list($X_r, $Y_r, $Z_r) = $WP_RefTristimulus;
 
         $y_r = $Y / $Y_r;
 
@@ -169,42 +331,22 @@ class Convert {
         ];
     }
 
-    public function Luv_to_XYZ(array $data, $whitepointTristimulus = Tristimulus2::D65) : array {
-        list($L, $u, $v) = $data;
-        list($X_r, $Y_r, $Z_r) = $whitepointTristimulus;
-
-        $u_0 = (4 * $X_r) / ($X_r + (15*$Y_r) + (3*$Z_r));
-        $v_0 = (9 * $Y_r) / ($X_r + (15*$Y_r) + (3*$Z_r));
-
-        $Y =
-            $L > self::EPSILON_x_KAPPA
-                ? pow(($L + 16) / 116, 3)
-                : $L / self::KAPPA;
-
-        $a = (1/3) * (((52 * $L) / ($u + (13 * $L * $u_0))) - 1);
-        $b = -5 * $Y;
-        $c = -1 / 3;
-        $d = $Y * (((39 * $L) / ($v + (13*$L*$v_0))) - 5);
-
-        $X = ($d - $b) / ($a - $c);
-
-        return [
-            'X' => $X,
-            'Y' => $L > self::EPSILON_x_KAPPA ? pow(($L + 16) / 116, 3) : $L / self::KAPPA,
-            'Z' => ($X * $a) + $b
-        ];
+    public static function XYZ_to_LCh(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+        return self::Lab_to_LCh( self::XYZ_to_Lab($data, $WP_RefTristimulus) );
     }
 
-    public static function XYZ_to_LCh(array $data, $whitepointTristimulus = Tristimulus2::D65) : array {
-        return self::Lab_to_LCh(self::XYZ_to_Lab($data, $whitepointTristimulus));
+    public static function XYZ_to_LCh_uv(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+        return self::Luv_to_LCh_uv( self::XYZ_to_Luv($data, $WP_RefTristimulus) );
     }
 
-    public static function LCh_to_XYZ(array $data, $whitepointTristimulus = Tristimulus2::D65) : array {
-        return self::Lab_to_XYZ(self::LCh_to_Lab($data), $whitepointTristimulus);
+    // xy Chromaticity
+
+    public static function xy_to_XYZ(array $data) : array {
+        return self::chromaticity_to_tristimulus($data);
     }
 
-    public static function Lab_to_LUV(array $data, $whitepointTristimulus = Tristimulus2::D65) : array {
-        return self::XYZ_to_Luv(self::Lab_to_XYZ($data, $whitepointTristimulus), $whitepointTristimulus);
+    public static function XYZ_to_xy(array $data) : array {
+        return self::tristimulus_to_chromaticity($data);
     }
     
     // https://cs.haifa.ac.il/hagit/courses/ist/Lectures/Demos/ColorApplet2/t_convert.html

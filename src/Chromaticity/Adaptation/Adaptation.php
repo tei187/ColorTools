@@ -32,7 +32,7 @@ class Adaptation {
      * @param array $matrix 3x3 array.
      * @return array
      */
-    static function matrixInvert(array $matrix) : array {
+    static function matrix3x3Invert(array $matrix) : array {
         $determinant = $matrix[0][0] * ( $matrix[1][1] * $matrix[2][2] - $matrix[1][2] * $matrix[2][1] ) -
                        $matrix[0][1] * ( $matrix[1][0] * $matrix[2][2] - $matrix[1][2] * $matrix[2][0] ) +
                        $matrix[0][2] * ( $matrix[1][0] * $matrix[2][1] - $matrix[1][1] * $matrix[2][0] );
@@ -69,7 +69,7 @@ class Adaptation {
      * @param array $m2 3x3 matrix.
      * @return array
      */
-    static function matricesMultiply(array $m1, array $m2) : array {
+    static function matrices3x3Multiply(array $m1, array $m2) : array {
         return [
             [ 
                 $m1[0][0] * $m2[0][0] + $m1[0][1] * $m2[1][0] + $m1[0][2] * $m2[2][0], 
@@ -117,15 +117,15 @@ class Adaptation {
             [ .0, .0, $b ]
         ];
 
-        //$step1 = self::matricesMultiply(self::matrixInvert($M_tran), $M_ADT);
-        //$step2 = self::matricesMultiply($step1, $M_tran);
+        //$step1 = self::matrices3x3Multiply(self::matrix3x3Invert($M_tran), $M_ADT);
+        //$step2 = self::matrices3x3Multiply($step1, $M_tran);
         //$step3 = self::matrixVector($step2, $XYZ);
 
         $outcome = 
             self::matrixVector( 
-                self::matricesMultiply( 
-                    self::matricesMultiply( 
-                        self::matrixInvert( $M_tran ), 
+                self::matrices3x3Multiply( 
+                    self::matrices3x3Multiply( 
+                        self::matrix3x3Invert( $M_tran ), 
                         $M_ADT ), 
                     $M_tran ), 
                 $XYZ );
