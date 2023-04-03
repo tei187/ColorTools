@@ -3,7 +3,7 @@
 namespace tei187\ColorTools\StandardIlluminants;
 
 /**
- * * Calculated tristimulus for white points of standard illuminantes, based on 10 degrees standard colorimetric observer.
+ * Calculated tristimulus for white points of standard illuminantes, based on 10 degrees standard colorimetric observer.
  * 
  * @link https://en.wikipedia.org/wiki/Standard_illuminant#White_points_of_standard_illuminants
  */
