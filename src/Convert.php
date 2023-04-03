@@ -4,6 +4,7 @@ namespace tei187\ColorTools;
 
 use tei187\ColorTools\StandardIlluminants\Tristimulus2;
 use tei187\ColorTools\Traits\Tristimulus;
+use tei187\ColorTools\Helpers\CheckArray;
 
 /**
  * Color equations and conversions based on Bruce Lindbloom's website information.
@@ -31,7 +32,7 @@ class Convert {
      * @return array
      */
     public static function LCh_to_Lab(array $data) : array {
-        list($L, $C, $h) = $data;
+        list($L, $C, $h) = CheckArray::makeList($data, 'LCh');
 
         return [
             'L' => $L,
@@ -67,7 +68,8 @@ class Convert {
 
 // LCh UV
     public static function LCh_uv_to_Luv(array $data) {
-        list($L, $C, $h) = $data;
+        list($L, $C, $h) = CheckArray::makeList($data, 'LCh');
+
         return [
             'L' => $L,
             'u' => $C * cos(deg2rad($h)),
@@ -111,8 +113,8 @@ class Convert {
 // Luv
 
     public static function Luv_to_XYZ(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
-        list($L, $u, $v) = $data;
-        list($X_r, $Y_r, $Z_r) = $WP_RefTristimulus;
+        list($L, $u, $v) = CheckArray::makeList($data, 'Luv');
+        list($X_r, $Y_r, $Z_r) = CheckArray::makeList($WP_RefTristimulus, 'XYZ');
 
         $u_0 = (4 * $X_r) / ($X_r + (15*$Y_r) + (3*$Z_r));
         $v_0 = (9 * $Y_r) / ($X_r + (15*$Y_r) + (3*$Z_r));
@@ -141,7 +143,7 @@ class Convert {
     }
 
     public static function Luv_to_LCh_uv(array $data) : array {
-        list($L, $u, $v) = $data;
+        list($L, $u, $v) = CheckArray::makeList($data, 'Luv');
 
         $atan = rad2deg(atan2($u, $v));
 
@@ -175,8 +177,8 @@ class Convert {
     }
 
     public static function Lab_to_XYZ(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
-        list($L, $a, $b) = $data;
-        list($X_r, $Y_r, $Z_r) = $WP_RefTristimulus;
+        list($L, $a, $b) = CheckArray::makeList($data, 'Lab');
+        list($X_r, $Y_r, $Z_r) = CheckArray::makeList($WP_RefTristimulus, 'XYZ');
 
         $f_y = ($L + 16) / 116;
         $f_x = ($a / 500) + $f_y;
@@ -203,7 +205,7 @@ class Convert {
     }
 
     public static function Lab_to_LCh(array $data) : array {
-        list($L, $a, $b) = $data;
+        list($L, $a, $b) = CheckArray::makeList($data, 'Lab');
         $atan2 = rad2deg(atan2($b, $a));
 
         return [
@@ -228,7 +230,7 @@ class Convert {
 // xyY
 
     public static function xyY_to_XYZ(array $data) : array {
-        list($x, $y, $Y) = $data;
+        list($x, $y, $Y) = CheckArray::makeList($data, 'xyY');
 
         return $y == 0
             ? [
@@ -263,7 +265,7 @@ class Convert {
 
 
     public static function XYZ_to_xyY(array $data) : array {
-        list($X, $Y, $Z) = $data;
+        list($X, $Y, $Z) = CheckArray::makeList($data, 'XYZ');
 
         return $X + $Y + $Z == 0
             ? [
@@ -279,8 +281,8 @@ class Convert {
     }
 
     public static function XYZ_to_Lab(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
-        list($X, $Y, $Z) = $data;
-        list($X_r, $Y_r, $Z_r) = $WP_RefTristimulus;
+        list($X, $Y, $Z) = CheckArray::makeList($data, 'XYZ');
+        list($X_r, $Y_r, $Z_r) = CheckArray::makeList($WP_RefTristimulus, 'XYZ');
 
         $x_r = $X / $X_r;
         $y_r = $Y / $Y_r;
@@ -308,8 +310,8 @@ class Convert {
     }
 
     public static function XYZ_to_Luv(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
-        list($X, $Y, $Z) = $data;
-        list($X_r, $Y_r, $Z_r) = $WP_RefTristimulus;
+        list($X, $Y, $Z) = CheckArray::makeList($data, 'XYZ');
+        list($X_r, $Y_r, $Z_r) = CheckArray::makeList($WP_RefTristimulus, 'XYZ');
 
         $y_r = $Y / $Y_r;
 

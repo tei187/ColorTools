@@ -2,6 +2,8 @@
 
 namespace tei187\ColorTools\Delta;
 
+use tei187\ColorTools\Helpers\CheckArray;
+
 class CMC_lc {
 
     /**
@@ -43,8 +45,8 @@ class CMC_lc {
         
         list($l, $c) = self::MODE_VALUES[$mode];
 
-        list($L1, $a1, $b1) = $data[0];
-        list($L2, $a2, $b2) = $data[1];
+        list($L1, $a1, $b1) = CheckArray::makeList($data[0], 'Lab');
+        list($L2, $a2, $b2) = CheckArray::makeList($data[1], 'Lab');
 
         $C_1 = sqrt(pow($a1, 2) + pow($b1, 2));
         $C_2 = sqrt(pow($a2, 2) + pow($b2, 2));

@@ -2,6 +2,8 @@
 
 namespace tei187\ColorTools\Delta;
 
+use tei187\ColorTools\Helpers\CheckArray;
+
 class CIE76 {
     /**
      * Calculates dE using CIE76 algorithm based on two L\*a\*b measures.
@@ -12,8 +14,8 @@ class CIE76 {
      * @return float
      */
     public static function calculateDelta(array $data) {
-        list($L1, $a1, $b1) = $data[0];
-        list($L2, $a2, $b2) = $data[1];
+        list($L1, $a1, $b1) = CheckArray::makeList($data[0], 'Lab');
+        list($L2, $a2, $b2) = CheckArray::makeList($data[1], 'Lab');
         return round( sqrt( pow(($L2 - $L1), 2) + pow(($a2 - $a1), 2) + pow(($b2 - $b1), 2) ) , 2);
     }
 }

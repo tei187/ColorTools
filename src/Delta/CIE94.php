@@ -2,6 +2,8 @@
 
 namespace tei187\ColorTools\Delta;
 
+use tei187\ColorTools\Helpers\CheckArray;
+
 class CIE94 {
     /**
      * Calculation mode/application value for graphic arts.
@@ -41,8 +43,8 @@ class CIE94 {
         $mode = !in_array(strtolower(trim($mode)), self::ALLOWED_MODES) ? self::MODE_GRAPHIC_ARTS : $mode;
         list($k_L, $K_1, $K_2) = self::K_VALUES[$mode];
 
-        list($L1, $a1, $b1) = $data[0];
-        list($L2, $a2, $b2) = $data[1];
+        list($L1, $a1, $b1) = CheckArray::makeList($data[0], 'Lab');
+        list($L2, $a2, $b2) = CheckArray::makeList($data[1], 'Lab');
 
         $k_C = 1;
         $k_H = 1;

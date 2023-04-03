@@ -2,6 +2,8 @@
 
 namespace tei187\ColorTools\Delta;
 
+use tei187\ColorTools\Helpers\CheckArray;
+
 class CIEDE2000 {
     /**
      * Calculates dE using CIEDE2000 algorithm based on two L\*a\*b measures.
@@ -14,8 +16,8 @@ class CIEDE2000 {
      * @return float
      */
     public static function calculateDelta(array $data) {
-        list($L1, $a1, $b1) = $data[0];
-        list($L2, $a2, $b2) = $data[1];
+        list($L1, $a1, $b1) = CheckArray::makeList($data[0], 'Lab');
+        list($L2, $a2, $b2) = CheckArray::makeList($data[1], 'Lab');
 
         $C_1 = sqrt(pow($a1,2) + pow($b1, 2)); // (2)
         $C_2 = sqrt(pow($a2,2) + pow($b2, 2)); // (2)
