@@ -10,6 +10,8 @@ use tei187\ColorTools\Helpers\CheckArray;
  * Color equations and conversions based on Bruce Lindbloom's website information.
  * 
  * **IMPORTANT:** Whenever reference white point tristimulus is required, by default the values correspond to D65 illuminant based on 2 degrees Standard Observer reference.
+ * - If no illuminant change is required, use the one with which the measurement was done.
+ * - If illuminant is to be changed (between reference and target), use :php:method:`tei187\ColorTools\Chromaticity\Adaptation\Adaptation::adapt()` method on the input values first, and proceed with using the target white point further on.
  * 
  * @see http://www.brucelindbloom.com/
  */
