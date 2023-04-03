@@ -19,3 +19,4 @@ require_once __DIR__ . "/src/StandardIlluminants/WhitePoint10.php";
 require_once __DIR__ . "/src/StandardIlluminants/Tristimulus2.php";
 
 require_once __DIR__ . "/src/Convert.php";
+require_once __DIR__ . "/src/Chromaticity/Temperature.php";
