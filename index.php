@@ -6,6 +6,11 @@
 // Traits
     require_once __DIR__ . "/src/Traits/Chromaticity.php";
     require_once __DIR__ . "/src/Traits/Tristimulus.php";
+    require_once __DIR__ . "/src/Traits/Illuminants.php";
+    require_once __DIR__ . "/src/Traits/ReturnsObjects.php";
+
+// Interfaces
+    require_once __DIR__ . "/src/Interfaces/Measure.php";
 
 // deltaE
     require_once __DIR__ . "/src/Delta/CIE76.php";
@@ -33,3 +38,8 @@
 
 // Converters
     require_once __DIR__ . "/src/Convert.php";
+
+// Objects
+    require_once __DIR__ . "/src/Measures/MeasureAbstract.php";
+    require_once __DIR__ . "/src/Measures/XYZ.php";
+    require_once __DIR__ . "/src/Measures/Lab.php";
