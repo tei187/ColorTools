@@ -12,6 +12,15 @@ abstract class MeasureAbstract {
     protected $values = [];
 
     /**
+     * Returns array with values.
+     *
+     * @return array
+     */
+    public function getValues() : array {
+        return $this->values;
+    }
+
+    /**
      * Assigns keys for array property 'values' per string input (assumed only one-character keys).
      *
      * @param string $keys
@@ -73,4 +82,5 @@ abstract class MeasureAbstract {
     abstract public function toLCh() : Lch;
     abstract public function toLCh_uv() : LCh_uv;
     abstract public function toLuv() : Luv;
+    abstract public function getTemperature();
 }

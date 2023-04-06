@@ -2,6 +2,7 @@
 
 namespace tei187\ColorTools\Measures;
 
+use tei187\ColorTools\Chromaticity\Temperature;
 use tei187\ColorTools\Interfaces\Measure;
 use tei187\ColorTools\Convert;
 use tei187\ColorTools\Traits\Illuminants;
@@ -21,11 +22,13 @@ class XYZ extends MeasureAbstract implements Measure {
             ->setIlluminant($illuminant, $observerAngle);
     }
 
-    
+    // getters
 
-    public function getValues() : array {
-        return $this->values;
+    public function getTemperature() {
+        return Temperature::XYZ_to_temp($this->getValues());
     }
+
+    // converters
 
     public function toXYZ() : self {
         return $this;
