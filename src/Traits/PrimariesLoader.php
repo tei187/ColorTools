@@ -14,7 +14,7 @@ trait PrimariesLoader {
      *
      * @param object|string|array $primaries Object of RGBPrimaries namespace, string that can be found in Dictionary or 3x3 array of arrays with xyY values or XYZ tristimulus for each RGB channel. If array and each channel's arrays do not have keys, XYZ is assumed.
      * @param string|null $name If creating a custom primaries set, sets a `name` parameter.
-     * @param string|null $illuminant If creating a custom primaries set, sets a `illuminant` parameter.
+     * @param string|array|null $illuminant If creating a custom primaries set, sets a `illuminant` parameter. Can be a string (if Standard Illuminant defined in Dictionary) or XYZ tristimulus array.
      * @param float|integer|null $gamma If creating a custom primaries set, sets a `gamma` parameter.
      * @return object|false Will return object of RGBPrimaries namespace or false if loading failed.
      */
