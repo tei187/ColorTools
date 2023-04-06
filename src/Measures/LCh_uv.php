@@ -4,7 +4,7 @@ namespace tei187\ColorTools\Measures;
 
 use tei187\ColorTools\Chromaticity\Temperature;
 use tei187\ColorTools\Interfaces\Measure;
-use tei187\ColorTools\Convert;
+use tei187\ColorTools\Conversion\Convert;
 use tei187\ColorTools\Traits\Illuminants;
 use tei187\ColorTools\Traits\ReturnsObjects;
 use tei187\ColorTools\Measures\MeasureAbstract;

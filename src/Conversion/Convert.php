@@ -1,6 +1,6 @@
 <?php
 
-namespace tei187\ColorTools;
+namespace tei187\ColorTools\Conversion;
 
 use tei187\ColorTools\StandardIlluminants\Tristimulus2;
 use tei187\ColorTools\Traits\Tristimulus;
@@ -343,6 +343,12 @@ class Convert {
         return self::Luv_to_LCh_uv( self::XYZ_to_Luv($data, $WP_RefTristimulus) );
     }
 
+    public static function XYZ_to_RGB_linear(array $data) : array {
+        return [];
+    }
+
+// RGB
+
     // xy Chromaticity
 
     public static function xy_to_XYZ(array $data) : array {
@@ -355,4 +361,7 @@ class Convert {
     
     // https://cs.haifa.ac.il/hagit/courses/ist/Lectures/Demos/ColorApplet2/t_convert.html
     // http://www.russellcottrell.com/photo/matrixCalculator.htm
+
+    // https://fujiwaratko.sakura.ne.jp/infosci/colorspace/rgb_xyz_e.html
+    // https://fujiwaratko.sakura.ne.jp/infosci/colorspace/colorspace2_e.html
 }
