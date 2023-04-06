@@ -2,7 +2,7 @@
 
 namespace tei187\ColorTools\Traits\Companding;
 
-class GammaCompanding {
+trait GammaCompanding {
     /**
      * Applies gamma companding.
      *
