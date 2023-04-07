@@ -3,7 +3,7 @@
 namespace tei187\ColorTools\Conversion\RGBPrimaries;
 use tei187\ColorTools\Traits\Companding\GammaCompanding;
 
-class AdobeRGB1998 {
+class AdobeRGB1998 extends PrimariesAbstract {
     use GammaCompanding;
     const NAME = "Adobe RGB (1998)";
     const XYY = [

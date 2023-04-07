@@ -3,7 +3,7 @@
 namespace tei187\ColorTools\Conversion\RGBPrimaries;
 use tei187\ColorTools\Traits\Companding\GammaCompanding;
 
-class PALSECAMRGB {
+class PALSECAMRGB extends PrimariesAbstract {
     use GammaCompanding;
     const NAME = "PAL/SECAM RGB";
     const XYY = [

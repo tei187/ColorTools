@@ -3,7 +3,7 @@
 namespace tei187\ColorTools\Conversion\RGBPrimaries;
 use tei187\ColorTools\Traits\Companding\GammaCompanding;
 
-class ProPhotoRGB {
+class ProPhotoRGB extends PrimariesAbstract {
     use GammaCompanding;
     const NAME = "ProPhoto RGB";
     const XYY = [

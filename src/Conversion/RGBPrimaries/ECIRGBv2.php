@@ -3,7 +3,7 @@
 namespace tei187\ColorTools\Conversion\RGBPrimaries;
 use tei187\ColorTools\Traits\Companding\LCompanding;
 
-class ECIRGBv2 {
+class ECIRGBv2 extends PrimariesAbstract {
     use LCompanding;
     const NAME = "ECI RGB v2";
     const XYY = [

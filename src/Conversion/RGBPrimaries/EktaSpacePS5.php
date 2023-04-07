@@ -3,7 +3,7 @@
 namespace tei187\ColorTools\Conversion\RGBPrimaries;
 use tei187\ColorTools\Traits\Companding\GammaCompanding;
 
-class EktaSpacePS5 {
+class EktaSpacePS5 extends PrimariesAbstract {
     use GammaCompanding;
     const NAME = "Ekta Space PS5";
     const XYY = [

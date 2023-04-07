@@ -3,7 +3,7 @@
 namespace tei187\ColorTools\Conversion\RGBPrimaries;
 use tei187\ColorTools\Traits\Companding\GammaCompanding;
 
-class DonRGB4 {
+class DonRGB4 extends PrimariesAbstract {
     use GammaCompanding;
     const NAME = "Don RGB 4";
     const XYY = [

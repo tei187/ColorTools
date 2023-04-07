@@ -3,7 +3,7 @@
 namespace tei187\ColorTools\Conversion\RGBPrimaries;
 use tei187\ColorTools\Traits\Companding\GammaCompanding;
 
-class AppleRGB {
+class AppleRGB extends PrimariesAbstract {
     use GammaCompanding;
     const NAME = "Apple RGB";
     const XYY = [

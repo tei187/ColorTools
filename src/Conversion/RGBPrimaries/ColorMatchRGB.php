@@ -3,7 +3,7 @@
 namespace tei187\ColorTools\Conversion\RGBPrimaries;
 use tei187\ColorTools\Traits\Companding\GammaCompanding;
 
-class ColorMatchRGB {
+class ColorMatchRGB extends PrimariesAbstract {
     use GammaCompanding;
     const NAME = "ColorMatch RGB";
     const XYY = [

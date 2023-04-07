@@ -3,7 +3,7 @@
 namespace tei187\ColorTools\Conversion\RGBPrimaries;
 use tei187\ColorTools\Traits\Companding\GammaCompanding;
 
-class BruceRGB {
+class BruceRGB extends PrimariesAbstract {
     use GammaCompanding;
     const NAME = "Bruce RGB";
     const XYY = [

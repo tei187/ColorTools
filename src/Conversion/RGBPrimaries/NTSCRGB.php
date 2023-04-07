@@ -3,7 +3,7 @@
 namespace tei187\ColorTools\Conversion\RGBPrimaries;
 use tei187\ColorTools\Traits\Companding\GammaCompanding;
 
-class NTSCRGB {
+class NTSCRGB extends PrimariesAbstract {
     use GammaCompanding;
     const NAME = "NTSC RGB";
     const XYY = [

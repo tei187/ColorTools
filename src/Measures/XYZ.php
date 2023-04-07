@@ -62,9 +62,12 @@ class XYZ extends MeasureAbstract implements Measure {
         $primariesXYZ = [];
         if($this->illuminantName !== null) {
             if($primaries->getIlluminantName() !== $this->illuminantName) {
-                $tr2_d = constant("\\tei187\\ColorTools\\StandardIlluminants\\Tristimulus2::".$this->illuminantName);
                 foreach($primaries->getPrimariesXYY() as $values) {
-                    $primariesXYZ[] = array_values(Adaptation::adapt(Convert::xyY_to_XYZ($values), $primaries->getIlluminantTristimulus(), $tr2_d));
+                    $primariesXYZ[] = array_values(
+                        Adaptation::adapt(
+                            Convert::xyY_to_XYZ($values), 
+                            $primaries->getIlluminantTristimulus(), 
+                            constant("\\tei187\\ColorTools\\StandardIlluminants\\Tristimulus2::".$this->illuminantName)));
                 }
             } else {
                 foreach($primaries->getPrimariesXYY() as $values) {
@@ -73,19 +76,21 @@ class XYZ extends MeasureAbstract implements Measure {
             }
         } else {
             foreach($primaries->getPrimariesXYY() as $values) {
-                $primariesXYZ[] = array_values(Adaptation::adapt(Convert::xyY_to_XYZ($values), $primaries->getIlluminantTristimulus(), $this->getIlluminantTristimulus()));
+                $primariesXYZ[] = array_values(
+                    Adaptation::adapt(
+                        Convert::xyY_to_XYZ($values), 
+                        $primaries->getIlluminantTristimulus(), 
+                        $this->getIlluminantTristimulus()));
             }
         }
         
         $matrix = Adaptation::transpose3x3Matrix( Adaptation::invert3x3Matrix($primariesXYZ) );
         $xyz_rgb = Adaptation::matrixVector($matrix, array_values($this->getValues()));
 
-        list($rgb['R'], $rgb['G'], $rgb['B']) = [
-            $primaries->applyCompanding($xyz_rgb[0]),
-            $primaries->applyCompanding($xyz_rgb[1]),
-            $primaries->applyCompanding($xyz_rgb[2])
+        return [
+            'R' => round( $primaries->applyCompanding($xyz_rgb[0], $primaries->getGamma()) * 255 ),
+            'G' => round( $primaries->applyCompanding($xyz_rgb[1], $primaries->getGamma()) * 255 ),
+            'B' => round( $primaries->applyCompanding($xyz_rgb[2], $primaries->getGamma()) * 255 )
         ];
-
-        return array_map(function($v) { return round($v * 255); }, $rgb);
     }
 }

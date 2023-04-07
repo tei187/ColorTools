@@ -3,7 +3,7 @@
 namespace tei187\ColorTools\Conversion\RGBPrimaries;
 use tei187\ColorTools\Traits\Companding\GammaCompanding;
 
-class BetaRGB {
+class BetaRGB extends PrimariesAbstract {
     use GammaCompanding;
     const NAME = "Beta RGB";
     const XYY = [

@@ -3,7 +3,7 @@
 namespace tei187\ColorTools\Conversion\RGBPrimaries;
 use tei187\ColorTools\Traits\Companding\GammaCompanding;
 
-class WideGamutRGB {
+class WideGamutRGB extends PrimariesAbstract {
     use GammaCompanding;
     const NAME = "Wide Gamut RGB";
     const XYY = [

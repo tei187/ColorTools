@@ -3,7 +3,7 @@
 namespace tei187\ColorTools\Conversion\RGBPrimaries;
 use tei187\ColorTools\Traits\Companding\GammaCompanding;
 
-class CIERGB {
+class CIERGB extends PrimariesAbstract {
     use GammaCompanding;
     const NAME = "CIE RGB";
     const XYY = [
