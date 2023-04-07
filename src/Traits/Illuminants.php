@@ -17,6 +17,12 @@ trait Illuminants {
      * @var array
      */
     protected $illuminantT = [];
+    /**
+     * Standard illuminant name, if applicable. Otherwise `null`.
+     *
+     * @var ?string
+     */
+    protected $illuminantName = null;
 
     /**
      * Sets values and angle of illuminant used during measurement.
@@ -27,11 +33,13 @@ trait Illuminants {
      */
     public function setIlluminant($illuminant, int $angle = 2) {
         if(is_string($illuminant)) {
-            $data = constant("\\tei187\\ColorTools\\StandardIlluminants\\WhitePoint".$angle."::".strtoupper($illuminant));
+            $data = constant("\\tei187\\ColorTools\\StandardIlluminants\\WhitePoint".$angle."::".strtoupper(trim($illuminant)));
             if($data !== null) {
+                $this->illuminantName = strtoupper(trim($illuminant));
                 $illuminant = array_values($data);
                 $this->illuminant = [ 'x' => $illuminant[0], 'y' => $illuminant[1] ];
             } else {
+                $this->illuminantName = null;
                 $this->illuminant = [];
                 $this->illuminantT = [];
                 return false; // standard illuminant not found
@@ -64,5 +72,9 @@ trait Illuminants {
      */
     public function getIlluminantTristimulus() : array {
         return $this->illuminantT;
+    }
+
+    public function getIlluminantName() : ?string {
+        return $this->illuminantName;
     }
 }

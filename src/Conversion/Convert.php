@@ -5,6 +5,8 @@ namespace tei187\ColorTools\Conversion;
 use tei187\ColorTools\StandardIlluminants\Tristimulus2;
 use tei187\ColorTools\Traits\Tristimulus;
 use tei187\ColorTools\Helpers\CheckArray;
+use tei187\ColorTools\Traits\PrimariesLoader;
+use tei187\ColorTools\Chromaticity\Adaptation\Adaptation;
 
 /**
  * Color equations and conversions based on Bruce Lindbloom's website information.
@@ -16,7 +18,8 @@ use tei187\ColorTools\Helpers\CheckArray;
  * @see http://www.brucelindbloom.com/
  */
 class Convert {
-    use Tristimulus;
+    use Tristimulus,
+        PrimariesLoader;
 
     //const EPSILON_INTENT = 0.00885645167903563081717167575546;
     const EPSILON = .008856;
@@ -344,7 +347,11 @@ class Convert {
     }
 
     public static function XYZ_to_RGB_linear(array $data) : array {
-        return [];
+        $d2 = [
+            array_values(Adaptation::adapt(Convert::xyY_to_XYZ([.64, .33, .297361]), Tristimulus2::D65, Tristimulus2::D50 )),
+            array_values(Adaptation::adapt(Convert::xyY_to_XYZ([.21, .71, .627355]), Tristimulus2::D65, Tristimulus2::D50 )),
+            array_values(Adaptation::adapt(Convert::xyY_to_XYZ([.15, .06, .075285]), Tristimulus2::D65, Tristimulus2::D50 )),
+        ];
     }
 
 // RGB

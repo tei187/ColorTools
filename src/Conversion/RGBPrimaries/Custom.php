@@ -52,7 +52,7 @@ class Custom implements PrimariesInterface {
             $this->illuminant = 'D65';
         }
         if(is_string($this->illuminant)) {
-            $data = constant("\\tei187\\ColorTools\\StandardIlluminants\\WhitePoint2::".strtoupper($this->illuminant));
+            $data = constant("\\tei187\\ColorTools\\StandardIlluminants\\Tristimulus2::".strtoupper($this->illuminant));
             if($data !== null) {
                 return $data;
             }

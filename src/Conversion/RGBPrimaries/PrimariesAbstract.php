@@ -16,19 +16,19 @@ abstract class PrimariesAbstract implements PrimariesInterface {
      *
      * @return array
      */
-    public function getPrimariesXYY() : array { return self::XYY; }
+    public function getPrimariesXYY() : array { return static::XYY; }
     /**
      * Returns formatted name of primaries used.
      *
      * @return string|null
      */
-    public function getPrimariesName() : ?string { return self::NAME; }
+    public function getPrimariesName() : ?string { return static::NAME; }
     /**
      * Returns standard illuminant for specified primaries used.
      *
      * @return string|null
      */
-    public function getIlluminantName() : ?string { return self::ILLUMINANT; }
+    public function getIlluminantName() : ?string { return static::ILLUMINANT; }
     /**
      * Returns tristimulus for illuminant for specified primaries used.
      * If specified standard illuminant was not found, returns D65.
@@ -36,9 +36,9 @@ abstract class PrimariesAbstract implements PrimariesInterface {
      * @return array
      */
     public function getIlluminantTristimulus() : array {
-        $data = constant("\\tei187\\ColorTools\\StandardIlluminants\\WhitePoint2::".strtoupper(self::ILLUMINANT));
+        $data = constant("\\tei187\\ColorTools\\StandardIlluminants\\Tristimulus2::".strtoupper(static::ILLUMINANT));
         if($data === null) {
-            return \tei187\ColorTools\StandardIlluminants\WhitePoint2::D65;
+            return \tei187\ColorTools\StandardIlluminants\Tristimulus2::D65;
         }
         return $data;
     }
@@ -47,6 +47,6 @@ abstract class PrimariesAbstract implements PrimariesInterface {
      *
      * @return int|float|string
      */
-    public function getGamma() { return self::GAMMA; }
+    public function getGamma() { return static::GAMMA; }
 
 }

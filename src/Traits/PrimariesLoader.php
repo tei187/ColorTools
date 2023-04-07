@@ -18,7 +18,7 @@ trait PrimariesLoader {
      * @param float|integer|null $gamma If creating a custom primaries set, sets a `gamma` parameter.
      * @return object|false Will return object of RGBPrimaries namespace or false if loading failed.
      */
-    public function loadPrimaries($primaries, ?string $name = null, ?string $illuminant = null, $gamma = null) {
+    static public function loadPrimaries($primaries, ?string $name = null, ?string $illuminant = null, $gamma = null) {
         if(is_object($primaries)) {
             $className = explode("\\", get_class($primaries));
             if(Dictionary::assessPrimariesClass($className[array_key_last($className)])) {
@@ -30,12 +30,12 @@ trait PrimariesLoader {
             $className = Dictionary::assessPrimariesClass($primaries);
             if($className !== false) {
                 // return object?
-                $class = "\\tei187\\ColorTools\\Conversion\\RGBPrimaries\\sRGB\\".$className;
+                $class = "\\tei187\\ColorTools\\Conversion\\RGBPrimaries\\".$className;
                 return new $class;
             } // else false
         } elseif(is_array($primaries)) {
             // has to check if primaries passed are transcribed in form of xyY or XYZ
-            $outcome = $this->_assessPrimariesSetType($primaries);
+            $outcome = self::assessPrimariesSetType($primaries);
             if($outcome !== false) {
                 $primaries_noIndex = array_values($primaries);
                 $channels = ['R', 'G', 'B'];
@@ -64,12 +64,12 @@ trait PrimariesLoader {
      * @param array $set Set to check.
      * @return string|false
      */
-    private function _assessPrimariesSetType(array $set) {
+    static private function _assessPrimariesSetType(array $set) {
         $c = count($set);
         if($c === 3) {
             $setType = null;
             foreach($set as $channel) {
-                $current = null;
+                //$current = null;
                 $keysSum = array_sum(array_keys($channel));
                 $keys = implode("", array_map('strtolower', array_keys($channel)));
                 if($keysSum == 3) {

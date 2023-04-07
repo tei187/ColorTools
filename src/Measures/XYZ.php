@@ -8,10 +8,13 @@ use tei187\ColorTools\Conversion\Convert;
 use tei187\ColorTools\Traits\Illuminants;
 use tei187\ColorTools\Traits\ReturnsObjects;
 use tei187\ColorTools\Measures\MeasureAbstract;
+use tei187\ColorTools\Traits\PrimariesLoader;
+use tei187\ColorTools\Chromaticity\Adaptation\Adaptation;
 
 class XYZ extends MeasureAbstract implements Measure {
     use Illuminants,
-        ReturnsObjects;
+        ReturnsObjects,
+        PrimariesLoader;
 
     protected $values = ['X' => 0, 'Y' => 0, 'Z' => 0];
 
@@ -52,5 +55,37 @@ class XYZ extends MeasureAbstract implements Measure {
 
     public function toLCh_uv() : LCh_uv {
         return $this->returnAsLCh_uv(Convert::XYZ_to_LCh_uv($this->getValues(), $this->illuminantT));
+    }
+
+    public function to_RGB($primaries = 'sRGB', ?string $primariesName = null, ?string $primariesIlluminant = null, $primariesGamma = null) {
+        $primaries = self::loadPrimaries($primaries, $primariesName, $primariesIlluminant, $primariesGamma);
+        $primariesXYZ = [];
+        if($this->illuminantName !== null) {
+            if($primaries->getIlluminantName() !== $this->illuminantName) {
+                $tr2_d = constant("\\tei187\\ColorTools\\StandardIlluminants\\Tristimulus2::".$this->illuminantName);
+                foreach($primaries->getPrimariesXYY() as $values) {
+                    $primariesXYZ[] = array_values(Adaptation::adapt(Convert::xyY_to_XYZ($values), $primaries->getIlluminantTristimulus(), $tr2_d));
+                }
+            } else {
+                foreach($primaries->getPrimariesXYY() as $values) {
+                    $primariesXYZ[] = array_values(Convert::xyY_to_XYZ($values));
+                }
+            }
+        } else {
+            foreach($primaries->getPrimariesXYY() as $values) {
+                $primariesXYZ[] = array_values(Adaptation::adapt(Convert::xyY_to_XYZ($values), $primaries->getIlluminantTristimulus(), $this->getIlluminantTristimulus()));
+            }
+        }
+        
+        $matrix = Adaptation::transpose3x3Matrix( Adaptation::invert3x3Matrix($primariesXYZ) );
+        $xyz_rgb = Adaptation::matrixVector($matrix, array_values($this->getValues()));
+
+        list($rgb['R'], $rgb['G'], $rgb['B']) = [
+            $primaries->applyCompanding($xyz_rgb[0]),
+            $primaries->applyCompanding($xyz_rgb[1]),
+            $primaries->applyCompanding($xyz_rgb[2])
+        ];
+
+        return array_map(function($v) { return round($v * 255); }, $rgb);
     }
 }

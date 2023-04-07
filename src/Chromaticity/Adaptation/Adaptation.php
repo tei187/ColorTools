@@ -78,6 +78,113 @@ class Adaptation {
     }
 
     /**
+     * Transposes a 3x3 matrix.
+     *
+     * @param array $matrix
+     * @return array
+     */
+    static function transpose3x3Matrix(array $matrix) : array {
+        return 
+        [
+            [ $matrix[0][0], $matrix[1][0], $matrix[2][0] ],
+            [ $matrix[0][1], $matrix[1][1], $matrix[2][1] ],
+            [ $matrix[0][2], $matrix[1][2], $matrix[2][2] ]
+        ];
+    }
+
+    static function find2x2MatrixDeterminant(array $matrix) {
+        return $matrix[0][0] * $matrix[1][1] - ($matrix[0][1] * $matrix[1][0]);
+    }
+
+    static function findDeterminantForEach2x2MinorMatrixOf3x3Matrix(array $matrix) : array {
+        $outcome = [];
+
+        $outcome[0][0] = self::find2x2MatrixDeterminant( [ [$matrix[1][1], $matrix[1][2]], [$matrix[2][1], $matrix[2][2]] ] );
+        $outcome[0][1] = self::find2x2MatrixDeterminant( [ [$matrix[1][0], $matrix[1][2]], [$matrix[2][0], $matrix[2][2]] ] );
+        $outcome[0][2] = self::find2x2MatrixDeterminant( [ [$matrix[1][0], $matrix[1][1]], [$matrix[2][0], $matrix[2][1]] ] );
+
+        $outcome[1][0] = self::find2x2MatrixDeterminant( [ [$matrix[0][1], $matrix[0][2]], [$matrix[2][1], $matrix[2][2]] ] );
+        $outcome[1][1] = self::find2x2MatrixDeterminant( [ [$matrix[0][0], $matrix[0][2]], [$matrix[2][0], $matrix[2][2]] ] );
+        $outcome[1][2] = self::find2x2MatrixDeterminant( [ [$matrix[0][0], $matrix[0][1]], [$matrix[2][0], $matrix[2][1]] ] );
+
+        $outcome[2][0] = self::find2x2MatrixDeterminant( [ [$matrix[0][1], $matrix[0][2]], [$matrix[1][1], $matrix[1][2]] ] );
+        $outcome[2][1] = self::find2x2MatrixDeterminant( [ [$matrix[0][0], $matrix[0][2]], [$matrix[1][0], $matrix[1][2]] ] );
+        $outcome[2][2] = self::find2x2MatrixDeterminant( [ [$matrix[0][0], $matrix[0][1]], [$matrix[1][0], $matrix[1][1]] ] );
+
+        return $outcome;
+    }
+
+    static function invert3x3Matrix(array $matrix) {
+        $determinant = self::findDeterminantOf3x3Matrix($matrix);
+        //$matrixT = self::transpose3x3Matrix($matrix);
+        //$matrixAdj = self::createMatrixOfCofactors( self::findDeterminantForEach2x2MinorMatrixOf3x3Matrix($matrixT) );
+        //return self::createInverse3x3Matrix($matrixAdj, $determinant);
+        return self::createInverse3x3Matrix(
+            self::createMatrixOfCofactors( 
+                self::findDeterminantForEach2x2MinorMatrixOf3x3Matrix(
+                    self::transpose3x3Matrix($matrix)
+                ) 
+            ), 
+            $determinant
+        );
+    }
+
+    static function findDeterminantOf3x3Matrix(array $matrix) {
+        return 
+            ($matrix[0][0] * ($matrix[1][1] * $matrix[2][2] - ($matrix[1][2] * $matrix[2][1]))) - 
+            ($matrix[0][1] * ($matrix[1][0] * $matrix[2][2] - ($matrix[1][2] * $matrix[2][0]))) + 
+            ($matrix[0][2] * ($matrix[1][0] * $matrix[2][1] - ($matrix[1][1] * $matrix[2][0])));
+    }
+
+    static function createMatrixOfCofactors($matrix) : array {
+        return
+            [
+                [  $matrix[0][0], -$matrix[0][1],  $matrix[0][2] ],
+                [ -$matrix[1][0],  $matrix[1][1], -$matrix[1][2] ],
+                [  $matrix[2][0], -$matrix[2][1],  $matrix[2][2] ]
+            ];
+    }
+
+    static function createInverse3x3Matrix($matrix, $determinant) : array {
+        return
+            [
+                [ $matrix[0][0] / $determinant, $matrix[0][1] / $determinant, $matrix[0][2] / $determinant ],
+                [ $matrix[1][0] / $determinant, $matrix[1][1] / $determinant, $matrix[1][2] / $determinant ],
+                [ $matrix[2][0] / $determinant, $matrix[2][1] / $determinant, $matrix[2][2] / $determinant ]
+            ];
+    }
+
+    static public function adapt(array $XYZ, array $WP_s, array $WP_d, array $M_tran = Matrices::Bradford) {
+        list($rho_s, $gamma_s, $beta_s) = self::matrixVector($M_tran, $WP_s);
+        list($rho_d, $gamma_d, $beta_d) = self::matrixVector($M_tran, $WP_d);
+
+        $r = $rho_d / $rho_s;
+        $g = $gamma_d / $gamma_s;
+        $b = $beta_d / $beta_s;
+
+        $M_ADT = [
+            [ $r, .0, .0 ], 
+            [ .0, $g, .0 ], 
+            [ .0, .0, $b ]
+        ];
+        $outcome = 
+        self::matrixVector( 
+            self::matrices3x3Multiply( 
+                self::matrices3x3Multiply( 
+                    self::invert3x3Matrix( $M_tran ), 
+                    $M_ADT ), 
+                $M_tran ), 
+            $XYZ );
+
+        return [
+            'X' => $outcome[0],
+            'Y' => $outcome[1],
+            'Z' => $outcome[2]
+        ];
+    }
+
+
+    /**
      * Multiplies two 3x3 matrices.
      *
      * @param array $m1 3x3 matrix.
@@ -118,7 +225,7 @@ class Adaptation {
      * @see https://www.nixsensor.com/free-color-converter/ Free Color Converter - RGB, CMYK, LAB, XYZ, HEX and more!
      * @see https://onlinelibrary.wiley.com/doi/pdfdirect/10.1002/9781119021780.app3 The Bradford Colour Adaptation Transform | Excerpt from *Colour Reproduction in Electronic Imaging Systems: Photography, Television, Cinematography*, First Edition, by Michael S Tooms
      */
-    static public function adapt(array $XYZ, array $WP_s, array $WP_d, array $M_tran = Matrices::Bradford) {
+    /*static public function adapt(array $XYZ, array $WP_s, array $WP_d, array $M_tran = Matrices::Bradford) {
         list($rho_s, $gamma_s, $beta_s) = self::matrixVector($M_tran, $WP_s);
         list($rho_d, $gamma_d, $beta_d) = self::matrixVector($M_tran, $WP_d);
 
@@ -150,5 +257,5 @@ class Adaptation {
             'Y' => $outcome[1],
             'Z' => $outcome[2]
         ];
-    }
+    }*/
 }
