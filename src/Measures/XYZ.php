@@ -10,6 +10,7 @@ use tei187\ColorTools\Traits\ReturnsObjects;
 use tei187\ColorTools\Measures\MeasureAbstract;
 use tei187\ColorTools\Traits\PrimariesLoader;
 use tei187\ColorTools\Chromaticity\Adaptation\Adaptation;
+use tei187\ColorTools\Conversion\RGBPrimaries\sRGB;
 
 class XYZ extends MeasureAbstract implements Measure {
     use Illuminants,
@@ -20,9 +21,8 @@ class XYZ extends MeasureAbstract implements Measure {
 
     public function __construct(?array $values = null, $illuminant = null, int $observerAngle = 2 ) {
         $this->_setValuesKeys("XYZ");
-        $this
-            ->setValues($values)
-            ->setIlluminant($illuminant, $observerAngle);
+        $this->setValues($values)
+             ->setIlluminant($illuminant, $observerAngle);
     }
 
     // getters
@@ -57,8 +57,12 @@ class XYZ extends MeasureAbstract implements Measure {
         return $this->returnAsLCh_uv(Convert::XYZ_to_LCh_uv($this->getValues(), $this->illuminantT));
     }
 
-    public function to_RGB($primaries = 'sRGB', ?string $primariesName = null, ?string $primariesIlluminant = null, $primariesGamma = null) {
-        $primaries = self::loadPrimaries($primaries, $primariesName, $primariesIlluminant, $primariesGamma);
+    public function to_RGB($primaries = 'sRGB') {
+        $primaries = self::loadPrimaries($primaries);
+        if($primaries === false) {
+            //$primaries = new sRGB();
+            return false;
+        }
         $primariesXYZ = [];
         if($this->illuminantName !== null) {
             if($primaries->getIlluminantName() !== $this->illuminantName) {
@@ -92,5 +96,7 @@ class XYZ extends MeasureAbstract implements Measure {
             'G' => round( $primaries->applyCompanding($xyz_rgb[1], $primaries->getGamma()) * 255 ),
             'B' => round( $primaries->applyCompanding($xyz_rgb[2], $primaries->getGamma()) * 255 )
         ];
+
+        
     }
 }

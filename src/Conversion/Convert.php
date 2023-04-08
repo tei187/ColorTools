@@ -346,15 +346,105 @@ class Convert {
         return self::Luv_to_LCh_uv( self::XYZ_to_Luv($data, $WP_RefTristimulus) );
     }
 
-    public static function XYZ_to_RGB_linear(array $data) : array {
-        $d2 = [
-            array_values(Adaptation::adapt(Convert::xyY_to_XYZ([.64, .33, .297361]), Tristimulus2::D65, Tristimulus2::D50 )),
-            array_values(Adaptation::adapt(Convert::xyY_to_XYZ([.21, .71, .627355]), Tristimulus2::D65, Tristimulus2::D50 )),
-            array_values(Adaptation::adapt(Convert::xyY_to_XYZ([.15, .06, .075285]), Tristimulus2::D65, Tristimulus2::D50 )),
+    public static function XYZ_to_RGB(array $data, $primaries, ?array $WP_RefTristimulus = Tristimulus2::D65) {
+        if(is_object($primaries) && !in_array("tei187\\ColorTools\\Interfaces\\Primaries", class_implements($primaries))) {
+            return false;
+        }
+        if(is_string($primaries)) {
+            $primaries = self::loadPrimaries($primaries);
+            if($primaries === false) {
+                return false;
+            }
+        }
+
+        $primariesXYZ = [];
+        if($WP_RefTristimulus !== null) {
+            foreach($primaries->getPrimariesXYY() as $values) {
+                $primariesXYZ[] = array_values(
+                    Adaptation::adapt(
+                        Convert::xyY_to_XYZ($values), 
+                        $primaries->getIlluminantTristimulus(), 
+                        $WP_RefTristimulus));
+            }
+        } else {
+            foreach($primaries->getPrimariesXYY() as $values) {
+                $primariesXYZ[] = array_values(Convert::xyY_to_XYZ($values));
+            }
+        }
+        
+        $matrix = Adaptation::transpose3x3Matrix( Adaptation::invert3x3Matrix($primariesXYZ) );
+        $xyz_rgb = Adaptation::matrixVector($matrix, array_values($data));
+
+        return [
+            'R' => round( $primaries->applyCompanding($xyz_rgb[0], $primaries->getGamma()) * 255 ),
+            'G' => round( $primaries->applyCompanding($xyz_rgb[1], $primaries->getGamma()) * 255 ),
+            'B' => round( $primaries->applyCompanding($xyz_rgb[2], $primaries->getGamma()) * 255 )
         ];
     }
 
 // RGB
+
+    /**
+     * Returns array or false
+     * 
+     * @param array $data
+     * @param object|string $primaries
+     * @return array|false Array with keys 'values', 'illuminantName' and 'illuminantTristimulus' which correspond to XYZ values, and illuminant info of RGB primaries used.
+     */
+    public static function RGB_to_XYZ(array $data, $primaries) {
+        if(is_object($primaries) && !self::_verifyPrimariesObject($primaries)) {
+            return false;
+        } elseif(is_string($primaries)) {
+            $loader = self::loadPrimaries($primaries);
+            if($loader === false) {
+                return false;
+            }
+            $primaries = $loader;
+            unset($loader);
+        } else {
+            $primaries = self::loadPrimaries('sRGB');
+        }
+
+        $rgb_gamma = [];
+        foreach($data as $value) {
+            $rgb_gamma[] = $primaries->applyInverseCompanding(($value / 255), $primaries->getGamma());
+        }
+
+        $primariesXYZ = [];
+        foreach($primaries->getPrimariesXYY() as $values) {
+            $primariesXYZ[] = array_values(Convert::xyY_to_XYZ($values));
+        }
+
+        return [
+            'values' => Adaptation::matrixVector(Adaptation::transpose3x3Matrix($primariesXYZ), $rgb_gamma), 
+            'illuminantName' => $primaries->getIlluminantName(),
+            'illuminantTristimulus' => $primaries->getIlluminantTristimulus(),
+        ];
+    }
+
+    public static function RGB_to_xyY(array $data, $primaries) {
+        return self::XYZ_to_xyY(self::RGB_to_XYZ($data, $primaries)['values']);
+    }
+
+    public static function RGB_to_Lab(array $data, $primaries) {
+        $xyz = self::RGB_to_XYZ($data, $primaries);
+        return self::XYZ_to_Lab($xyz['values'], $xyz['illuminantTristimulus']);
+    }
+
+    public static function RGB_to_LCh(array $data, $primaries) {
+        $xyz = self::RGB_to_XYZ($data, $primaries);
+        return self::Lab_to_LCh(self::XYZ_to_Lab($xyz['values'], $xyz['illuminantTristimulus']));
+    }
+
+    public static function RGB_to_Luv(array $data, $primaries) {
+        $xyz = self::RGB_to_XYZ($data, $primaries);
+        return self::XYZ_to_Luv($xyz['values'], $xyz['illuminantTristimulus']);
+    }
+
+    public static function RGB_to_LCh_uv(array $data, $primaries) {
+        $xyz = self::RGB_to_XYZ($data, $primaries);
+        return self::XYZ_to_LCh_uv($xyz['values'], $xyz['illuminantTristimulus']);
+    }
 
     // xy Chromaticity
 

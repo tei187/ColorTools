@@ -13,4 +13,15 @@ trait GammaCompanding {
     public function applyCompanding($value, $gamma) {
         return pow($value, 1/$gamma);
     }
+
+    /**
+     * Applies inverse gamma companding.
+     *
+     * @param float|integer $value
+     * @param float|integer $gamma
+     * @return float|integer
+     */
+    public function applyInverseCompanding($value, $gamma) {
+        return pow($value, $gamma);
+    }
 }

@@ -67,9 +67,11 @@
 
 // Objects
     require_once __DIR__ . "/src/Measures/MeasureAbstract.php";
+    require_once __DIR__ . "/src/Measures/RGBMeasureAbstract.php";
     require_once __DIR__ . "/src/Measures/Lab.php";
     require_once __DIR__ . "/src/Measures/LCh.php";
     require_once __DIR__ . "/src/Measures/LCh_uv.php";
     require_once __DIR__ . "/src/Measures/Luv.php";
     require_once __DIR__ . "/src/Measures/xyY.php";
     require_once __DIR__ . "/src/Measures/XYZ.php";
+    require_once __DIR__ . "/src/Measures/RGB.php";

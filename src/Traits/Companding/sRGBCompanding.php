@@ -15,4 +15,17 @@ trait sRGBCompanding {
                 ? 12.92 * $value
                 : (1.055 * pow($value, 1/ 2.4) - 0.055);
     }
+
+    /**
+     * Applies inverse sRGB companding.
+     *
+     * @param float|integer $value
+     * @return float|integer
+     */
+    public function applyInverseCompanding($value) {
+        return 
+            $value <= .04045
+                ? $value / 12.92
+                : pow((($value + .055) / 1.055), 2.4);
+    }
 }

@@ -14,7 +14,20 @@ trait LCompanding {
     public function applyCompanding($value) {
         return 
             $value <= Convert::EPSILON
-                ? Convert::EPSILON_x_KAPPA / 100
+                ? ($value * Convert::KAPPA) / 100
                 : (1.16 * pow($value, 1/3)) - 0.16;
+    }
+
+    /**
+     * Applies inverse L* companding.
+     *
+     * @param float|integer $value
+     * @return float|integer
+     */
+    public function applyInverseCompanding($value) {
+        return 
+            $value <= 0.08
+                ? ($value / Convert::KAPPA) * 100
+                : pow(($value + .16) / 1.16, 3);
     }
 }

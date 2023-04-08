@@ -16,21 +16,25 @@ trait PrimariesLoader {
      * @param string|null $name If creating a custom primaries set, sets a `name` parameter.
      * @param string|array|null $illuminant If creating a custom primaries set, sets a `illuminant` parameter. Can be a string (if Standard Illuminant defined in Dictionary) or XYZ tristimulus array.
      * @param float|integer|null $gamma If creating a custom primaries set, sets a `gamma` parameter.
+     * @param string $expectedNamespace Some dirty argument that will check if passed object's class exists in set namespace (in case of a mix-up with similar class names).
      * @return object|false Will return object of RGBPrimaries namespace or false if loading failed.
      */
-    static public function loadPrimaries($primaries, ?string $name = null, ?string $illuminant = null, $gamma = null) {
+    static public function loadPrimaries($primaries, ?string $name = null, ?string $illuminant = null, $gamma = null, string $expectedNamespace = "tei187\\ColorTools\\Conversion\\RGBPrimaries") {
         if(is_object($primaries)) {
             $className = explode("\\", get_class($primaries));
-            if(Dictionary::assessPrimariesClass($className[array_key_last($className)])) {
+            $classNamespace = implode("\\", array_slice($className, 0, -1));
+            if(Dictionary::assessPrimariesClass($className[array_key_last($className)]) && $classNamespace == $expectedNamespace) {
                 // return object?
                 $class = get_class($primaries);
                 return new $class;
-            } // else false
+            } elseif($className == "Custom" && $classNamespace == $expectedNamespace) {
+                return $primaries;
+            }
         } elseif(is_string($primaries)) {
             $className = Dictionary::assessPrimariesClass($primaries);
             if($className !== false) {
                 // return object?
-                $class = "\\tei187\\ColorTools\\Conversion\\RGBPrimaries\\".$className;
+                $class = $expectedNamespace."\\".$className;
                 return new $class;
             } // else false
         } elseif(is_array($primaries)) {
@@ -93,5 +97,18 @@ trait PrimariesLoader {
             return $setType;
         }
         return false;
+    }
+
+    static private function _verifyPrimariesObject($obj) {
+        if(is_object($obj) && !in_array("tei187\\ColorTools\\Interfaces\\Primaries", class_implements($obj))) {
+            return false;
+        }
+        if(is_string($obj)) {
+            $primaries = self::loadPrimaries($obj);
+            if($primaries === false) {
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -77,4 +77,14 @@ trait Illuminants {
     public function getIlluminantName() : ?string {
         return $this->illuminantName;
     }
+
+    public function setIlluminantTristimulus(array $tristimulus) : parent {
+        $this->illuminantT = $tristimulus;
+        return $this;
+    }
+
+    public function setIlluminantName(?string $name) : parent {
+        $this->illuminantName = $name;
+        return $this;
+    }
 }

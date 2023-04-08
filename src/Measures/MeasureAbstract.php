@@ -26,11 +26,12 @@ abstract class MeasureAbstract {
      * @param string $keys
      * @return void
      */
-    protected function _setValuesKeys(string $keys) : void {
+    protected function _setValuesKeys(string $keys) : self {
         $keys = str_split(trim($keys));
         foreach($keys as $key) {
             $values[$key] = 0;
         }
+        return $this;
     }
 
     /**
@@ -48,7 +49,7 @@ abstract class MeasureAbstract {
         } else {
             $toCheck = str_split(str_repeat("0", count($keys)));
         }
-
+        
         $composed = $this->_checkValues($toCheck);
         if($composed !== false) {
             foreach($composed as $i => $value) {
