@@ -2,12 +2,11 @@
 
 namespace tei187\ColorTools\Measures;
 
+use tei187\ColorTools\Chromaticity\Temperature;
 use tei187\ColorTools\Traits\Illuminants;
-use tei187\ColorTools\Traits\ReturnsObjects;
 
 abstract class MeasureAbstract {
-    use Illuminants,
-        ReturnsObjects;
+    use Illuminants;
 
     protected $values = [];
 
@@ -77,11 +76,55 @@ abstract class MeasureAbstract {
         return $composed;
     }
 
+    /**
+     * Converts from specified color model to XYZ.
+     *
+     * @return XYZ
+     */
     abstract public function toXYZ() : XYZ;
+    /**
+     * Converts from specified color model to xyY.
+     *
+     * @return xyY
+     */
     abstract public function toxyY() : xyY;
+    /**
+     * Converts from specified color model to L*a*b.
+     *
+     * @return Lab
+     */
     abstract public function toLab() : Lab;
+    /**
+     * Converts from specified color model to LCh.
+     *
+     * @return Lch
+     */
     abstract public function toLCh() : Lch;
+    /**
+     * Converts from specified color model to LCh UV.
+     *
+     * @return LCh_uv
+     */
     abstract public function toLCh_uv() : LCh_uv;
+    /**
+     * Converts from specified color model to Luv.
+     *
+     * @return Luv
+     */
     abstract public function toLuv() : Luv;
-    abstract public function getTemperature();
+    /**
+     * Converts from specified color model to RGB model, based on RGB primaries set.
+     *
+     * @param object|string $primaries
+     * @return RGB
+     */
+    abstract public function toRGB($primaries = 'sRGB') : RGB;
+    /**
+     * Returns calculated temperature in K (Kelvin).
+     *
+     * @return float|integer
+     */
+    public function getTemperature() {
+        return Temperature::XYZ_to_temp($this->toXYZ()->getValues());
+    }
 }

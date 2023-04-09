@@ -2,16 +2,13 @@
 
 namespace tei187\ColorTools\Measures;
 
-use tei187\ColorTools\Chromaticity\Temperature;
 use tei187\ColorTools\Interfaces\Measure;
 use tei187\ColorTools\Conversion\Convert;
 use tei187\ColorTools\Traits\Illuminants;
-use tei187\ColorTools\Traits\ReturnsObjects;
 use tei187\ColorTools\Measures\MeasureAbstract;
 
 class LCh extends MeasureAbstract implements Measure {
-    use Illuminants,
-        ReturnsObjects;
+    use Illuminants;
 
     protected $values = ['L' => 0, 'C' => 0, 'h' => 0];
 
@@ -22,24 +19,27 @@ class LCh extends MeasureAbstract implements Measure {
             ->setIlluminant($illuminant, $observerAngle);
     }
 
-    // getters
-
-    public function getTemperature() {
-        return Temperature::XYZ_to_temp(Convert::LCh_to_XYZ($this->getValues(), $this->illuminantT));
-    }
-
     // converters
 
     public function toXYZ() : XYZ {
-        return $this->returnAsXYZ(Convert::LCh_to_XYZ($this->getValues(), $this->illuminantT));
+        return (new XYZ(Convert::LCh_to_XYZ($this->getValues(), $this->illuminantT)))
+                ->setIlluminant($this->illuminant, $this->illuminantAngle === null ? 2 : $this->illuminantAngle)
+                ->setIlluminantName($this->illuminantName)
+                ->setIlluminantTristimulus($this->illuminantT);;
     }
 
     public function toxyY() : xyY {
-        return $this->returnAsxyY(Convert::LCh_to_xyY($this->getValues()));
+        return (new xyY(Convert::LCh_to_xyY($this->getValues())))
+                ->setIlluminant($this->illuminant, $this->illuminantAngle === null ? 2 : $this->illuminantAngle)
+                ->setIlluminantName($this->illuminantName)
+                ->setIlluminantTristimulus($this->illuminantT);;
     }
 
     public function toLab() : Lab {
-        return $this->returnAsLab(Convert::LCh_to_Lab($this->getValues(), $this->illuminantT));
+        return (new Lab(Convert::LCh_to_Lab($this->getValues(), $this->illuminantT)))
+                ->setIlluminant($this->illuminant, $this->illuminantAngle === null ? 2 : $this->illuminantAngle)
+                ->setIlluminantName($this->illuminantName)
+                ->setIlluminantTristimulus($this->illuminantT);;
     }
 
     public function toLCh() : self {
@@ -47,10 +47,24 @@ class LCh extends MeasureAbstract implements Measure {
     }
 
     public function toLuv() : Luv {
-        return $this->returnAsLuv(Convert::LCh_to_Luv($this->getValues(), $this->illuminantT));
+        return (new Luv(Convert::LCh_to_Luv($this->getValues(), $this->illuminantT)))
+                ->setIlluminant($this->illuminant, $this->illuminantAngle === null ? 2 : $this->illuminantAngle)
+                ->setIlluminantName($this->illuminantName)
+                ->setIlluminantTristimulus($this->illuminantT);;
     }
 
     public function toLCh_uv() : LCh_uv {
-        return $this->returnAsLCh_uv(Convert::LCh_to_LCh_uv($this->getValues(), $this->illuminantT));
+        return (new LCh_uv(Convert::LCh_to_LCh_uv($this->getValues(), $this->illuminantT)))
+                ->setIlluminant($this->illuminant, $this->illuminantAngle === null ? 2 : $this->illuminantAngle)
+                ->setIlluminantName($this->illuminantName)
+                ->setIlluminantTristimulus($this->illuminantT);;
+    }
+
+    public function toRGB($primaries = 'sRGB') : RGB {
+        return $this->toXYZ()
+                ->setIlluminant($this->illuminant, $this->illuminantAngle === null ? 2 : $this->illuminantAngle)
+                ->setIlluminantName($this->illuminantName)
+                ->setIlluminantTristimulus($this->illuminantT)
+            ->toRGB($primaries);
     }
 }

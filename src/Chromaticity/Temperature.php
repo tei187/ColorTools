@@ -71,8 +71,11 @@ class Temperature {
      * @return false|float Float if correct, FALSE if temperature out of bounds.
      */
     static public function XYZ_to_temp(array $xyz) {
-        list($X, $Y, $Z) = CheckArray::makeList($xyz, 'XYZ');
-
+        list($X, $Y, $Z) = 
+            isset($xyz['values'])
+                ? CheckArray::makeList($xyz['values'], 'XYZ')
+                : CheckArray::makeList($xyz, 'XYZ');
+        
         if($X < 1.0e-20 && $Y < 1.0e-20 && $Z < 1.0e-20) {
             return(false);
         }

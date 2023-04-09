@@ -46,19 +46,47 @@ class Convert {
         ];
     }
 
-    public static function LCh_to_Luv(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+    /**
+     * Converts data value from L\*C\*h to Luv.
+     *
+     * @param array $data Array with 3 values corresponsding to L, C, h.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
+    public static function LCh_to_Luv(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
         return self::XYZ_to_Luv( self::LCh_to_XYZ($data, $WP_RefTristimulus), $WP_RefTristimulus);
     }
 
-    public static function LCh_to_xyY(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+    /**
+     * Converts data value from L\*C\*h to xyY.
+     *
+     * @param array $data Array with 3 values corresponsding to L, C, h.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
+    public static function LCh_to_xyY(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
         return self::XYZ_to_xyY( self::LCh_to_XYZ($data, $WP_RefTristimulus) );
     }
 
-    public static function LCh_to_XYZ(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+    /**
+     * Converts data value from L\*C\*h to XYZ.
+     *
+     * @param array $data Array with 3 values corresponsding to L, C, h.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
+    public static function LCh_to_XYZ(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
         return self::Lab_to_XYZ( self::LCh_to_Lab($data), $WP_RefTristimulus );
     }
 
-    public static function LCh_to_LCh_uv(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+    /**
+     * Converts data value from L\*C\*h to LCh UV.
+     *
+     * @param array $data Array with 3 values corresponsding to L, C, h.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
+    public static function LCh_to_LCh_uv(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
         return 
             self::Luv_to_LCh_uv( 
                 self::XYZ_to_Luv( 
@@ -71,7 +99,25 @@ class Convert {
             );
     }
 
+    /**
+     * Converts data value from L\*C\*h to RGB.
+     *
+     * @param array $data Array with 3 values corresponsding to L, C, h.
+     * @param string $primaries RGB primaries. Can be passed as object of RGBPrimaries namespace or defined class name. 'sRGB' by default.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
+    public static function LCh_to_RGB(array $data, $primaries = 'sRGB', array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        return self::XYZ_to_RGB(self::LCh_to_XYZ($data, $WP_RefTristimulus), $primaries, $WP_RefTristimulus);
+    }
+
 // LCh UV
+    /**
+     * Converts data value from LCh UV to Luv.
+     *
+     * @param array $data Array with 3 values corresponsding to L, C, h.
+     * @return array
+     */
     public static function LCh_uv_to_Luv(array $data) {
         list($L, $C, $h) = CheckArray::makeList($data, 'LCh');
 
@@ -82,14 +128,28 @@ class Convert {
         ];
     }
 
-    public static function LCh_uv_to_LCh(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+    /**
+     * Converts data value from LCh UV to L\*C\*h.
+     *
+     * @param array $data Array with 3 values corresponsding to L, C, h.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
+    public static function LCh_uv_to_LCh(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
         return
             self::Lab_to_LCh( 
                 self::LCh_uv_to_Lab($data, $WP_RefTristimulus) 
             );
     }
 
-    public static function LCh_uv_to_Lab(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+    /**
+     * Converts data value from LCh UV to L\*a\*b.
+     *
+     * @param array $data Array with 3 values corresponsding to L, C, h.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
+    public static function LCh_uv_to_Lab(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
         return 
             self::XYZ_to_Lab( 
                 self::Luv_to_XYZ( 
@@ -100,7 +160,14 @@ class Convert {
             );
     }
 
-    public static function LCh_uv_to_XYZ(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+    /**
+     * Converts data value from LCh UV to XYZ.
+     *
+     * @param array $data Array with 3 values corresponsding to L, C, h.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
+    public static function LCh_uv_to_XYZ(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
         return
             self::Luv_to_XYZ(
                 self::LCh_uv_to_Luv($data),
@@ -108,15 +175,41 @@ class Convert {
             );
     }
 
-    public static function LCh_uv_to_xyY(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+    /**
+     * Converts data value from LCh UV to xyY.
+     *
+     * @param array $data Array with 3 values corresponsding to L, C, h.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
+    public static function LCh_uv_to_xyY(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
         return
             self::XYZ_to_xyY(
                 self::LCh_uv_to_XYZ($data, $WP_RefTristimulus)
             );
     }
 
+    /**
+     * Converts data value from LCh UV to RGB.
+     *
+     * @param array $data Array with 3 values corresponsding to L, C, h.
+     * @param string $primaries RGB primaries. Can be passed as object of RGBPrimaries namespace or defined class name. 'sRGB' by default.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
+    public static function LCh_uv_to_RGB(array $data, $primaries = 'sRGB', array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        return self::XYZ_to_RGB(self::LCh_uv_to_XYZ($data, $WP_RefTristimulus), $primaries, $WP_RefTristimulus);
+    }
+
 // Luv
 
+    /**
+     * Converts data value from Luv to XYZ.
+     *
+     * @param array $data Array with 3 values corresponsding to L, u, v.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
     public static function Luv_to_XYZ(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
         list($L, $u, $v) = CheckArray::makeList($data, 'Luv');
         list($X_r, $Y_r, $Z_r) = CheckArray::makeList($WP_RefTristimulus, 'XYZ');
@@ -143,10 +236,23 @@ class Convert {
         ];
     }
 
+    /**
+     * Converts data value from Luv to xyY.
+     *
+     * @param array $data Array with 3 values corresponsding to L, u, v.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
     public static function Luv_to_xyY(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
         return self::XYZ_to_xyY( self::Luv_to_XYZ($data, $WP_RefTristimulus) );
     }
 
+    /**
+     * Converts data value from Luv to LCh UV.
+     *
+     * @param array $data Array with 3 values corresponsding to L, u, v.
+     * @return array
+     */
     public static function Luv_to_LCh_uv(array $data) : array {
         list($L, $u, $v) = CheckArray::makeList($data, 'Luv');
 
@@ -159,6 +265,13 @@ class Convert {
         ];
     }
 
+    /**
+     * Converts data value from Luv to L\*C\*h.
+     *
+     * @param array $data Array with 3 values corresponsding to L, u, v.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
     public static function Luv_to_LCh(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
         return
             self::XYZ_to_LCh(
@@ -167,6 +280,13 @@ class Convert {
             );
     }
 
+    /**
+     * Converts data value from Luv to L\*a\*b.
+     *
+     * @param array $data Array with 3 values corresponsding to L, u, v.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
     public static function Luv_to_Lab(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
         return 
             self::XYZ_to_Lab(
@@ -175,12 +295,38 @@ class Convert {
             );
     }
 
+    /**
+     * Converts data value from Luv to RGB.
+     *
+     * @param array $data Array with 3 values corresponsding to L, u, v.
+     * @param string $primaries RGB primaries. Can be passed as object of RGBPrimaries namespace or defined class name. 'sRGB' by default.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
+    public static function Luv_to_RGB(array $data, $primaries = 'sRGB', $WP_RefTristimulus = Tristimulus2::D65) {
+        return self::XYZ_to_RGB(self::Luv_to_XYZ($data, $WP_RefTristimulus), $primaries, $WP_RefTristimulus);
+    }
+
 // Lab
 
+    /**
+     * Converts data value from L\*a\*b to xyY.
+     *
+     * @param array $data Array with 3 values corresponsding to L, a, b.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
     public static function Lab_to_xyY(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
         return self::XYZ_to_xyY( self::Lab_to_XYZ($data, $WP_RefTristimulus) );
     }
 
+    /**
+     * Converts data value from L\*a\*b to XYZ.
+     *
+     * @param array $data Array with 3 values corresponsding to L, a, b.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
     public static function Lab_to_XYZ(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
         list($L, $a, $b) = CheckArray::makeList($data, 'Lab');
         list($X_r, $Y_r, $Z_r) = CheckArray::makeList($WP_RefTristimulus, 'XYZ');
@@ -209,6 +355,12 @@ class Convert {
         ];
     }
 
+    /**
+     * Converts data value from L\*a\*b to L\*C\*h.
+     *
+     * @param array $data Array with 3 values corresponsding to L, a, b.
+     * @return array
+     */
     public static function Lab_to_LCh(array $data) : array {
         list($L, $a, $b) = CheckArray::makeList($data, 'Lab');
         $atan2 = rad2deg(atan2($b, $a));
@@ -224,16 +376,49 @@ class Convert {
         ];
     }
 
-    public static function Lab_to_Luv(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+    /**
+     * Converts data value from L\*a\*b to Luv.
+     *
+     * @param array $data Array with 3 values corresponsding to L, a, b.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
+    public static function Lab_to_Luv(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
         return self::XYZ_to_Luv( self::Lab_to_XYZ($data, $WP_RefTristimulus), $WP_RefTristimulus );
     }
 
+    /**
+     * Converts data value from L\*a\*b to LCh UV.
+     *
+     * @param array $data Array with 3 values corresponsding to L, a, b.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
     public static function Lab_to_LCh_uv(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
         return self::Luv_to_LCh_uv( self::Lab_to_Luv($data, $WP_RefTristimulus) );
     }
 
+    /**
+     * Converts data value from L\*a\*b to RGB.
+     *
+     * @param array $data Array with 3 values corresponsding to L, a, b.
+     * @param string $primaries RGB primaries. Can be passed as object of RGBPrimaries namespace or defined class name. 'sRGB' by default.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
+    public static function Lab_to_RGB(array $data, $primaries = 'sRGB', ?array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        return self::XYZ_to_RGB(self::Lab_to_XYZ($data, $WP_RefTristimulus), $primaries, $WP_RefTristimulus);
+    }
+
 // xyY
 
+    /**
+     * Converts data value from xyY to XYZ.
+     *
+     * @param array $data Array with 3 values corresponsding to x, y, Y.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
     public static function xyY_to_XYZ(array $data) : array {
         list($x, $y, $Y) = CheckArray::makeList($data, 'xyY');
 
@@ -250,25 +435,74 @@ class Convert {
             ];
     }
 
-    public static function xyY_to_Lab(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+    /**
+     * Converts data value from xyY to L\*a\*b.
+     *
+     * @param array $data Array with 3 values corresponsding to x, y, Y.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
+    public static function xyY_to_Lab(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
         return self::XYZ_to_Lab( self::xyY_to_XYZ($data), $WP_RefTristimulus );
     }
 
-    public static function xyY_to_LCh(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+    /**
+     * Converts data value from xyY to L\*C\*h.
+     *
+     * @param array $data Array with 3 values corresponsding to x, y, Y.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
+    public static function xyY_to_LCh(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
         return self::Lab_to_LCh( self::xyY_to_Lab($data, $WP_RefTristimulus) );
     }
 
-    public static function xyY_to_Luv(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+    /**
+     * Converts data value from xyY to Luv.
+     *
+     * @param array $data Array with 3 values corresponsding to x, y, Y.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
+    public static function xyY_to_Luv(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
         return self::XYZ_to_Luv( self::xyY_to_XYZ($data), $WP_RefTristimulus );
     }
 
-    public static function xyY_to_LCh_uv(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+    /**
+     * Converts data value from xyY to LCh UV.
+     *
+     * @param array $data Array with 3 values corresponsding to x, y, Y.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
+    public static function xyY_to_LCh_uv(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
         return self::Luv_to_LCh_uv( self::xyY_to_Luv($data, $WP_RefTristimulus) );
+    }
+
+    /**
+     * Converts data value from xyY to RGB.
+     *
+     * @param array $data Array with 3 values corresponsding to x, y, Y.
+     * @param string $primaries RGB primaries. Can be passed as object of RGBPrimaries namespace or defined class name. 'sRGB' by default.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
+    public static function xyY_to_RGB(array $data, $primaries = 'sRGB', ?array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        return self::XYZ_to_RGB(
+            self::xyY_to_XYZ($data),
+            $primaries,
+            $WP_RefTristimulus
+        );
     }
 
 // XYZ
 
-
+    /**
+     * Converts data value from XYZ to xyY.
+     *
+     * @param array $data Array with 3 values corresponsding to X, Y, Z.
+     * @return array
+     */
     public static function XYZ_to_xyY(array $data) : array {
         list($X, $Y, $Z) = CheckArray::makeList($data, 'XYZ');
 
@@ -285,6 +519,13 @@ class Convert {
             ];
     }
 
+    /**
+     * Converts data value from XYZ to L\*a\*b.
+     *
+     * @param array $data Array with 3 values corresponsding to X, Y, Z.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
     public static function XYZ_to_Lab(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
         list($X, $Y, $Z) = CheckArray::makeList($data, 'XYZ');
         list($X_r, $Y_r, $Z_r) = CheckArray::makeList($WP_RefTristimulus, 'XYZ');
@@ -314,7 +555,14 @@ class Convert {
         ];
     }
 
-    public static function XYZ_to_Luv(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+    /**
+     * Converts data value from XYZ to Luv.
+     *
+     * @param array $data Array with 3 values corresponsding to X, Y, Z.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
+    public static function XYZ_to_Luv(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
         list($X, $Y, $Z) = CheckArray::makeList($data, 'XYZ');
         list($X_r, $Y_r, $Z_r) = CheckArray::makeList($WP_RefTristimulus, 'XYZ');
 
@@ -338,15 +586,37 @@ class Convert {
         ];
     }
 
-    public static function XYZ_to_LCh(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+    /**
+     * Converts data value from XYZ to L\*C\*h.
+     *
+     * @param array $data Array with 3 values corresponsding to X, Y, Z.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
+    public static function XYZ_to_LCh(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
         return self::Lab_to_LCh( self::XYZ_to_Lab($data, $WP_RefTristimulus) );
     }
 
-    public static function XYZ_to_LCh_uv(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+    /**
+     * Converts data value from XYZ to LCh UV.
+     *
+     * @param array $data Array with 3 values corresponsding to X, Y, Z.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
+    public static function XYZ_to_LCh_uv(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
         return self::Luv_to_LCh_uv( self::XYZ_to_Luv($data, $WP_RefTristimulus) );
     }
 
-    public static function XYZ_to_RGB(array $data, $primaries, ?array $WP_RefTristimulus = Tristimulus2::D65) {
+    /**
+     * Converts data value from XYZ to RGB.
+     *
+     * @param array $data Array with 3 values corresponsding to X, Y, Z.
+     * @param string $primaries RGB primaries. Can be passed as object of RGBPrimaries namespace or defined class name. 'sRGB' by default.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
+    public static function XYZ_to_RGB(array $data, $primaries = 'sRGB', ?array $WP_RefTristimulus = Tristimulus2::D65) {
         if(is_object($primaries) && !in_array("tei187\\ColorTools\\Interfaces\\Primaries", class_implements($primaries))) {
             return false;
         }
@@ -385,13 +655,114 @@ class Convert {
 // RGB
 
     /**
-     * Returns array or false
+     * Converts data value from RGB to XYZ, given passed RGB primaries.
      * 
-     * @param array $data
-     * @param object|string $primaries
+     * @param array $data Array with 3 values corresponsding to R, G, B.
+     * @param object|string $primaries RGB primaries. Can be passed as object of RGBPrimaries namespace or defined class name. 'sRGB' by default.
      * @return array|false Array with keys 'values', 'illuminantName' and 'illuminantTristimulus' which correspond to XYZ values, and illuminant info of RGB primaries used.
      */
-    public static function RGB_to_XYZ(array $data, $primaries) {
+    public static function RGB_to_XYZ(array $data, $primaries = 'sRGB', $simple = true) {
+        $primaries = self::_primariesResolver($primaries);
+
+        $rgb_gamma = [];
+        foreach($data as $value) {
+            $rgb_gamma[] = $primaries->applyInverseCompanding(($value / 255), $primaries->getGamma());
+        }
+
+        $primariesXYZ = [];
+        foreach($primaries->getPrimariesXYY() as $values) {
+            $primariesXYZ[] = array_values(Convert::xyY_to_XYZ($values));
+        }
+
+        if($simple) {
+            return Adaptation::matrixVector(Adaptation::transpose3x3Matrix($primariesXYZ), $rgb_gamma);
+        } else{
+            return [
+                'values' => Adaptation::matrixVector(Adaptation::transpose3x3Matrix($primariesXYZ), $rgb_gamma), 
+                'illuminantName' => $primaries->getIlluminantName(),
+                'illuminantTristimulus' => $primaries->getIlluminantTristimulus(),
+            ];
+        }
+    }
+
+    /**
+     * Converts data value from RGB to xyY, given passed RGB primaries.
+     * 
+     * @param array $data Array with 3 values corresponsding to R, G, B.
+     * @param object|string $primaries RGB primaries. Can be passed as object of RGBPrimaries namespace or defined class name. 'sRGB' by default.
+     * @return array
+     */
+    public static function RGB_to_xyY(array $data, $primaries = 'sRGB') {
+        return self::XYZ_to_xyY(
+            self::RGB_to_XYZ($data, $primaries, false)['values']
+        );
+    }
+
+    /**
+     * Converts data value from RGB to L\*a\*b, given passed RGB primaries.
+     * 
+     * @param array $data Array with 3 values corresponsding to R, G, B.
+     * @param object|string $primaries RGB primaries. Can be passed as object of RGBPrimaries namespace or defined class name. 'sRGB' by default.
+     * @return array
+     */
+    public static function RGB_to_Lab(array $data, $primaries = 'sRGB') {
+        $xyz = self::RGB_to_XYZ($data, $primaries, false);
+        return self::XYZ_to_Lab($xyz['values'], $xyz['illuminantTristimulus']);
+    }
+
+    /**
+     * Converts data value from RGB to L\*C\*h, given passed RGB primaries.
+     * 
+     * @param array $data Array with 3 values corresponsding to R, G, B.
+     * @param object|string $primaries RGB primaries. Can be passed as object of RGBPrimaries namespace or defined class name. 'sRGB' by default.
+     * @return array
+     */
+    public static function RGB_to_LCh(array $data, $primaries = 'sRGB') {
+        $xyz = self::RGB_to_XYZ($data, $primaries, false);
+        return self::Lab_to_LCh(self::XYZ_to_Lab($xyz['values'], $xyz['illuminantTristimulus']));
+    }
+
+    /**
+     * Converts data value from RGB to Luv, given passed RGB primaries.
+     * 
+     * @param array $data Array with 3 values corresponsding to R, G, B.
+     * @param object|string $primaries RGB primaries. Can be passed as object of RGBPrimaries namespace or defined class name. 'sRGB' by default.
+     * @return array
+     */
+    public static function RGB_to_Luv(array $data, $primaries = 'sRGB') {
+        $xyz = self::RGB_to_XYZ($data, $primaries, false);
+        return self::XYZ_to_Luv($xyz['values'], $xyz['illuminantTristimulus']);
+    }
+
+    /**
+     * Converts data value from RGB to LCh UV, given passed RGB primaries.
+     * 
+     * @param array $data Array with 3 values corresponsding to R, G, B.
+     * @param object|string $primaries RGB primaries. Can be passed as object of RGBPrimaries namespace or defined class name. 'sRGB' by default.
+     * @return array
+     */
+    public static function RGB_to_LCh_uv(array $data, $primaries = 'sRGB') {
+        $xyz = self::RGB_to_XYZ($data, $primaries, false);
+        return self::XYZ_to_LCh_uv($xyz['values'], $xyz['illuminantTristimulus']);
+    }
+
+    // xy Chromaticity
+
+    public static function xy_to_XYZ(array $data) : array {
+        return self::chromaticity_to_tristimulus($data);
+    }
+
+    public static function XYZ_to_xy(array $data) : array {
+        return self::tristimulus_to_chromaticity($data);
+    }
+
+    /**
+     * Resolves RGBprimaries per input. If input cannot be associated with any defined, returns RGB.
+     *
+     * @param object|string $primaries Typically an object of RGBPrimaries namespace or name 
+     * @return object
+     */
+    private static function _primariesResolver($primaries) {
         if(is_object($primaries) && !self::_verifyPrimariesObject($primaries)) {
             return false;
         } elseif(is_string($primaries)) {
@@ -404,56 +775,7 @@ class Convert {
         } else {
             $primaries = self::loadPrimaries('sRGB');
         }
-
-        $rgb_gamma = [];
-        foreach($data as $value) {
-            $rgb_gamma[] = $primaries->applyInverseCompanding(($value / 255), $primaries->getGamma());
-        }
-
-        $primariesXYZ = [];
-        foreach($primaries->getPrimariesXYY() as $values) {
-            $primariesXYZ[] = array_values(Convert::xyY_to_XYZ($values));
-        }
-
-        return [
-            'values' => Adaptation::matrixVector(Adaptation::transpose3x3Matrix($primariesXYZ), $rgb_gamma), 
-            'illuminantName' => $primaries->getIlluminantName(),
-            'illuminantTristimulus' => $primaries->getIlluminantTristimulus(),
-        ];
-    }
-
-    public static function RGB_to_xyY(array $data, $primaries) {
-        return self::XYZ_to_xyY(self::RGB_to_XYZ($data, $primaries)['values']);
-    }
-
-    public static function RGB_to_Lab(array $data, $primaries) {
-        $xyz = self::RGB_to_XYZ($data, $primaries);
-        return self::XYZ_to_Lab($xyz['values'], $xyz['illuminantTristimulus']);
-    }
-
-    public static function RGB_to_LCh(array $data, $primaries) {
-        $xyz = self::RGB_to_XYZ($data, $primaries);
-        return self::Lab_to_LCh(self::XYZ_to_Lab($xyz['values'], $xyz['illuminantTristimulus']));
-    }
-
-    public static function RGB_to_Luv(array $data, $primaries) {
-        $xyz = self::RGB_to_XYZ($data, $primaries);
-        return self::XYZ_to_Luv($xyz['values'], $xyz['illuminantTristimulus']);
-    }
-
-    public static function RGB_to_LCh_uv(array $data, $primaries) {
-        $xyz = self::RGB_to_XYZ($data, $primaries);
-        return self::XYZ_to_LCh_uv($xyz['values'], $xyz['illuminantTristimulus']);
-    }
-
-    // xy Chromaticity
-
-    public static function xy_to_XYZ(array $data) : array {
-        return self::chromaticity_to_tristimulus($data);
-    }
-
-    public static function XYZ_to_xy(array $data) : array {
-        return self::tristimulus_to_chromaticity($data);
+        return $primaries;
     }
     
     // https://cs.haifa.ac.il/hagit/courses/ist/Lectures/Demos/ColorApplet2/t_convert.html

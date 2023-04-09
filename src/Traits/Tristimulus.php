@@ -27,7 +27,7 @@ Trait Tristimulus {
               ];
     }
 
-    static function tristimulus_to_chromaticity(array $data) {
+    static function tristimulus_to_chromaticity(array $data) : array {
         list($X, $Y, $Z) = CheckArray::makeList($data, 'XYZ');
 
         return $X + $Y + $Z == 0

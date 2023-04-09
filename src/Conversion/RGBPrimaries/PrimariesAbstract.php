@@ -36,7 +36,7 @@ abstract class PrimariesAbstract implements PrimariesInterface {
      * @return array
      */
     public function getIlluminantTristimulus() : array {
-        $data = constant("\\tei187\\ColorTools\\StandardIlluminants\\Tristimulus2::".strtoupper(static::ILLUMINANT));
+        $data = constant("tei187\\ColorTools\\StandardIlluminants\\Tristimulus2::".strtoupper(static::ILLUMINANT));
         if($data === null) {
             return \tei187\ColorTools\StandardIlluminants\Tristimulus2::D65;
         }

@@ -3,6 +3,7 @@
 namespace tei187\ColorTools\Traits;
 
 use tei187\ColorTools\Conversion\Convert;
+use tei187\ColorTools\StandardIlluminants\WhitePoint2;
 
 trait Illuminants {
     /**
@@ -23,6 +24,7 @@ trait Illuminants {
      * @var ?string
      */
     protected $illuminantName = null;
+    protected $illuminantAngle = null;
 
     /**
      * Sets values and angle of illuminant used during measurement.
@@ -31,29 +33,37 @@ trait Illuminants {
      * @param integer $angle Integer `2` or `10`, specifying Standard Observer angle.
      * @return self|false Returns self-object if proper values, false if error occurred.
      */
-    public function setIlluminant($illuminant, int $angle = 2) {
+    public function setIlluminant($illuminant = 'D65', int $angle = 2) {
         if(is_string($illuminant)) {
             $data = constant("\\tei187\\ColorTools\\StandardIlluminants\\WhitePoint".$angle."::".strtoupper(trim($illuminant)));
             if($data !== null) {
                 $this->illuminantName = strtoupper(trim($illuminant));
                 $illuminant = array_values($data);
                 $this->illuminant = [ 'x' => $illuminant[0], 'y' => $illuminant[1] ];
+                $this->illuminantAngle = $angle;
             } else {
                 $this->illuminantName = null;
                 $this->illuminant = [];
                 $this->illuminantT = [];
+                $this->illuminantAngle = null;
                 return false; // standard illuminant not found
             }
         } elseif(is_array($illuminant) && count($illuminant) == 2) {
             $illuminant = array_values($illuminant);
+            $this->illuminantName = 'undefined';
             $this->illuminant = [ 'x' => $illuminant[0], 'y' => $illuminant[1] ];
+            $this->illuminantAngle = $angle;
         } else {
-            // @todo
-            // maybe check for object, if illuminant objects exist?
-            return false;
+            $this->illuminantName = 'D65';
+            $this->illuminant = WhitePoint2::D65;
+            $this->illuminantAngle = $angle;
         }
         $this->illuminantT = Convert::chromaticity_to_tristimulus($this->illuminant);
         return $this;
+    }
+
+    public function getIlluminantAngle() : ?int {
+        return $this->illuminantAngle;
     }
 
     /**
