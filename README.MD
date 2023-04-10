@@ -27,6 +27,7 @@ Set of classes used to convert colors and calculate color difference.
   - NTSC RGB,
   - PAL/SECAM RGB,
   - ProPhoto RGB,
+  - Radiance RGB,
   - SMPTE-C RGB,
   - sRGB,
   - WideGamutRGB.

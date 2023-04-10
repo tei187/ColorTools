@@ -12,6 +12,6 @@ class RadianceRGB extends PrimariesAbstract {
         'G' => [ .3,  .6,   .715158 ],
         'B' => [ .15, .06, .072186 ]
     ];
-    const ILLUMINANT = 'D50';
+    const ILLUMINANT = 'E';
     const GAMMA = 1.8;
 }
