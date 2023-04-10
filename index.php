@@ -3,6 +3,11 @@
 // Utilities
     require_once __DIR__ . "/src/Helpers/CheckArray.php";
 
+// Interfaces
+require_once __DIR__ . "/src/Interfaces/Companding.php";
+    require_once __DIR__ . "/src/Interfaces/Measure.php";
+    require_once __DIR__ . "/src/Interfaces/Primaries.php";
+
 // Traits
     require_once __DIR__ . "/src/Traits/Chromaticity.php";
     require_once __DIR__ . "/src/Traits/Tristimulus.php";
@@ -12,10 +17,6 @@
     require_once __DIR__ . "/src/Traits/Companding/GammaCompanding.php";
     require_once __DIR__ . "/src/Traits/Companding/LCompanding.php";
     require_once __DIR__ . "/src/Traits/Companding/sRGBCompanding.php";
-
-// Interfaces
-    require_once __DIR__ . "/src/Interfaces/Measure.php";
-    require_once __DIR__ . "/src/Interfaces/Primaries.php";
 
 // deltaE
     require_once __DIR__ . "/src/Delta/CIE76.php";
@@ -47,22 +48,22 @@
     require_once __DIR__ . "/src/Conversion/RGBPrimaries/Dictionary.php";
     require_once __DIR__ . "/src/Conversion/RGBPrimaries/Custom.php";
     require_once __DIR__ . "/src/Conversion/RGBPrimaries/PrimariesAbstract.php";
-    require_once __DIR__ . "/src/Conversion/RGBPrimaries/AdobeRGB1998.php";
-    require_once __DIR__ . "/src/Conversion/RGBPrimaries/AppleRGB.php";
-    require_once __DIR__ . "/src/Conversion/RGBPrimaries/BestRGB.php";
-    require_once __DIR__ . "/src/Conversion/RGBPrimaries/BetaRGB.php";
-    require_once __DIR__ . "/src/Conversion/RGBPrimaries/BruceRGB.php";
-    require_once __DIR__ . "/src/Conversion/RGBPrimaries/CIERGB.php";
-    require_once __DIR__ . "/src/Conversion/RGBPrimaries/ColorMatchRGB.php";
-    require_once __DIR__ . "/src/Conversion/RGBPrimaries/DonRGB4.php";
-    require_once __DIR__ . "/src/Conversion/RGBPrimaries/ECIRGBv2.php";
-    require_once __DIR__ . "/src/Conversion/RGBPrimaries/EktaSpacePS5.php";
-    require_once __DIR__ . "/src/Conversion/RGBPrimaries/NTSCRGB.php";
-    require_once __DIR__ . "/src/Conversion/RGBPrimaries/PALSECAMRGB.php";
-    require_once __DIR__ . "/src/Conversion/RGBPrimaries/ProPhotoRGB.php";
-    require_once __DIR__ . "/src/Conversion/RGBPrimaries/SMPTECRGB.php";
-    require_once __DIR__ . "/src/Conversion/RGBPrimaries/sRGB.php";
-    require_once __DIR__ . "/src/Conversion/RGBPrimaries/WideGamutRGB.php";
+    require_once __DIR__ . "/src/Conversion/RGBPrimaries/Standard/AdobeRGB1998.php";
+    require_once __DIR__ . "/src/Conversion/RGBPrimaries/Standard/AppleRGB.php";
+    require_once __DIR__ . "/src/Conversion/RGBPrimaries/Standard/BestRGB.php";
+    require_once __DIR__ . "/src/Conversion/RGBPrimaries/Standard/BetaRGB.php";
+    require_once __DIR__ . "/src/Conversion/RGBPrimaries/Standard/BruceRGB.php";
+    require_once __DIR__ . "/src/Conversion/RGBPrimaries/Standard/CIERGB.php";
+    require_once __DIR__ . "/src/Conversion/RGBPrimaries/Standard/ColorMatchRGB.php";
+    require_once __DIR__ . "/src/Conversion/RGBPrimaries/Standard/DonRGB4.php";
+    require_once __DIR__ . "/src/Conversion/RGBPrimaries/Standard/ECIRGBv2.php";
+    require_once __DIR__ . "/src/Conversion/RGBPrimaries/Standard/EktaSpacePS5.php";
+    require_once __DIR__ . "/src/Conversion/RGBPrimaries/Standard/NTSCRGB.php";
+    require_once __DIR__ . "/src/Conversion/RGBPrimaries/Standard/PALSECAMRGB.php";
+    require_once __DIR__ . "/src/Conversion/RGBPrimaries/Standard/ProPhotoRGB.php";
+    require_once __DIR__ . "/src/Conversion/RGBPrimaries/Standard/SMPTECRGB.php";
+    require_once __DIR__ . "/src/Conversion/RGBPrimaries/Standard/sRGB.php";
+    require_once __DIR__ . "/src/Conversion/RGBPrimaries/Standard/WideGamutRGB.php";
 
 
 // Objects
