@@ -19,7 +19,7 @@ trait PrimariesLoader {
      * @param string $expectedNamespace Some dirty argument that will check if passed object's class exists in set namespace (in case of a mix-up with similar class names).
      * @return object|false Will return object of RGBPrimaries namespace or false if loading failed.
      */
-    static public function loadPrimaries($primaries, ?string $name = null, ?string $illuminant = null, $gamma = null, string $expectedNamespace = "tei187\\ColorTools\\Conversion\\RGBPrimaries") {
+    static public function loadPrimaries($primaries, ?string $name = null, ?string $illuminant = null, $gamma = null, string $expectedNamespace = "tei187\\ColorTools\\Conversion\\RGBPrimaries\\Standard") {
         if(is_object($primaries)) {
             $className = explode("\\", get_class($primaries));
             $classNamespace = implode("\\", array_slice($className, 0, -1));
@@ -27,7 +27,7 @@ trait PrimariesLoader {
                 // return object?
                 $class = get_class($primaries);
                 return new $class;
-            } elseif($className == "Custom" && $classNamespace == $expectedNamespace) {
+            } elseif($className == "Custom" && in_array("tei187\\ColorTools\\Interfaces\\Primaries", class_implements($primaries)) === true) {
                 return $primaries;
             }
         } elseif(is_string($primaries)) {

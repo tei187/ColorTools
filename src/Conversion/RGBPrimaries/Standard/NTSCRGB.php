@@ -1,6 +1,7 @@
 <?php
 
-namespace tei187\ColorTools\Conversion\RGBPrimaries;
+namespace tei187\ColorTools\Conversion\RGBPrimaries\Standard;
+use tei187\ColorTools\Conversion\RGBPrimaries\PrimariesAbstract;
 use tei187\ColorTools\Traits\Companding\GammaCompanding;
 
 class NTSCRGB extends PrimariesAbstract {

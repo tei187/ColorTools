@@ -6,7 +6,7 @@ use tei187\ColorTools\Conversion\Convert;
 
 trait LCompanding {
     /**
-     * Applies L* companding.
+     * Applies L\* companding.
      *
      * @param float|integer $value
      * @return float|integer
@@ -19,7 +19,7 @@ trait LCompanding {
     }
 
     /**
-     * Applies inverse L* companding.
+     * Applies inverse L\* companding.
      *
      * @param float|integer $value
      * @return float|integer
