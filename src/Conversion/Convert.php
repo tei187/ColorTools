@@ -746,6 +746,95 @@ class Convert {
         return self::XYZ_to_LCh_uv($xyz['values'], $xyz['illuminantTristimulus']);
     }
 
+    /**
+     * Converts data value from RGB to HSL.
+     *
+     * @see https://www.had2know.org/technology/hsl-rgb-color-converter.html
+     * 
+     * @param array $data
+     * @return array
+     */
+    public static function RGB_to_HSL(array $data) : array {
+        list($R, $G, $B) = $data;
+
+        $M = max($data);
+        $m = min($data);
+        $d = ($M - $m) / 255;
+
+        $L = (.5 * ($M + $m)) / 255;
+
+        $S = 
+            $L > 0
+                ? $d / (1 - abs((2*$L) - 1))
+                : 0;
+
+
+        return [
+            'H' => 
+                ( $G >= $B
+                    ? rad2deg( acos( ($R - ($G/2) - ($B/2)) / sqrt(pow($R, 2) + pow($G, 2) + pow($B, 2) - ($R*$G) - ($R*$B) - ($G*$B) ) ) )
+                    : 360 - rad2deg(acos( ($R - ($G/2) - ($B/2)) / sqrt(pow($R, 2) + pow($G, 2) + pow($B, 2) - ($R*$G) - ($R*$B) - ($G*$B) ) )) 
+                ),
+            'S' => $S,
+            'L' => $L
+        ];
+    }
+
+    /**
+     * Converts data value from HSL to RGB.
+     *
+     * @see https://www.had2know.org/technology/hsl-rgb-color-converter.html
+     * 
+     * @param array $data
+     * @return array
+     */
+    public static function HSL_to_RGB(array $data) : array {
+        list($H, $S, $L) = $data;
+
+        $d = $S * (1 - abs((2*$L)-1));
+        $m = 255 * ($L - ($d / 2));
+
+        $x = $d * (1 - abs(fmod(($H / 60),2) - 1));
+
+        if($H >= 0 && $H < 60) {
+            return [
+                'R' => (255 * $d) + $m,
+                'G' => (255 * $x) + $m,
+                'B' => $x
+            ];
+        } elseif($H >= 60 && $H < 120) {
+            return [
+                'R' => (255 * $x) + $m,
+                'G' => (255 * $d) + $m,
+                'B' => $x
+            ];
+        } elseif($H >= 120 && $H < 180) {
+            return [
+                'R' => $m,
+                'G' => (255 * $d) + $m,
+                'B' => (255 * $x) + $m
+            ];
+        } elseif($H >= 180 && $H < 240) {
+            return [
+                'R' => $m,
+                'G' => (255 * $x) + $m,
+                'B' => (255 * $d) + $m
+            ];
+        } elseif($H >= 240 && $H < 300) {
+            return [
+                'R' => (255 * $x) + $m,
+                'G' => $m,
+                'B' => (255 * $d) + $m
+            ];
+        } else {
+            return [
+                'R' => (255 * $d) + $m,
+                'G' => $m,
+                'B' => (255 * $x) + $m
+            ];
+        }
+    }
+
     // xy Chromaticity
 
     public static function xy_to_XYZ(array $data) : array {
