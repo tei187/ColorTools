@@ -7,19 +7,35 @@ Set of classes used to convert colors and calculate color difference.
 - xy,
 - xyY,
 - XYZ,
-- CIE: 
-  - L\*ab,
-  - L\*uv,
-  - L\*CH.
-- HSV,
-- HSL,
-- RGB:
-  - Adobe.
-  - Standard.
-- CMY, <span style="color:red">\*</span>
-- CMYK. <span style="color:red">\*</span>
+- L\*ab,
+- L\*uv,
+- L\*CH.
+- L\*CH UV.
+- ~~HSV,~~
+- ~~HSL,~~
+- RGB for primaries <span style="color:red">\*</span>:
+  - Adobe 1998 RGB,
+  - Apple RGB,
+  - Best RGB,
+  - Beta RGB,
+  - Bruce RGB,
+  - CIE RGB,
+  - ColorMatch RGB,
+  - Don RGB 4,
+  - ECI RGB v2,
+  - Ekta Space PS5,
+  - NTSC RGB,
+  - PAL/SECAM RGB,
+  - ProPhoto RGB,
+  - SMPTE-C RGB,
+  - sRGB,
+  - WideGamutRGB.
+- ~~CMY, <span style="color:red">\*\*</span>~~
+- ~~CMYK. <span style="color:red">\*\*</span>~~
 ---
-<span style="color:red">\*</span> <span style="color:gray">estimative - direct conversion requires ICC profile data.</span>
+<span style="color:red">\*</span> <span style="color:gray">custom-defined primaries also supported.</span>
+
+~~<span style="color:red">\*\*</span> <span style="color:gray">estimative - direct conversion requires ICC profile data.</span>~~
 
 ## Chromatic adaptation transformations matrices:
 - XYZ Scaling,

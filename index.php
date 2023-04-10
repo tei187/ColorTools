@@ -4,7 +4,7 @@
     require_once __DIR__ . "/src/Helpers/CheckArray.php";
 
 // Interfaces
-require_once __DIR__ . "/src/Interfaces/Companding.php";
+    require_once __DIR__ . "/src/Interfaces/Companding.php";
     require_once __DIR__ . "/src/Interfaces/Measure.php";
     require_once __DIR__ . "/src/Interfaces/Primaries.php";
 
