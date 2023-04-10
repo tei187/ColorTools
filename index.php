@@ -61,6 +61,7 @@
     require_once __DIR__ . "/src/Conversion/RGBPrimaries/Standard/NTSCRGB.php";
     require_once __DIR__ . "/src/Conversion/RGBPrimaries/Standard/PALSECAMRGB.php";
     require_once __DIR__ . "/src/Conversion/RGBPrimaries/Standard/ProPhotoRGB.php";
+    require_once __DIR__ . "/src/Conversion/RGBPrimaries/Standard/RadianceRGB.php";
     require_once __DIR__ . "/src/Conversion/RGBPrimaries/Standard/SMPTECRGB.php";
     require_once __DIR__ . "/src/Conversion/RGBPrimaries/Standard/sRGB.php";
     require_once __DIR__ . "/src/Conversion/RGBPrimaries/Standard/WideGamutRGB.php";
