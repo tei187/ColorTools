@@ -2,7 +2,7 @@
 
 namespace tei187\ColorTools\Measures;
 
-use tei187\ColorTools\Conversion\RGBPrimaries\sRGB;
+use tei187\ColorTools\Conversion\RGBPrimaries\Standard\sRGB;
 use tei187\ColorTools\Traits\Illuminants;
 use tei187\ColorTools\Traits\PrimariesLoader;
 use tei187\ColorTools\Measures\MeasureAbstract;
@@ -72,4 +72,36 @@ abstract class RGBMeasureAbstract extends MeasureAbstract {
      */
     abstract public function toLuv(): Luv;
     abstract public function toRGB($primaries = 'sRGB'): RGB;
+
+    /**
+     * Returns RGB values in hex form.
+     *
+     * @param boolean $asString Boolean switch. If true, returns a string in '#RRGGBB' formatting. If false, returns an array with RGB keys.
+     * @return array|string
+     */
+    public function getValuesHex(bool $asString = false) {
+        list($R, $G, $B) = array_values($this->getValues());
+        if(!$asString) {
+            return [
+                'R' => dechex($R),
+                'G' => dechex($G),
+                'B' => dechex($B) 
+            ];
+        }
+        return "#".dechex($R).dechex($G).dechex($B);
+    }
+
+    /**
+     * Returns RGB values in float form, from 0 to 1.
+     *
+     * @return array
+     */
+    public function getValuesFloat() : array {
+        list($R, $G, $B) = array_values($this->getValues());
+        return [
+            'R' => $R / 255,
+            'G' => $G / 255,
+            'B' => $B / 255
+        ];
+    }
 }
