@@ -755,7 +755,7 @@ class Convert {
      * @return array
      */
     public static function RGB_to_HSL(array $data) : array {
-        list($R, $G, $B) = $data;
+        list($R, $G, $B) = CheckArray::makeList($data, 'RGB');
 
         $M = max($data);
         $m = min($data);
@@ -789,7 +789,7 @@ class Convert {
      * @return array
      */
     public static function HSL_to_RGB(array $data) : array {
-        list($H, $S, $L) = $data;
+        list($H, $S, $L) = CheckArray::makeList($data, 'HSL');
 
         $d = $S * (1 - abs((2*$L)-1));
         $m = 255 * ($L - ($d / 2));
@@ -831,6 +831,90 @@ class Convert {
                 'R' => (255 * $d) + $m,
                 'G' => $m,
                 'B' => (255 * $x) + $m
+            ];
+        }
+    }
+
+    /**
+     * Converts data value from RGB to HSV.
+     * 
+     * @see https://www.had2know.org/technology/hsv-rgb-conversion-formula-calculator.html
+     * 
+     * @param array $data
+     * @return array
+     */
+    public static function RGB_to_HSV(array $data) : array {
+        list($R, $G, $B) = CheckArray::makeList($data, 'RGB');
+
+        $M = max($data);
+        $m = min($data);
+
+        return [
+            'H' => 
+                ( $G >= $B
+                    ? rad2deg( acos( ($R - ($G/2) - ($B/2)) / sqrt(pow($R, 2) + pow($G, 2) + pow($B, 2) - ($R*$G) - ($R*$B) - ($G*$B) ) ) )
+                    : 360 - rad2deg(acos( ($R - ($G/2) - ($B/2)) / sqrt(pow($R, 2) + pow($G, 2) + pow($B, 2) - ($R*$G) - ($R*$B) - ($G*$B) ) )) 
+                ),
+            'S' =>
+                (
+                    $M > 0
+                        ? 1 - ($m/$M)
+                        : 0
+                ), 
+            'V' => $M / 255
+        ];
+    }
+
+    /**
+     * Converts data value from HSV to RGB.
+     * 
+     * @see https://www.had2know.org/technology/hsv-rgb-conversion-formula-calculator.html
+     * 
+     * @param array $data
+     * @return array
+     */
+    public static function HSV_to_RGB(array $data) : array {
+        list($H, $S, $V) = CheckArray::makeList($data, 'HSV');
+
+        $M = 255 * $V;
+        $m = $M * (1 - $S);
+        $z = ($M - $m) * (1 - abs(fmod($H/60, 2) - 1));
+
+        if($H >= 0 && $H < 60) {
+            return [
+                'R' => $M,
+                'G' => $z + $m,
+                'B' => $m
+            ];
+        } elseif($H >= 60 && $H < 120) {
+            return [
+                'R' => $z + $m,
+                'G' => $M,
+                'B' => $m
+            ];
+        } elseif($H >= 120 && $H < 180) {
+            return [
+                'R' => $m,
+                'G' => $M,
+                'B' => $z + $m
+            ];
+        } elseif($H >= 180 && $H < 240) {
+            return [
+                'R' => $m,
+                'G' => $z + $m,
+                'B' => $M
+            ];
+        } elseif($H >= 240 && $H < 300) {
+            return [
+                'R' => $z + $m,
+                'G' => $m,
+                'B' => $M
+            ];
+        } else {
+            return [
+                'R' => $M,
+                'G' => $m,
+                'B' => $z + $m
             ];
         }
     }
