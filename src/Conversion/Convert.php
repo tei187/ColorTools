@@ -646,9 +646,9 @@ class Convert {
         $xyz_rgb = Adaptation::matrixVector($matrix, array_values($data));
 
         return [
-            'R' => round( $primaries->applyCompanding($xyz_rgb[0], $primaries->getGamma()) * 255 ),
-            'G' => round( $primaries->applyCompanding($xyz_rgb[1], $primaries->getGamma()) * 255 ),
-            'B' => round( $primaries->applyCompanding($xyz_rgb[2], $primaries->getGamma()) * 255 )
+            'R' => round( $primaries->applyCompanding($xyz_rgb[0], $primaries->getGamma()) ),
+            'G' => round( $primaries->applyCompanding($xyz_rgb[1], $primaries->getGamma()) ),
+            'B' => round( $primaries->applyCompanding($xyz_rgb[2], $primaries->getGamma()) )
         ];
     }
 
@@ -666,7 +666,7 @@ class Convert {
 
         $rgb_gamma = [];
         foreach($data as $value) {
-            $rgb_gamma[] = $primaries->applyInverseCompanding(($value / 255), $primaries->getGamma());
+            $rgb_gamma[] = $primaries->applyInverseCompanding(($value), $primaries->getGamma());
         }
 
         $primariesXYZ = [];
@@ -759,9 +759,9 @@ class Convert {
 
         $M = max($data);
         $m = min($data);
-        $d = ($M - $m) / 255;
+        $d = ($M - $m);
 
-        $L = (.5 * ($M + $m)) / 255;
+        $L = (.5 * ($M + $m));
 
         $S = 
             $L > 0
@@ -792,45 +792,45 @@ class Convert {
         list($H, $S, $L) = CheckArray::makeList($data, 'HSL');
 
         $d = $S * (1 - abs((2*$L)-1));
-        $m = 255 * ($L - ($d / 2));
+        $m = ($L - ($d / 2));
 
         $x = $d * (1 - abs(fmod(($H / 60),2) - 1));
 
         if($H >= 0 && $H < 60) {
             return [
-                'R' => (255 * $d) + $m,
-                'G' => (255 * $x) + $m,
+                'R' => ($d) + $m,
+                'G' => ($x) + $m,
                 'B' => $x
             ];
         } elseif($H >= 60 && $H < 120) {
             return [
-                'R' => (255 * $x) + $m,
-                'G' => (255 * $d) + $m,
+                'R' => ($x) + $m,
+                'G' => ($d) + $m,
                 'B' => $x
             ];
         } elseif($H >= 120 && $H < 180) {
             return [
                 'R' => $m,
-                'G' => (255 * $d) + $m,
-                'B' => (255 * $x) + $m
+                'G' => ($d) + $m,
+                'B' => ($x) + $m
             ];
         } elseif($H >= 180 && $H < 240) {
             return [
                 'R' => $m,
-                'G' => (255 * $x) + $m,
-                'B' => (255 * $d) + $m
+                'G' => ($x) + $m,
+                'B' => ($d) + $m
             ];
         } elseif($H >= 240 && $H < 300) {
             return [
-                'R' => (255 * $x) + $m,
+                'R' => ($x) + $m,
                 'G' => $m,
-                'B' => (255 * $d) + $m
+                'B' => ($d) + $m
             ];
         } else {
             return [
-                'R' => (255 * $d) + $m,
+                'R' => ($d) + $m,
                 'G' => $m,
-                'B' => (255 * $x) + $m
+                'B' => ($x) + $m
             ];
         }
     }
@@ -861,7 +861,7 @@ class Convert {
                         ? 1 - ($m/$M)
                         : 0
                 ), 
-            'V' => $M / 255
+            'V' => $M
         ];
     }
 
@@ -876,7 +876,7 @@ class Convert {
     public static function HSV_to_RGB(array $data) : array {
         list($H, $S, $V) = CheckArray::makeList($data, 'HSV');
 
-        $M = 255 * $V;
+        $M = $V;
         $m = $M * (1 - $S);
         $z = ($M - $m) * (1 - abs(fmod($H/60, 2) - 1));
 

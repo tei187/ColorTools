@@ -3,6 +3,7 @@
 namespace tei187\ColorTools\Measures;
 
 use tei187\ColorTools\Conversion\RGBPrimaries\Standard\sRGB;
+use tei187\ColorTools\Helpers\CheckArray;
 use tei187\ColorTools\Traits\Illuminants;
 use tei187\ColorTools\Traits\PrimariesLoader;
 use tei187\ColorTools\Measures\MeasureAbstract;
@@ -19,10 +20,10 @@ abstract class RGBMeasureAbstract extends MeasureAbstract {
     protected $primaries;
 
     /**
-     * @param array $values Array with RGB values in [0-255] range.
+     * @param string|array $values Array with RGB values in [0-255] range.
      * @param object $primaries RGB primaries object of tei187\ColorTools\Conversion\RGBPrimaries namespace.
      */
-    public function __construct(array $values, $primaries) {
+    public function __construct($values, $primaries) {
         $this->_setValuesKeys('RGB');
         $this->setValues($values);
 
@@ -33,6 +34,65 @@ abstract class RGBMeasureAbstract extends MeasureAbstract {
                 : $assessedPrimaries;
         $this->setIlluminant($this->primaries::ILLUMINANT, 2);
         $this->illuminantT = $this->primaries->getIlluminantTristimulus();
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param array|string $values Treats string as hexadecimal transcription of RGB (#rgb or #rrggbb)
+     * @return self If input values are incorrect and do not fall under any interpretation, sets values as rgb(0,0,0).
+     */
+    public function setValues($values) : self {
+        if(is_string($values)) {
+            $t = str_replace(["#", " "], "", trim($values));
+            $t_l = strlen($t);
+            if(ctype_xdigit($t)) {
+                if($t_l == 3 || $t_l == 4) {
+                    $this->values = 
+                        [
+                            'R' => hexdec($t[0].$t[0]) / 255,
+                            'G' => hexdec($t[1].$t[1]) / 255,
+                            'B' => hexdec($t[2].$t[2]) / 255
+                        ];
+                } elseif($t_l == 6 || $t_l == 8) {
+                    $this->values = 
+                        [
+                            'R' => hexdec($t[0].$t[1]) / 255,
+                            'G' => hexdec($t[2].$t[3]) / 255,
+                            'B' => hexdec($t[4].$t[5]) / 255
+                        ];
+                } else {
+                    $this->values = [ 'R' => 0, 'G' => 0, 'B' => 0 ];
+                }
+            } else {
+                $this->values = [ 'R' => 0, 'G' => 0, 'B' => 0 ];
+            }
+        } elseif ( is_array($values) ) {
+            if(count($values) == 3) {
+                if(CheckArray::itemsBetween0and1($values)) {
+                    $values = array_values($values);
+                    $this->values = [
+                        'R' => $values[0],
+                        'G' => $values[1],
+                        'B' => $values[2]
+                    ];
+                } elseif(CheckArray::itemsBetween0and255($values)) {
+                    $values = array_values($values);
+                    $this->values = [
+                        'R' => $values[0] / 255,
+                        'G' => $values[1] / 255,
+                        'B' => $values[2] / 255
+                    ];
+                } else {
+                    $this->values = [ 'R' => 0, 'G' => 0, 'B' => 0 ];
+                }
+            } else {
+                $this->values = [ 'R' => 0, 'G' => 0, 'B' => 0 ];
+            }
+        } else {
+            $this->values = [ 'R' => 0, 'G' => 0, 'B' => 0 ];
+        }
+        return $this;
     }
 
     /**
@@ -80,7 +140,7 @@ abstract class RGBMeasureAbstract extends MeasureAbstract {
      * @return array|string
      */
     public function getValuesHex(bool $asString = false) {
-        list($R, $G, $B) = array_values($this->getValues());
+        list($R, $G, $B) = array_values($this->getValuesFF());
         if(!$asString) {
             return [
                 'R' => dechex($R),
@@ -92,16 +152,16 @@ abstract class RGBMeasureAbstract extends MeasureAbstract {
     }
 
     /**
-     * Returns RGB values in float form, from 0 to 1.
+     * Returns RGB values in integer form, from 0 to 255.
      *
      * @return array
      */
-    public function getValuesFloat() : array {
+    public function getValuesFF() : array {
         list($R, $G, $B) = array_values($this->getValues());
         return [
-            'R' => $R / 255,
-            'G' => $G / 255,
-            'B' => $B / 255
+            'R' => round($R * 255),
+            'G' => round($G * 255),
+            'B' => round($B * 255)
         ];
     }
 }
