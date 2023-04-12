@@ -646,9 +646,9 @@ class Convert {
         $xyz_rgb = Adaptation::matrixVector($matrix, array_values($data));
 
         return [
-            'R' => round( $primaries->applyCompanding($xyz_rgb[0], $primaries->getGamma()) ),
-            'G' => round( $primaries->applyCompanding($xyz_rgb[1], $primaries->getGamma()) ),
-            'B' => round( $primaries->applyCompanding($xyz_rgb[2], $primaries->getGamma()) )
+            'R' => $primaries->applyCompanding($xyz_rgb[0], $primaries->getGamma()),
+            'G' => $primaries->applyCompanding($xyz_rgb[1], $primaries->getGamma()),
+            'B' => $primaries->applyCompanding($xyz_rgb[2], $primaries->getGamma())
         ];
     }
 
