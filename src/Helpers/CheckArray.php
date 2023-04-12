@@ -124,7 +124,7 @@ class CheckArray {
      */
     static function itemsBetween0and1(array $data) : bool {
         $checks = array_map(function($v) {return is_numeric($v) && $v >= 0 && $v <= 1 ? true : false;}, $data);
-        $uniques = array_unique($checks);
+        $uniques = array_unique(array_values($checks));
         
         return 
             count($uniques) == 1 && $uniques[0] === true
@@ -140,8 +140,8 @@ class CheckArray {
      */
     static function itemsBetween0and255(array $data) : bool {
         $checks = array_map(function($v) {return is_numeric($v) && $v >= 0 && $v <= 255 ? true : false;}, $data);
-        $uniques = array_unique($checks);
-        
+        $uniques = array_unique(array_values($checks));
+
         return 
             count($uniques) == 1 && $uniques[0] === true
                 ? true
