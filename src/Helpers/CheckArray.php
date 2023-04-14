@@ -57,7 +57,7 @@ class CheckArray {
     }
 
     /**
-     * Does its best to evaluate input as array, in a way I need it to :D
+     * Does its best to evaluate input as array, in a way I need it to. Nosy...
      *
      * @param mixed $var
      * @return array|false
@@ -132,8 +132,8 @@ class CheckArray {
                 : false;
     }
 
-        /**
-     * Checks if each element of array is a numeric value between 0 and 1.
+    /**
+     * Checks if each element of array is a numeric value between 0 and 255.
      *
      * @param array $data
      * @return boolean
