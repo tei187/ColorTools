@@ -7,6 +7,7 @@ use tei187\ColorTools\Traits\Tristimulus;
 use tei187\ColorTools\Helpers\CheckArray;
 use tei187\ColorTools\Traits\PrimariesLoader;
 use tei187\ColorTools\Chromaticity\Adaptation\Adaptation;
+use tei187\ColorTools\StandardIlluminants\Dictionary;
 
 /**
  * Color equations and conversions based on Bruce Lindbloom's website information.
@@ -54,6 +55,7 @@ class Convert {
      * @return array
      */
     public static function LCh_to_Luv(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
         return self::XYZ_to_Luv( self::LCh_to_XYZ($data, $WP_RefTristimulus), $WP_RefTristimulus);
     }
 
@@ -65,6 +67,7 @@ class Convert {
      * @return array
      */
     public static function LCh_to_xyY(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
         return self::XYZ_to_xyY( self::LCh_to_XYZ($data, $WP_RefTristimulus) );
     }
 
@@ -76,6 +79,7 @@ class Convert {
      * @return array
      */
     public static function LCh_to_XYZ(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
         return self::Lab_to_XYZ( self::LCh_to_Lab($data), $WP_RefTristimulus );
     }
 
@@ -87,6 +91,7 @@ class Convert {
      * @return array
      */
     public static function LCh_to_LCh_uv(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
         return 
             self::Luv_to_LCh_uv( 
                 self::XYZ_to_Luv( 
@@ -108,6 +113,7 @@ class Convert {
      * @return array
      */
     public static function LCh_to_RGB(array $data, $primaries = 'sRGB', array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
         return self::XYZ_to_RGB(self::LCh_to_XYZ($data, $WP_RefTristimulus), $primaries, $WP_RefTristimulus);
     }
 
@@ -136,6 +142,7 @@ class Convert {
      * @return array
      */
     public static function LCh_uv_to_LCh(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
         return
             self::Lab_to_LCh( 
                 self::LCh_uv_to_Lab($data, $WP_RefTristimulus) 
@@ -150,6 +157,7 @@ class Convert {
      * @return array
      */
     public static function LCh_uv_to_Lab(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
         return 
             self::XYZ_to_Lab( 
                 self::Luv_to_XYZ( 
@@ -168,6 +176,7 @@ class Convert {
      * @return array
      */
     public static function LCh_uv_to_XYZ(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
         return
             self::Luv_to_XYZ(
                 self::LCh_uv_to_Luv($data),
@@ -183,6 +192,7 @@ class Convert {
      * @return array
      */
     public static function LCh_uv_to_xyY(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
         return
             self::XYZ_to_xyY(
                 self::LCh_uv_to_XYZ($data, $WP_RefTristimulus)
@@ -198,6 +208,7 @@ class Convert {
      * @return array
      */
     public static function LCh_uv_to_RGB(array $data, $primaries = 'sRGB', array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
         return self::XYZ_to_RGB(self::LCh_uv_to_XYZ($data, $WP_RefTristimulus), $primaries, $WP_RefTristimulus);
     }
 
@@ -211,6 +222,7 @@ class Convert {
      * @return array
      */
     public static function Luv_to_XYZ(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
         list($L, $u, $v) = CheckArray::makeList($data, 'Luv');
         list($X_r, $Y_r, $Z_r) = CheckArray::makeList($WP_RefTristimulus, 'XYZ');
 
@@ -244,6 +256,7 @@ class Convert {
      * @return array
      */
     public static function Luv_to_xyY(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
         return self::XYZ_to_xyY( self::Luv_to_XYZ($data, $WP_RefTristimulus) );
     }
 
@@ -273,6 +286,7 @@ class Convert {
      * @return array
      */
     public static function Luv_to_LCh(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
         return
             self::XYZ_to_LCh(
                 self::Luv_to_XYZ($data, $WP_RefTristimulus),
@@ -288,6 +302,7 @@ class Convert {
      * @return array
      */
     public static function Luv_to_Lab(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
         return 
             self::XYZ_to_Lab(
                 self::Luv_to_XYZ($data, $WP_RefTristimulus),
@@ -304,6 +319,7 @@ class Convert {
      * @return array
      */
     public static function Luv_to_RGB(array $data, $primaries = 'sRGB', $WP_RefTristimulus = Tristimulus2::D65) {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
         return self::XYZ_to_RGB(self::Luv_to_XYZ($data, $WP_RefTristimulus), $primaries, $WP_RefTristimulus);
     }
 
@@ -317,6 +333,7 @@ class Convert {
      * @return array
      */
     public static function Lab_to_xyY(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
         return self::XYZ_to_xyY( self::Lab_to_XYZ($data, $WP_RefTristimulus) );
     }
 
@@ -328,6 +345,7 @@ class Convert {
      * @return array
      */
     public static function Lab_to_XYZ(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
         list($L, $a, $b) = CheckArray::makeList($data, 'Lab');
         list($X_r, $Y_r, $Z_r) = CheckArray::makeList($WP_RefTristimulus, 'XYZ');
 
@@ -384,6 +402,7 @@ class Convert {
      * @return array
      */
     public static function Lab_to_Luv(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
         return self::XYZ_to_Luv( self::Lab_to_XYZ($data, $WP_RefTristimulus), $WP_RefTristimulus );
     }
 
@@ -407,6 +426,7 @@ class Convert {
      * @return array
      */
     public static function Lab_to_RGB(array $data, $primaries = 'sRGB', ?array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
         return self::XYZ_to_RGB(self::Lab_to_XYZ($data, $WP_RefTristimulus), $primaries, $WP_RefTristimulus);
     }
 
@@ -443,6 +463,7 @@ class Convert {
      * @return array
      */
     public static function xyY_to_Lab(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
         return self::XYZ_to_Lab( self::xyY_to_XYZ($data), $WP_RefTristimulus );
     }
 
@@ -454,6 +475,7 @@ class Convert {
      * @return array
      */
     public static function xyY_to_LCh(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
         return self::Lab_to_LCh( self::xyY_to_Lab($data, $WP_RefTristimulus) );
     }
 
@@ -465,6 +487,7 @@ class Convert {
      * @return array
      */
     public static function xyY_to_Luv(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
         return self::XYZ_to_Luv( self::xyY_to_XYZ($data), $WP_RefTristimulus );
     }
 
@@ -476,6 +499,7 @@ class Convert {
      * @return array
      */
     public static function xyY_to_LCh_uv(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
         return self::Luv_to_LCh_uv( self::xyY_to_Luv($data, $WP_RefTristimulus) );
     }
 
@@ -488,6 +512,7 @@ class Convert {
      * @return array
      */
     public static function xyY_to_RGB(array $data, $primaries = 'sRGB', ?array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
         return self::XYZ_to_RGB(
             self::xyY_to_XYZ($data),
             $primaries,
@@ -527,6 +552,7 @@ class Convert {
      * @return array
      */
     public static function XYZ_to_Lab(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
         list($X, $Y, $Z) = CheckArray::makeList($data, 'XYZ');
         list($X_r, $Y_r, $Z_r) = CheckArray::makeList($WP_RefTristimulus, 'XYZ');
 
@@ -563,6 +589,7 @@ class Convert {
      * @return array
      */
     public static function XYZ_to_Luv(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
         list($X, $Y, $Z) = CheckArray::makeList($data, 'XYZ');
         list($X_r, $Y_r, $Z_r) = CheckArray::makeList($WP_RefTristimulus, 'XYZ');
 
@@ -594,6 +621,8 @@ class Convert {
      * @return array
      */
     public static function XYZ_to_LCh(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
+
         return self::Lab_to_LCh( self::XYZ_to_Lab($data, $WP_RefTristimulus) );
     }
 
@@ -605,6 +634,8 @@ class Convert {
      * @return array
      */
     public static function XYZ_to_LCh_uv(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
+
         return self::Luv_to_LCh_uv( self::XYZ_to_Luv($data, $WP_RefTristimulus) );
     }
 
@@ -617,6 +648,8 @@ class Convert {
      * @return array
      */
     public static function XYZ_to_RGB(array $data, $primaries = 'sRGB', ?array $WP_RefTristimulus = Tristimulus2::D65) {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
+        
         if(is_object($primaries) && !in_array("tei187\\ColorTools\\Interfaces\\Primaries", class_implements($primaries))) {
             return false;
         }
@@ -951,6 +984,50 @@ class Convert {
         return $primaries;
     }
     
+    /**
+     * Checks specified whitepoint for validity.
+     * 
+     * If array is passed as `$var`, will check if tristimulus or chromaticity values are passed. If later, will convert to tristimulus.
+     * If string is passed as `$var`, will check if a standard illuminant name is used. In this case, there is a possiblity to use a separator `|`, after which standard observer angle can be passed. If there is none, assumes 2 degree angle observer.
+     *
+     * @param array|string $var
+     * @return array|false Returns a tristimulus array. Will return boolean `false` if a string was passed as argument and cannot be assesed as a standard illuminant white point.
+     */
+    public static function _checkWhitePoint($var) {
+        if(is_string($var)) {
+            // check string
+            $check = Dictionary::assessStandardIlluminant($var);
+            if($check === false) {
+                return false;
+            } else {
+                $var = explode("|", $var);
+                $angle = isset($var[1]) && in_array($var[1], [2, 10])
+                    ? $var[1]
+                    : 2;
+                if(strpos($var[0], 'LED') !== false) {
+                    $angle = 2;
+                }                
+                return constant("\\tei187\\ColorTools\\StandardIlluminants\\Tristimulus".$angle."::".strtoupper(trim($var[0])));
+            }
+        } elseif(is_array($var)) {
+            $length = count($var); 
+            if($length == 3) {
+                // assume XYZ
+                return
+                    CheckArray::forKeys($var, 'XYZ') === false
+                        ? false
+                        : array_values($var);
+            } elseif($length == 2) {
+                // assume xy
+                return
+                    CheckArray::forKeys($var, 'xy') === false
+                        ? false
+                        : self::xy_to_XYZ($var);
+            }
+        }
+        return false;
+    }
+
     // https://cs.haifa.ac.il/hagit/courses/ist/Lectures/Demos/ColorApplet2/t_convert.html
     // http://www.russellcottrell.com/photo/matrixCalculator.htm
 

@@ -3,6 +3,7 @@
 namespace tei187\ColorTools\Chromaticity\Adaptation;
 
 use tei187\ColorTools\Chromaticity\Adaptation\Matrices;
+use tei187\ColorTools\Conversion\Convert;
 
 /**
  * Chromatic adaptation handler.
@@ -164,6 +165,8 @@ class Adaptation {
      * @return array Array with XYZ values.
      */
     static public function adapt(array $XYZ, array $WP_s, array $WP_d, array $M_tran = Matrices::Bradford) : array {
+        $WP_s = Convert::_checkWhitePoint($WP_s); 
+        $WP_d = Convert::_checkWhitePoint($WP_d);
         list($rho_s, $gamma_s, $beta_s) = self::matrixVector($M_tran, $WP_s);
         list($rho_d, $gamma_d, $beta_d) = self::matrixVector($M_tran, $WP_d);
 

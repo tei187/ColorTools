@@ -16,6 +16,7 @@ class Dictionary {
     public static function assessStandardIlluminant($name) {
         $as = "";
         if(is_string($name) && strlen(trim($name)) > 0) {
+            $name = explode("|", $name)[0];
             if(array_search(strtoupper(trim($name)), self::CLASSES) === false) {
                 return false;
             } else {
