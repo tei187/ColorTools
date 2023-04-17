@@ -13,6 +13,14 @@ class Custom implements PrimariesInterface {
     private $illuminant = null;
     private $gamma = 2.2;
 
+    /**
+     * Undocumented function
+     *
+     * @param array $xyy Array of arrays with xyY values for each channel.
+     * @param string|null $name Custom name for primaries.
+     * @param string|array $illuminant Name of standard illuminant or XYZ tristimulus values as array.
+     * @param float $gamma Float gamma value. By default `2.2`.
+     */
     public function __construct(array $xyy, ?string $name = null, $illuminant = null, float $gamma = 2.2) {
         $this->xyy = $xyy;
         $this->name = $name;

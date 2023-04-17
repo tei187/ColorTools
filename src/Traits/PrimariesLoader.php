@@ -27,7 +27,7 @@ trait PrimariesLoader {
                 // return object?
                 $class = get_class($primaries);
                 return new $class;
-            } elseif($className == "Custom" && in_array("tei187\\ColorTools\\Interfaces\\Primaries", class_implements($primaries)) === true) {
+            } elseif($className[array_key_last($className)] == "Custom" && in_array("tei187\\ColorTools\\Interfaces\\Primaries", class_implements($primaries)) === true) {
                 return $primaries;
             }
         } elseif(is_string($primaries)) {

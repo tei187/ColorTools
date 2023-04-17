@@ -12,32 +12,47 @@ abstract class RGBMeasureAbstract extends MeasureAbstract {
     use Illuminants,
         PrimariesLoader;
 
+    /**
+     * RGB values.
+     *
+     * @var array
+     */
     protected $values = [
         'R' => 0,
         'G' => 0,
         'B' => 0
     ];
+    /**
+     * Specific RGB primaries.
+     *
+     * @var object Object with primaries, based on \tei187\ColorTools\Interfaces\Primaries interface and \tei187\ColorTools\Conversion\RGBPrimaries\PrimariesAbstract abstract class.
+     */
     protected $primaries;
 
     /**
      * @param string|array $values Array with RGB values in [0-255] range.
-     * @param object $primaries RGB primaries object of tei187\ColorTools\Conversion\RGBPrimaries namespace.
+     * @param object|string $primaries RGB primaries object of tei187\ColorTools\Conversion\RGBPrimaries namespace or string corresponding to available primaries name/identifier.
      */
     public function __construct($values = [0,0,0], $primaries = 'sRGB') {
         $this->_setValuesKeys('RGB');
         $this->setValues($values);
 
         $assessedPrimaries = $this->loadPrimaries($primaries);
+        
         $this->primaries =
             $assessedPrimaries === false
                 ? new sRGB
                 : $assessedPrimaries;
-        $this->setIlluminant($this->primaries::ILLUMINANT, 2);
+        $this->setIlluminant($this->primaries->getIlluminantName(), 2);
         $this->illuminantT = $this->primaries->getIlluminantTristimulus();
     }
 
+    public function getPrimaries() : object {
+        return $this->primaries;
+    }
+
     /**
-     * Undocumented function
+     * Sets values for object.
      *
      * @param array|string $values Treats string as hexadecimal transcription of RGB (#rgb or #rrggbb)
      * @return self If input values are incorrect and do not fall under any interpretation, sets values as rgb(0,0,0).
@@ -173,7 +188,7 @@ abstract class RGBMeasureAbstract extends MeasureAbstract {
     }
 
     /**
-     * Returns RGB values in integer form, from 0 to 255.
+     * Returns RGB values array in integer form, from 0 to 255.
      *
      * @return array
      */

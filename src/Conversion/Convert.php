@@ -650,8 +650,12 @@ class Convert {
     public static function XYZ_to_RGB(array $data, $primaries = 'sRGB', ?array $WP_RefTristimulus = Tristimulus2::D65) {
         $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
         
-        if(is_object($primaries) && !in_array("tei187\\ColorTools\\Interfaces\\Primaries", class_implements($primaries))) {
-            return false;
+        if(is_object($primaries)) {
+            if(!in_array("tei187\\ColorTools\\Interfaces\\Primaries", class_implements($primaries))) {
+                return false;
+            } else {
+                $WP_RefTristimulus = self::_checkWhitePoint($primaries->getIlluminantTristimulus());
+            }
         }
         if(is_string($primaries)) {
             $primaries = self::loadPrimaries($primaries);
