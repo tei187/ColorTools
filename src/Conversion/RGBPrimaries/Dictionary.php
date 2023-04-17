@@ -3,6 +3,11 @@
 namespace tei187\ColorTools\Conversion\RGBPrimaries;
 
 class Dictionary {
+    /**
+     * Names of each available class for standard RGB primaries.
+     * 
+     * @var string[]
+     */
     const CLASSES = [
         'AdobeRGB1998',
         'AppleRGB',
@@ -23,6 +28,11 @@ class Dictionary {
         'WideGamutRGB',
     ];
 
+    /**
+     * Available short-hands for classes of standard RGB primaries. Key being shorthand, value being destination class.
+     * 
+     * @var string[]
+     */
     CONST ASSIGNMENT = [
         'adobe' =>       'AdobeRGB1998',
         'adobe1998' =>   'AdobeRGB1998',
@@ -55,7 +65,13 @@ class Dictionary {
         'wide-gamut' =>  'WideGamutRGB',
     ];
 
-    public static function assessPrimariesClass($name) {
+    /**
+     * Tries to asses if passed argument is a reference of standard RGB primaries available in dictionary.
+     *
+     * @param string $name Name of primaries.
+     * @return string|false Returns class name, if assessed properly. Otherwise, returns boolean false.
+     */
+    public static function assessPrimariesClass(string $name) {
         $as = "";
         if(is_string($name) && strlen(trim($name)) > 0) {
             $i = array_search(trim($name), self::CLASSES);

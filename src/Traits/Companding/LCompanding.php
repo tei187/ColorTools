@@ -4,6 +4,9 @@ namespace tei187\ColorTools\Traits\Companding;
 
 use tei187\ColorTools\Conversion\Convert;
 
+/**
+ * Methods specific for L\* companding. Native for ECI RGB v2 color space.
+ */
 trait LCompanding {
     /**
      * Applies L\* companding.

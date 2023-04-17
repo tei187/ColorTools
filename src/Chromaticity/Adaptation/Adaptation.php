@@ -159,8 +159,8 @@ class Adaptation {
      * Adaptation formula for XYZ, between source and reference white point and transformation method.
      *
      * @param array $XYZ Input XYZ values.
-     * @param string|array $WP_s Source white point / standard illuminant tristimulus.
-     * @param string|array $WP_d Destination white point / standard illuminant tristimulus.
+     * @param string|array $WP_s Source white point / standard illuminant tristimulus or proper name for standard illuminant.
+     * @param string|array $WP_d Destination white point / standard illuminant tristimulus or proper name for standard illuminant.
      * @param array $M_tran Transformation matrix. By default uses Bradford BTM.
      * @return array Array with XYZ values.
      */

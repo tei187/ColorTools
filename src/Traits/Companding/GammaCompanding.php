@@ -2,6 +2,9 @@
 
 namespace tei187\ColorTools\Traits\Companding;
 
+/**
+ * Methods specific for linear gamma companding.
+ */
 trait GammaCompanding {
     /**
      * Applies gamma companding.
