@@ -9,6 +9,9 @@ use tei187\ColorTools\Measures\LCh_uv;
 use tei187\ColorTools\Measures\Luv;
 use tei187\ColorTools\Measures\xyY;
 
+/**
+ * @deprecated
+ */
 trait ReturnsObjects {
     /*private function _set($obj, $data, $illuminant) {
         return $obj
