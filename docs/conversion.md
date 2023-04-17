@@ -1,5 +1,17 @@
 # **Conversion**
 
+Color conversions refer to the process of converting an image or video from one color space to another. Color spaces are mathematical representations of the way that colors are perceived by the human eye, and they differ from each other in terms of their color gamut (the range of colors that can be represented) and the way that colors are represented (e.g. using RGB, CMYK, or HSV values).
+
+There are several reasons why color conversions might be necessary. For example, an image or video might be captured using one color space, but it needs to be displayed or edited using a different color space. Alternatively, an image or video might be edited or processed using a software tool that supports a particular color space, but it needs to be saved in a different color space.
+
+There are several different techniques that can be used for color conversions, depending on the specific requirements of the conversion. One common technique is to use a color correction algorithm that adjusts the brightness, contrast, and hue of the image or video to achieve a desired color balance.
+
+Another approach is to use a color space conversion algorithm that maps the colors in the source color space to the colors in the destination color space. This involves adjusting the RGB values or other color parameters to match the color gamut and other characteristics of the destination color space.
+
+Overall, color conversions are an important tool for working with images and videos in a variety of different color spaces, and they are an essential part of many image and video editing and processing workflows.
+
+<br>
+
 ## **Applicable models**
 
 Conversion can be done between pairs of different color models and transcriptions. List:
@@ -10,6 +22,8 @@ Conversion can be done between pairs of different color models and transcription
 * RGB,
 * xyY,
 * XYZ.
+
+<br>
 
 ## **Methodology**
 
@@ -38,12 +52,12 @@ Each measure type must be based on environment illuminant white point **xy** val
 Observer angle corresponds to the used illuminant parameter. By default it is 2 degrees. It is required to set it up properly, due to different **xy** values describing the illuminant white point space.
 
 ```php
-    use tei187\ColorTools\Measures\Lab;
+use tei187\ColorTools\Measures\Lab;
 
-    $swatch_Lab = new Lab([63.16, -3.67, -3.29], 'D50', 2);
-    $swatch_XYZ = $swatch_Lab->toXYZ();
+$swatch_Lab = new Lab([63.16, -3.67, -3.29], 'D50', 2);
+$swatch_XYZ = $swatch_Lab->toXYZ();
 
-    var_dump($swatch_XYZ->getValues());
+var_dump($swatch_XYZ->getValues());
     
 /*
     Outputs: 
@@ -57,11 +71,11 @@ Observer angle corresponds to the used illuminant parameter. By default it is 2 
 
 #### **Assigning**
 ```php
-    use tei187\ColorTools\Measures\Lab;
+use tei187\ColorTools\Measures\Lab;
 
-    $swatch_Lab = new Lab();
-    $swatch_Lab->setValues(63.16, -3.67, -3.29) // set values
-               ->setIlluminant('D50', 2);       // set illuminant
+$swatch_Lab = new Lab();
+$swatch_Lab->setValues(63.16, -3.67, -3.29) // set values
+            ->setIlluminant('D50', 2);       // set illuminant
     
 ```
 
@@ -74,24 +88,23 @@ Due to the fact that there exist different color models used to describe RGB mea
 Primaries, however, are required to reference a defined/standarized object of tei187\Conversion\RGBPrimaries\Standard namespace, coresponding to standarized RGB models. It is done this way because each RGB model has it's own set of primaries and illuminant used to describe the color space.
 
 ```php
-    use tei187\ColorTools\Measures\RGB;
+use tei187\ColorTools\Measures\RGB;
 
-    $swatch = new RGB('#ff8800', 'sRGB');
+$swatch = new RGB('#ff8800', 'sRGB');
 ```
 
 **IMPORTANT:** converting to RGB will change the object's illuminant to the one typical for specified primaries. If you wish to translate it using a different illuminant white point, chromatic adaptation has to be applied on the conversion outcome.
 
 ```php
-    use tei187\ColorTools\Measures\Lab;
-    use tei187\ColorTools\Measures\RGB;
+use tei187\ColorTools\Measures\Lab;
+use tei187\ColorTools\Measures\RGB;
 
-    $swatch_Lab = new Lab([63.16, -3.67, -3.29], 'D50', 2);
-    $swatch_RGB = $swatch_Lab->toRGB('sRGB');
+$swatch_Lab = new Lab([63.16, -3.67, -3.29], 'D50', 2);
+$swatch_RGB = $swatch_Lab->toRGB('sRGB');
 
-    echo $swatch_RGB->getIlluminantName(); 
-    // will output 'D65', even though Lab values were acquired under 'D50', 
-    // because 'sRGB' primaries use 'D65' as standard illuminant.
-
+echo $swatch_RGB->getIlluminantName(); 
+// will output 'D65', even though Lab values were acquired under 'D50', 
+// because 'sRGB' primaries use 'D65' as standard illuminant.
 ```
 
 

@@ -27,7 +27,7 @@ Below the list of available standard RGB primaries:
 <br>
 
 ## **Custom primaries**
-It is also possible to create a custom set of primaries, using `tei187\ColorTools\Conversion\RGBPrimaries\Custom` class namespace.
+It is also possible to create an object for custom set of primaries, using `tei187\ColorTools\Conversion\RGBPrimaries\Custom` class namespace.
 
 ### **Constructor**
 Constructor requires 4 arguments, in order:
