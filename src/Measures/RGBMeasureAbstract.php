@@ -44,6 +44,7 @@ abstract class RGBMeasureAbstract extends MeasureAbstract {
      */
     public function setValues(...$values) : self {
         if(count($values) == 1) {
+            $values = $values[0];
             if(is_string($values)) {
                 $t = str_replace(["#", " "], "", trim($values));
                 $t_l = strlen($t);
