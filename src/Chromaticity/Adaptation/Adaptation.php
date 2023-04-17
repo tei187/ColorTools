@@ -159,12 +159,12 @@ class Adaptation {
      * Adaptation formula for XYZ, between source and reference white point and transformation method.
      *
      * @param array $XYZ Input XYZ values.
-     * @param array $WP_s Source white point / standard illuminant tristimulus.
-     * @param array $WP_d Destination white point / standard illuminant tristimulus.
+     * @param string|array $WP_s Source white point / standard illuminant tristimulus.
+     * @param string|array $WP_d Destination white point / standard illuminant tristimulus.
      * @param array $M_tran Transformation matrix. By default uses Bradford BTM.
      * @return array Array with XYZ values.
      */
-    static public function adapt(array $XYZ, array $WP_s, array $WP_d, array $M_tran = Matrices::Bradford) : array {
+    static public function adapt(array $XYZ, $WP_s, $WP_d, array $M_tran = Matrices::Bradford) : array {
         $WP_s = Convert::_checkWhitePoint($WP_s); 
         $WP_d = Convert::_checkWhitePoint($WP_d);
         list($rho_s, $gamma_s, $beta_s) = self::matrixVector($M_tran, $WP_s);
