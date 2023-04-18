@@ -12,6 +12,13 @@ class XYZ extends MeasureAbstract implements Measure {
 
     protected $values = ['X' => 0, 'Y' => 0, 'Z' => 0];
 
+    /**
+     * Create an XYZ swatch.
+     *
+     * @param array|null $values Input floats have to be arithmetic between -1 to 1.
+     * @param array|string $illuminant Array with 2 values (x,y) or string corresponding a constant name in specific Standard Illuminants static class.
+     * @param integer $observerAngle The angle form which the color is being observed.
+     */
     public function __construct(?array $values = null, $illuminant = null, int $observerAngle = 2 ) {
         $this->_setValuesKeys("XYZ");
         $this->setValues($values)

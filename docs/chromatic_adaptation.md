@@ -10,13 +10,15 @@ Similarly, in a bright environment, the sensitivity of our eyes to blue and viol
 
 Overall, chromatic adaptation is an important process that helps us see colors accurately under changing lighting conditions, allowing us to navigate and interact with our environment with greater ease.
 
+<br>
+
 ## Methods
 
 Chromatic adaptation is done on XYZ model base, using `\tei187\ColorTools\Chromaticity\Adaptation\Adaptation::adapt` method. Arguments explained below:
 * XYZ - array holding three values describing the measure/swatch XYZ tristimulus.
 * WP_s - source white point / standard illuminant XYZ tristimulus as an array or proper name for standard illuminant as a string.
 * WP_d - destination white point / standard illuminant XYZ tristimulus as an array or proper name for standard illuminant as a string.
-* M_tran - 3x3 array of chromatic adaptation transformation (CAT) matrix. Others CAT are also available through `\tei187\ColorTools\Chromaticity\Adaptation\Matrices` constans within, as well as a custom 3x3 array describing CAT:
+* M_tran - 3x3 array of chromatic adaptation transformation (CAT) matrix. Others CAT are also available through `\tei187\ColorTools\Chromaticity\Adaptation\Matrices` constans within, as well as a custom 3x3 array of floats describing CAT matrix:
     * ::Bradford _(default)_,
     * ::CIECAT02,
     * ::CMCCAT2000,
@@ -24,8 +26,6 @@ Chromatic adaptation is done on XYZ model base, using `\tei187\ColorTools\Chroma
     * ::Sharp,
     * ::Von_Kries,
     * ::XYZ_Scaling.
-
-<br>
 
 Example of adapting XYZ values from D50 to D65 using Bradford BTM:
 ```php

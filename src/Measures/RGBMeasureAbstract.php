@@ -30,7 +30,10 @@ abstract class RGBMeasureAbstract extends MeasureAbstract {
     protected $primaries;
 
     /**
-     * @param string|array $values Array with RGB values in [0-255] range.
+     * @param string|array $values Array with RGB values in one of the forms: 
+     * * array with 3 arithmetic values ranging from 0 to 1 (float),
+     * * array with 3 integer values ranging from 0 to 255
+     * * string with hexadecimal representation of 3 values (`'#rrggbb'` or `'#rgb'`).
      * @param object|string $primaries RGB primaries object of tei187\ColorTools\Conversion\RGBPrimaries namespace or string corresponding to available primaries name/identifier.
      */
     public function __construct($values = [0,0,0], $primaries = 'sRGB') {
