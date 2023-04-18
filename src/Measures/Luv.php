@@ -12,6 +12,13 @@ class Luv extends MeasureAbstract implements Measure {
 
     protected $values = ['L' => 0, 'u' => 0, 'v' => 0];
 
+    /**
+     * Create an xyY swatch.
+     *
+     * @param array|null $values Array of input values.
+     * @param array|string $illuminant Array with 2 values (x,y) or string corresponding a constant name in specific Standard Illuminants static class.
+     * @param integer $observerAngle The angle form which the color is being observed.
+     */
     public function __construct(?array $values = null, $illuminant = null, int $observerAngle = 2 ) {
         $this->_setValuesKeys("Luv");
         $this
