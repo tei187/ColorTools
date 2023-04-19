@@ -11,8 +11,8 @@ Set of classes used to convert colors and calculate color difference.
 - L\*uv,
 - L\*CH.
 - L\*CH UV.
-- ~~HSV,~~
-- ~~HSL,~~
+- HSV,
+- HSL,
 - RGB for primaries <span style="color:red">\*</span>:
   - Adobe 1998 RGB,
   - Apple RGB,
