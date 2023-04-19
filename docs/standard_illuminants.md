@@ -1,5 +1,17 @@
 # **Standard illuminants**
 
+A standard illuminant is a known and consistent light source that is used in color measurement to provide a reference for the color of an object or material being measured. In other words, it is a light source that is used to illuminate an object or material in a standardized manner, so that the color of the object or material can be accurately measured and compared to a known standard.
+
+These standard illuminants are defined by specific spectral power distributions and color temperatures, and they are used as references to standardize color measurements and ensure their reproducibility. By using a standard illuminant, it is possible to measure the color of an object or material with high accuracy and consistency, regardless of the lighting conditions or the specific light source being used.
+
+Standard illuminants are often used in combination with color measuring devices, such as colorimeters or spectrophotometers. These devices measure the color of an object or material by illuminating it with a known light source and measuring the reflected light with a sensor. The resulting data can be used to calculate the object or material's color coordinates, which can be compared to the color coordinates of a standard illuminant to determine the object or material's color.
+
+By using a standard illuminant in combination with a color measuring device, it is possible to accurately and reproducibly measure the color of an object or material, even in complex or variable lighting conditions. This is important in many fields, such as color science, materials science, and quality control, where accurate color measurement is critical for ensuring consistency and reproducibility.
+
+<br>
+
+## **List**
+
 List of standard illuminants with available chromaticity coordinates of white point for different standard observer:
 
 | Std. Illuminant | 2&deg; Std. Observer | 10&deg; Std. Observer | Description |
@@ -41,7 +53,7 @@ All x,y coordinates based on [https://en.wikipedia.org/wiki/Standard_illuminant#
 
 ## **Classes**
 
-All xy chromatic coordinates and respective XYZ tristimulus values are available (if exist) in
+All xy chromatic coordinates and respective XYZ tristimulus values are available (if specific measure exists) in
 * `tei187\ColorTools\StandardIlluminants\WhitePoint2` *(xy)*,
 * `tei187\ColorTools\StandardIlluminants\WhitePoint10` *(xy)*,
 * `tei187\ColorTools\StandardIlluminants\Tristimulus2` *(XYZ)*,
@@ -59,6 +71,8 @@ print_r(WP2::D50);     // (array) [ 0.34567, 0.3585 ]
 print_r(T2::D50);      // (array) [ 0.96421, 1, 0.82519 ]
 print_r(T10::LED_B1);  // will throw fatal error, due to undefined LED_B1 tristimulus for 10deg standard observer
 ```
+
+<br>
 
 ## **Dictionary**
 
