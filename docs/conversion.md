@@ -15,6 +15,8 @@ Overall, color conversions are an important tool for working with images and vid
 ## **Applicable models**
 
 Conversion can be done between pairs of different color models and transcriptions. List:
+* HSL,
+* HSV,
 * L\*a\*b,
 * LCh,
 * LCh UV,
@@ -25,11 +27,11 @@ Conversion can be done between pairs of different color models and transcription
 
 <br>
 
-## **Methodology**
-
-### **Objects**
+## **Objects - intro**
 
 An object corresponding to color model can be created using one of the classes:
+* `tei187\ColorTools\Measures\HSL`,
+* `tei187\ColorTools\Measures\HSV`,
 * `tei187\ColorTools\Measures\Lab`,
 * `tei187\ColorTools\Measures\LCh`,
 * `tei187\ColorTools\Measures\LCh_uv`,
@@ -38,8 +40,13 @@ An object corresponding to color model can be created using one of the classes:
 * `tei187\ColorTools\Measures\xyY`,
 * `tei187\ColorTools\Measures\XYZ`.
 
+<br>
 
-#### **Constructor**
+## **Device-independent models**
+
+A device independent colour space is one where the coordinates used to specify the colour will produce the same colour wherever they are applied. In context of this package, they can be equated to models XYZ, xyY, Lab, LCh(ab), LCh(uv) and L\*a\*b.
+
+### **Constructor**
 In most cases the constructor will require 3 arguments: values, illuminant type and observer angle.
 
 * **Values**
@@ -69,23 +76,30 @@ var_dump($swatch_XYZ->getValues());
 */
 ```
 
-#### **Assigning**
+### **Assigning**
 ```php
 use tei187\ColorTools\Measures\Lab;
 
 $swatch_Lab = new Lab();
 $swatch_Lab->setValues(63.16, -3.67, -3.29) // set values
-            ->setIlluminant('D50', 2);       // set illuminant
+           ->setIlluminant('D50', 2);       // set illuminant
     
 ```
 
-#### **Special case of RGB**
-Due to the fact that there exist different color models used to describe RGB measures, the constructor for RGB requires different input arguments: values and primaries. Values are not atypical to normal constructor. For ease of use, they can be assigned in different ways:
-* as an array, with items ranging from 0 to 1,
-* as an array, with items ranging from 0 to 255,
-* as a string, representing hexadecimal transcription (in form of `'#rrggbb'` or `'#rgb'`).
+<br>
 
-Primaries, however, are required to reference a defined/standarized object of tei187\Conversion\RGBPrimaries\Standard namespace, coresponding to standarized RGB models. It is done this way because each RGB model has it's own set of primaries and illuminant used to describe the color space.
+## **Device-dependent models - RGB**
+
+A device dependent colour space is one where the resultant colour depends on the equipment and the set-up used to produce it. In context of this package, they can be equated to models RGB, HSL, HSV.
+
+### **Constructor**
+
+Due to the fact that there exist different color models used to describe RGB measures, the constructor for RGB requires different input arguments: values and primaries. 
+* **Values** are not atypical to normal constructor. For ease of use, they can be assigned in three different ways:
+    * as an **array**, with items ranging from **0** to **1** (float/percentage),
+    * as an **array**, with items ranging from **0** to **255** (value),
+    * as a **string**, representing hexadecimal transcription (in form of **`'#rrggbb'`** or **`'#rgb'`**).
+* **Primaries**, however, are required to reference a defined/standarized object of **`tei187\ColorTools\Conversion\RGBPrimaries\Standard` namespace**, coresponding to standarized RGB models. It is done this way because each RGB model has it's own set of primaries and illuminant used to describe the color space. Apart from standard primaries, you can also use custom-created ones (`tei187\ColorTools\Conversion\RGBPrimaries\Custom`) - see **_rgb_primaries.md_** doc for more information.
 
 ```php
 use tei187\ColorTools\Measures\RGB;
@@ -93,7 +107,9 @@ use tei187\ColorTools\Measures\RGB;
 $swatch = new RGB('#ff8800', 'sRGB');
 ```
 
-**IMPORTANT:** converting to RGB will change the object's illuminant to the one typical for specified primaries. If you wish to translate it using a different illuminant white point, chromatic adaptation has to be applied on the conversion outcome.
+### **Conversion**
+
+Converting to RGB **will change the object's illuminant** to the one typical for specified primaries. If you wish to translate it using a different illuminant white point, chromatic adaptation has to be applied on the conversion outcome. This is quite important while converting to device-independent models.
 
 ```php
 use tei187\ColorTools\Measures\Lab;
@@ -107,6 +123,30 @@ echo $swatch_RGB->getIlluminantName();
 // because 'sRGB' primaries use 'D65' as standard illuminant.
 ```
 
+### **Returning values**
 
-### **Static methods**
+Also, RGB-based objects can return values in various formatting.
+```php
+use tei187\ColorTools\Measures\RGB;
+
+$swatch = new RGB('#ff8800', 'sRGB');
+
+print_r( $swatch->getValues() );         // (array)  [ 'R' => 1, 'G' => 0.53333333333333, 'B' => 0 ]
+print_r( $swatch->getValuesFF() );       // (array)  [ 'R' => 255, 'G' => 136, 'B' => 0 ]
+print_r( $swatch->getValuesHex(false) ); // (array)  [ 'R' => ff, 'G' => 88, 'B' => 00 ]
+print_r( $swatch->getValuesHex(true) );  // (string) "#ff880"
+print_r( $swatch->getValuesString() );   // (string) "rgb(255,136,0)"
+```
+
+<br>
+
+## **Device-dependent models - HSL & HSV**
+
+Because HSL and HSV models are a representation of RGB model, while converting to device-independent models, it is required to specify the set of RGB primaries to which the HSL and HSV models refer to. If not, sRGB is used as default.
+
+Furthermore, the same as with RGB, converting to device-independent models may require the application of chromatic adaptation to specific illuminant.
+
+<br>
+
+## **Static methods**
 Each conversion available through object-based classes can be done using just static methods of `tei187\ColorTools\Conversion\Convert` class.
