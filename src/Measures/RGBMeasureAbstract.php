@@ -182,12 +182,12 @@ abstract class RGBMeasureAbstract extends MeasureAbstract {
         list($R, $G, $B) = array_values($this->getValuesFF());
         if(!$asString) {
             return [
-                'R' => dechex($R),
-                'G' => dechex($G),
-                'B' => dechex($B) 
+                'R' => str_pad(dechex($R), 2, "0", STR_PAD_LEFT),
+                'G' => str_pad(dechex($G), 2, "0", STR_PAD_LEFT),
+                'B' => str_pad(dechex($B), 2, "0", STR_PAD_LEFT) 
             ];
         }
-        return "#".dechex($R).dechex($G).dechex($B);
+        return "#".str_pad(dechex($R), 2, "0", STR_PAD_LEFT).str_pad(dechex($G), 2, "0", STR_PAD_LEFT).str_pad(dechex($B), 2, "0", STR_PAD_LEFT);
     }
 
     /**
@@ -198,9 +198,9 @@ abstract class RGBMeasureAbstract extends MeasureAbstract {
     public function getValuesFF() : array {
         list($R, $G, $B) = array_values($this->getValues());
         return [
-            'R' => round($R * 255),
-            'G' => round($G * 255),
-            'B' => round($B * 255)
+            'R' => intval(round($R * 255)),
+            'G' => intval(round($G * 255)),
+            'B' => intval(round($B * 255))
         ];
     }
 }
