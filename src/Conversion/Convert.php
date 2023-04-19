@@ -117,6 +117,32 @@ class Convert {
         return self::XYZ_to_RGB(self::LCh_to_XYZ($data, $WP_RefTristimulus), $primaries, $WP_RefTristimulus);
     }
 
+    /**
+     * Converts data value from L\*C\*h to HSL.
+     *
+     * @param array $data Array with 3 values corresponsding to L, C, h.
+     * @param string $primaries RGB primaries through which the conversion will be applied. Can be passed as object of RGBPrimaries namespace or defined class name. 'sRGB' by default.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
+    public static function LCh_to_HSL(array $data, $primaries = 'sRGB', array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
+        return self::RGB_to_HSL( self::LCh_to_RGB($data, $primaries, $WP_RefTristimulus) );
+    }
+
+    /**
+     * Converts data value from L\*C\*h to HSV.
+     *
+     * @param array $data Array with 3 values corresponsding to L, C, h.
+     * @param string $primaries RGB primaries through which the conversion will be applied. Can be passed as object of RGBPrimaries namespace or defined class name. 'sRGB' by default.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
+    public static function LCh_to_HSV(array $data, $primaries = 'sRGB', array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
+        return self::RGB_to_HSV( self::LCh_to_RGB($data, $primaries, $WP_RefTristimulus) );
+    }
+
 // LCh UV
     /**
      * Converts data value from LCh UV to Luv.
@@ -210,6 +236,32 @@ class Convert {
     public static function LCh_uv_to_RGB(array $data, $primaries = 'sRGB', array $WP_RefTristimulus = Tristimulus2::D65) : array {
         $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
         return self::XYZ_to_RGB(self::LCh_uv_to_XYZ($data, $WP_RefTristimulus), $primaries, $WP_RefTristimulus);
+    }
+
+    /**
+     * Converts data value from L\*C\*h(uv) to HSL.
+     *
+     * @param array $data Array with 3 values corresponsding to L, C, h.
+     * @param string $primaries RGB primaries through which the conversion will be applied. Can be passed as object of RGBPrimaries namespace or defined class name. 'sRGB' by default.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
+    public static function LCh_uv_to_HSL(array $data, $primaries = 'sRGB', array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
+        return self::RGB_to_HSL(self::LCh_uv_to_RGB($data, $primaries, $WP_RefTristimulus));
+    }
+
+    /**
+     * Converts data value from L\*C\*h(uv) to HSV.
+     *
+     * @param array $data Array with 3 values corresponsding to L, C, h.
+     * @param string $primaries RGB primaries through which the conversion will be applied. Can be passed as object of RGBPrimaries namespace or defined class name. 'sRGB' by default.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
+    public static function LCh_uv_to_HSV(array $data, $primaries = 'sRGB', array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
+        return self::RGB_to_HSV(self::LCh_uv_to_RGB($data, $primaries, $WP_RefTristimulus));
     }
 
 // Luv
@@ -323,6 +375,32 @@ class Convert {
         return self::XYZ_to_RGB(self::Luv_to_XYZ($data, $WP_RefTristimulus), $primaries, $WP_RefTristimulus);
     }
 
+    /**
+     * Converts data value from Luv to HSL.
+     *
+     * @param array $data Array with 3 values corresponsding to L, u, v.
+     * @param string $primaries RGB primaries through which the conversion will be applied. Can be passed as object of RGBPrimaries namespace or defined class name. 'sRGB' by default.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
+    public static function Luv_to_HSL(array $data, $primaries = 'sRGB', $WP_RefTristimulus = Tristimulus2::D65) {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
+        return self::RGB_to_HSL(self::Luv_to_RGB($data, $primaries, $WP_RefTristimulus));
+    }
+
+    /**
+     * Converts data value from Luv to HSV.
+     *
+     * @param array $data Array with 3 values corresponsding to L, u, v.
+     * @param string $primaries RGB primaries through which the conversion will be applied. Can be passed as object of RGBPrimaries namespace or defined class name. 'sRGB' by default.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
+    public static function Luv_to_HSV(array $data, $primaries = 'sRGB', $WP_RefTristimulus = Tristimulus2::D65) {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
+        return self::RGB_to_HSV(self::Luv_to_RGB($data, $primaries, $WP_RefTristimulus));
+    }
+
 // Lab
 
     /**
@@ -430,6 +508,32 @@ class Convert {
         return self::XYZ_to_RGB(self::Lab_to_XYZ($data, $WP_RefTristimulus), $primaries, $WP_RefTristimulus);
     }
 
+    /**
+     * Converts data value from L\*a\*b to HSL.
+     *
+     * @param array $data Array with 3 values corresponsding to L, a, b.
+     * @param string $primaries RGB primaries through which the conversion will be applied. Can be passed as object of RGBPrimaries namespace or defined class name. 'sRGB' by default.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
+    public static function Lab_to_HSL(array $data, $primaries = 'sRGB', ?array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
+        return self::RGB_to_HSL(self::Lab_to_RGB($data, $primaries, $WP_RefTristimulus));
+    }
+
+    /**
+     * Converts data value from L\*a\*b to HSV.
+     *
+     * @param array $data Array with 3 values corresponsding to L, a, b.
+     * @param string $primaries RGB primaries through which the conversion will be applied. Can be passed as object of RGBPrimaries namespace or defined class name. 'sRGB' by default.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
+    public static function Lab_to_HSV(array $data, $primaries = 'sRGB', ?array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
+        return self::RGB_to_HSV(self::Lab_to_RGB($data, $primaries, $WP_RefTristimulus));
+    }
+
 // xyY
 
     /**
@@ -518,6 +622,32 @@ class Convert {
             $primaries,
             $WP_RefTristimulus
         );
+    }
+
+    /**
+     * Converts data value from xyY to HSL.
+     *
+     * @param array $data Array with 3 values corresponsding to x, y, Y.
+     * @param string $primaries RGB primaries through which the conversion will be applied. Can be passed as object of RGBPrimaries namespace or defined class name. 'sRGB' by default.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
+    public static function xyY_to_HSL(array $data, $primaries = 'sRGB', ?array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
+        return self::RGB_to_HSL(self::xyY_to_RGB($data, $primaries, $WP_RefTristimulus));
+    }
+
+    /**
+     * Converts data value from xyY to HSV.
+     *
+     * @param array $data Array with 3 values corresponsding to x, y, Y.
+     * @param string $primaries RGB primaries through which the conversion will be applied. Can be passed as object of RGBPrimaries namespace or defined class name. 'sRGB' by default.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
+    public static function xyY_to_HSV(array $data, $primaries = 'sRGB', ?array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
+        return self::RGB_to_HSV(self::xyY_to_RGB($data, $primaries, $WP_RefTristimulus));
     }
 
 // XYZ
@@ -689,6 +819,32 @@ class Convert {
         ];
     }
 
+    /**
+     * Converts data value from XYZ to HSL.
+     *
+     * @param array $data Array with 3 values corresponsding to X, Y, Z.
+     * @param string $primaries RGB primaries through which the conversion will be applied. Can be passed as object of RGBPrimaries namespace or defined class name. 'sRGB' by default.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
+    public static function XYZ_to_HSL(array $data, $primaries = 'sRGB', ?array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
+        return self::RGB_to_HSL(self::XYZ_to_RGB($data, $primaries, $WP_RefTristimulus));
+    }
+
+    /**
+     * Converts data value from XYZ to HSV
+     *
+     * @param array $data Array with 3 values corresponsding to X, Y, Z.
+     * @param string $primaries RGB primaries through which the conversion will be applied. Can be passed as object of RGBPrimaries namespace or defined class name. 'sRGB' by default.
+     * @param array $WP_RefTristimulus Tristimulus of source/reference white point. D65 by default.
+     * @return array
+     */
+    public static function XYZ_to_HSV(array $data, $primaries = 'sRGB', ?array $WP_RefTristimulus = Tristimulus2::D65) : array {
+        $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
+        return self::RGB_to_HSV(self::XYZ_to_RGB($data, $primaries, $WP_RefTristimulus));
+    }
+
 // RGB
 
     /**
@@ -818,6 +974,38 @@ class Convert {
     }
 
     /**
+     * Converts data value from RGB to HSV.
+     * 
+     * @see https://www.had2know.org/technology/hsv-rgb-conversion-formula-calculator.html
+     * 
+     * @param array $data
+     * @return array
+     */
+    public static function RGB_to_HSV(array $data) : array {
+        list($R, $G, $B) = CheckArray::makeList($data, 'RGB');
+
+        $M = max($data);
+        $m = min($data);
+
+        return [
+            'H' => 
+                ( $G >= $B
+                    ? rad2deg( acos( ($R - ($G/2) - ($B/2)) / sqrt(pow($R, 2) + pow($G, 2) + pow($B, 2) - ($R*$G) - ($R*$B) - ($G*$B) ) ) )
+                    : 360 - rad2deg(acos( ($R - ($G/2) - ($B/2)) / sqrt(pow($R, 2) + pow($G, 2) + pow($B, 2) - ($R*$G) - ($R*$B) - ($G*$B) ) )) 
+                ),
+            'S' =>
+                (
+                    $M > 0
+                        ? 1 - ($m/$M)
+                        : 0
+                ), 
+            'V' => $M
+        ];
+    }
+
+// HSL
+
+    /**
      * Converts data value from HSL to RGB.
      *
      * @see https://www.had2know.org/technology/hsl-rgb-color-converter.html
@@ -873,34 +1061,91 @@ class Convert {
     }
 
     /**
-     * Converts data value from RGB to HSV.
-     * 
-     * @see https://www.had2know.org/technology/hsv-rgb-conversion-formula-calculator.html
-     * 
-     * @param array $data
+     * Converts data value from HSL to LCh(uv), through RGB.
+     *
+     * @param array $data 
+     * @param string $primaries Selected RGB primaries, by default sRGB.
      * @return array
      */
-    public static function RGB_to_HSV(array $data) : array {
-        list($R, $G, $B) = CheckArray::makeList($data, 'RGB');
+    public static function HSL_to_LCh_uv(array $data, $primaries = 'sRGB') : array {
+        return self::RGB_to_LCh_uv(self::HSL_to_RGB($data), $primaries);
+    }
 
-        $M = max($data);
-        $m = min($data);
+    /**
+     * Converts data value from HSL to LCh(ab), through RGB.
+     *
+     * @param array $data 
+     * @param string $primaries Selected RGB primaries, by default sRGB.
+     * @return array
+     */
+    public static function HSL_to_LCh(array $data, $primaries = 'sRGB') : array {
+        return self::RGB_to_LCh(self::HSL_to_RGB($data), $primaries);
+    }
+
+    /**
+     * Converts data value from HSL to Luv, through RGB.
+     *
+     * @param array $data 
+     * @param string $primaries Selected RGB primaries, by default sRGB.
+     * @return array
+     */
+    public static function HSL_to_Luv(array $data, $primaries = 'sRGB') : array {
+        return self::RGB_to_Luv(self::HSL_to_RGB($data), $primaries);
+    }
+
+    /**
+     * Converts data value from HSL to L\*a\*b, through RGB.
+     *
+     * @param array $data 
+     * @param string $primaries Selected RGB primaries, by default sRGB.
+     * @return array
+     */
+    public static function HSL_to_Lab(array $data, $primaries = 'sRGB') : array {
+        return self::RGB_to_Lab(self::HSL_to_RGB($data), $primaries);
+    }
+
+    /**
+     * Converts data value from HSL to XYZ, through RGB.
+     *
+     * @param array $data 
+     * @param string $primaries Selected RGB primaries, by default sRGB.
+     * @return array
+     */
+    public static function HSL_to_XYZ(array $data, $primaries = 'sRGB') : array {
+        return self::RGB_to_XYZ(self::HSL_to_RGB($data), $primaries);
+    }
+
+    /**
+     * Converts data value from HSL to xyY, through RGB.
+     *
+     * @param array $data 
+     * @param string $primaries Selected RGB primaries, by default sRGB.
+     * @return array
+     */
+    public static function HSL_to_xyY(array $data, $primaries = 'sRGB') : array {
+        return self::RGB_to_xyY(self::HSL_to_RGB($data), $primaries);
+    }
+
+    /**
+     * Converts data value from HSL to HSV.
+     *
+     * @param array $data 
+     * @return array
+     */
+    public static function HSL_to_HSV(array $data) : array {
+        list($H, $S, $L) = CheckArray::makeList($data, 'HSL');
+
+        $V = $L + ($S * min($L, 1 - $L));
 
         return [
-            'H' => 
-                ( $G >= $B
-                    ? rad2deg( acos( ($R - ($G/2) - ($B/2)) / sqrt(pow($R, 2) + pow($G, 2) + pow($B, 2) - ($R*$G) - ($R*$B) - ($G*$B) ) ) )
-                    : 360 - rad2deg(acos( ($R - ($G/2) - ($B/2)) / sqrt(pow($R, 2) + pow($G, 2) + pow($B, 2) - ($R*$G) - ($R*$B) - ($G*$B) ) )) 
-                ),
-            'S' =>
-                (
-                    $M > 0
-                        ? 1 - ($m/$M)
-                        : 0
-                ), 
-            'V' => $M
+            'H' => $H,
+            'S' => ( $V == 0 ? 0 : 2 * (1 - ($L / $V)) ),
+            'V' => $V
         ];
     }
+
+
+/// HSV
 
     /**
      * Converts data value from HSV to RGB.
@@ -954,6 +1199,84 @@ class Convert {
                 'B' => $z + $m
             ];
         }
+    }
+
+    public static function HSV_to_HSL(array $data) : array {
+        list($H, $S, $V) = CheckArray::makeList($data, 'HSV');
+
+        $L = $V * (1 - ($S / 2));
+
+        return [
+            'H' => $H,
+            'S' => ( $L == 0 || $L == 1 ? 0 : ($V - 1) / min($L, 1 - $L) ),
+            'L' => $L
+        ];
+    }
+
+    /**
+     * Converts data value from HSV to L\*a\*b, through RGB.
+     *
+     * @param array $data 
+     * @param string $primaries Selected RGB primaries, by default sRGB.
+     * @return array
+     */
+    public static function HSV_to_Lab(array $data, $primaries = 'sRGB') : array {
+        return self::RGB_to_Lab(self::HSV_to_RGB($data), $primaries);
+    }
+
+    /**
+     * Converts data value from HSV to LCh(ab), through RGB.
+     *
+     * @param array $data 
+     * @param string $primaries Selected RGB primaries, by default sRGB.
+     * @return array
+     */
+    public static function HSV_to_LCh(array $data, $primaries = 'sRGB') : array {
+        return self::RGB_to_LCh(self::HSV_to_RGB($data), $primaries);
+    }
+
+    /**
+     * Converts data value from HSV to LCh(uv), through RGB.
+     *
+     * @param array $data 
+     * @param string $primaries Selected RGB primaries, by default sRGB.
+     * @return array
+     */
+    public static function HSV_to_LCh_uv(array $data, $primaries = 'sRGB') : array {
+        return self::RGB_to_LCh_uv(self::HSV_to_RGB($data), $primaries);
+    }
+
+    /**
+     * Converts data value from HSV to Luv, through RGB.
+     *
+     * @param array $data 
+     * @param string $primaries Selected RGB primaries, by default sRGB.
+     * @return array
+     */
+    public static function HSV_to_Luv(array $data, $primaries = 'sRGB') : array {
+        return self::RGB_to_Luv(self::HSV_to_RGB($data), $primaries);
+    }
+
+    /**
+     * Converts data value from HSV to xyY, through RGB.
+     *
+     * @param array $data 
+     * @param string $primaries Selected RGB primaries, by default sRGB.
+     * @return array
+     */
+    public static function HSV_to_xyY(array $data, $primaries = 'sRGB') : array {
+        return self::RGB_to_xyY(self::HSV_to_RGB($data), $primaries);
+    }
+
+    /**
+     * Converts data value from HSV to XYZ, through RGB.
+     *
+     * @param array $data 
+     * @param string $primaries Selected RGB primaries, by default sRGB.
+     * @return array
+     */
+    public static function HSV_to_XYZ(array $data, $primaries = 'sRGB') : array {
+        return self::RGB_to_XYZ(self::HSV_to_RGB($data), $primaries);
     }
 
     // xy Chromaticity
