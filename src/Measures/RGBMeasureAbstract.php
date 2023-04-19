@@ -203,4 +203,14 @@ abstract class RGBMeasureAbstract extends MeasureAbstract {
             'B' => intval(round($B * 255))
         ];
     }
+
+    /**
+     * Returns RGB values array in string form, formatting as "rgb(R,G,B)".
+     *
+     * @return string
+     */
+    public function getValuesString() : string {
+        list($R, $G, $B) = array_values($this->getValuesFF());
+        return "rgb({$R},{$G},{$B})";
+    }
 }
