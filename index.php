@@ -2,6 +2,7 @@
 
 // Utilities
     require_once __DIR__ . "/src/Helpers/CheckArray.php";
+    require_once __DIR__ . "/src/Helpers/ClassMethods.php";
 
 // Interfaces
     require_once __DIR__ . "/src/Interfaces/Companding.php";
@@ -10,6 +11,7 @@
 
 // Traits
     require_once __DIR__ . "/src/Traits/Chromaticity.php";
+    require_once __DIR__ . "/src/Traits/ChromaticAdaptation.php";
     require_once __DIR__ . "/src/Traits/Tristimulus.php";
     require_once __DIR__ . "/src/Traits/Illuminants.php";    
     require_once __DIR__ . "/src/Traits/ReturnsObjects.php";

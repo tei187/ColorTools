@@ -3,10 +3,12 @@
 namespace tei187\ColorTools\Measures;
 
 use tei187\ColorTools\Chromaticity\Temperature;
+use tei187\ColorTools\Traits\ChromaticAdaptation;
 use tei187\ColorTools\Traits\Illuminants;
 
 abstract class MeasureAbstract {
-    use Illuminants;
+    use Illuminants,
+        ChromaticAdaptation;
 
     protected $values = [];
 
@@ -76,6 +78,24 @@ abstract class MeasureAbstract {
         return $composed;
     }
 
+    public function getMeasureType() : string {
+        $e = explode("\\", get_class($this));
+        return $e[array_key_last($e)];
+    }
+
+    public function to($class, $primaries = 'sRGB') : ?object {
+        $out = null;
+        switch (strtolower($class)) {
+            case 'lab':     $out = $this->toLab(); break;
+            case 'lch':     $out = $this->toLCh(); break;
+            case 'lch_uv':  $out = $this->toLCh_uv(); break;
+            case 'luv':     $out = $this->toLuv(); break;
+            case 'xyy':     $out = $this->toxyY(); break;
+            case 'xyz':     $out = $this->toXYZ(); break;
+            case 'rgb':     $out = $this->toRGB($primaries); break;
+        }
+        return $out;
+    }
     /**
      * Converts from specified color model to XYZ.
      *
