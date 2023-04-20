@@ -12,7 +12,7 @@ class LCh_uv extends MeasureAbstract implements Measure {
 
     protected $values = ['L' => 0, 'C' => 0, 'h' => 0];
 
-    public function __construct(?array $values = null, $illuminant = null, int $observerAngle = 2 ) {
+    public function __construct(array $values = [0,0,0], $illuminant = null, int $observerAngle = 2 ) {
         $this->_setValuesKeys("LCh");
         $this
             ->setValues($values)

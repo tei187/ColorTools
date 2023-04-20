@@ -19,7 +19,7 @@ class XYZ extends MeasureAbstract implements Measure {
      * @param array|string $illuminant Array with 2 values (x,y) or string corresponding a constant name in specific Standard Illuminants static class.
      * @param integer $observerAngle The angle form which the color is being observed.
      */
-    public function __construct(?array $values = null, $illuminant = null, int $observerAngle = 2 ) {
+    public function __construct(array $values = [0,0,0], $illuminant = null, int $observerAngle = 2 ) {
         $this->_setValuesKeys("XYZ");
         $this->setValues($values)
              ->setIlluminant($illuminant, $observerAngle);

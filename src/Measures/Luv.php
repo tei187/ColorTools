@@ -12,7 +12,7 @@ class Luv extends MeasureAbstract implements Measure {
 
     protected $values = ['L' => 0, 'u' => 0, 'v' => 0];
 
-    public function __construct(?array $values = null, $illuminant = null, int $observerAngle = 2 ) {
+    public function __construct(array $values = [0,0,0], $illuminant = null, int $observerAngle = 2 ) {
         $this->_setValuesKeys("Luv");
         $this
             ->setValues($values)

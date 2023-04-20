@@ -12,7 +12,7 @@ class xyY extends MeasureAbstract implements Measure {
 
     protected $values = ['x' => 0, 'y' => 0, 'Y' => 0];
 
-    public function __construct(?array $values = null, $illuminant = null, int $observerAngle = 2 ) {
+    public function __construct(array $values = [0,0,0], $illuminant = null, int $observerAngle = 2 ) {
         $this->_setValuesKeys("xyY");
         $this
             ->setValues($values)
