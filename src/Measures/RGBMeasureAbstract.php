@@ -3,7 +3,7 @@
 namespace tei187\ColorTools\Measures;
 
 use tei187\ColorTools\Conversion\RGBPrimaries\Standard\sRGB;
-use tei187\ColorTools\Helpers\CheckArray;
+use tei187\ColorTools\Helpers\ArrayMethods;
 use tei187\ColorTools\Traits\Illuminants;
 use tei187\ColorTools\Traits\PrimariesLoader;
 use tei187\ColorTools\Measures\MeasureAbstract;
@@ -89,14 +89,14 @@ abstract class RGBMeasureAbstract extends MeasureAbstract {
                 }
             } elseif ( is_array($values) ) {
                 if(count($values) == 3) {
-                    if(CheckArray::itemsBetween0and1($values)) {
+                    if(ArrayMethods::itemsBetween0and1($values)) {
                         $values = array_values($values);
                         $this->values = [
                             'R' => $values[0],
                             'G' => $values[1],
                             'B' => $values[2]
                         ];
-                    } elseif(CheckArray::itemsBetween0and255($values)) {
+                    } elseif(ArrayMethods::itemsBetween0and255($values)) {
                         $values = array_values($values);
                         $this->values = [
                             'R' => $values[0] / 255,
@@ -113,14 +113,14 @@ abstract class RGBMeasureAbstract extends MeasureAbstract {
                 $this->values = [ 'R' => 0, 'G' => 0, 'B' => 0 ];
             }
         } elseif(count($values) == 3) {
-            if(CheckArray::itemsBetween0and1($values)) {
+            if(ArrayMethods::itemsBetween0and1($values)) {
                 $values = array_values($values);
                 $this->values = [
                     'R' => $values[0],
                     'G' => $values[1],
                     'B' => $values[2]
                 ];
-            } elseif(CheckArray::itemsBetween0and255($values)) {
+            } elseif(ArrayMethods::itemsBetween0and255($values)) {
                 $values = array_values($values);
                 $this->values = [
                     'R' => $values[0] / 255,

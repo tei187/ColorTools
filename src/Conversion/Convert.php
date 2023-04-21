@@ -4,7 +4,7 @@ namespace tei187\ColorTools\Conversion;
 
 use tei187\ColorTools\StandardIlluminants\Tristimulus2;
 use tei187\ColorTools\Traits\Tristimulus;
-use tei187\ColorTools\Helpers\CheckArray;
+use tei187\ColorTools\Helpers\ArrayMethods;
 use tei187\ColorTools\Traits\PrimariesLoader;
 use tei187\ColorTools\Chromaticity\Adaptation\Adaptation;
 use tei187\ColorTools\StandardIlluminants\Dictionary;
@@ -38,7 +38,7 @@ class Convert {
      * @return array
      */
     public static function LCh_to_Lab(array $data) : array {
-        list($L, $C, $h) = CheckArray::makeList($data, 'LCh');
+        list($L, $C, $h) = ArrayMethods::makeList($data, 'LCh');
 
         return [
             'L' => $L,
@@ -151,7 +151,7 @@ class Convert {
      * @return array
      */
     public static function LCh_uv_to_Luv(array $data) {
-        list($L, $C, $h) = CheckArray::makeList($data, 'LCh');
+        list($L, $C, $h) = ArrayMethods::makeList($data, 'LCh');
 
         return [
             'L' => $L,
@@ -275,8 +275,8 @@ class Convert {
      */
     public static function Luv_to_XYZ(array $data, $WP_RefTristimulus = Tristimulus2::D65) : array {
         $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
-        list($L, $u, $v) = CheckArray::makeList($data, 'Luv');
-        list($X_r, $Y_r, $Z_r) = CheckArray::makeList($WP_RefTristimulus, 'XYZ');
+        list($L, $u, $v) = ArrayMethods::makeList($data, 'Luv');
+        list($X_r, $Y_r, $Z_r) = ArrayMethods::makeList($WP_RefTristimulus, 'XYZ');
 
         $u_0 = (4 * $X_r) / ($X_r + (15*$Y_r) + (3*$Z_r));
         $v_0 = (9 * $Y_r) / ($X_r + (15*$Y_r) + (3*$Z_r));
@@ -319,7 +319,7 @@ class Convert {
      * @return array
      */
     public static function Luv_to_LCh_uv(array $data) : array {
-        list($L, $u, $v) = CheckArray::makeList($data, 'Luv');
+        list($L, $u, $v) = ArrayMethods::makeList($data, 'Luv');
 
         $atan = rad2deg(atan2($u, $v));
 
@@ -424,8 +424,8 @@ class Convert {
      */
     public static function Lab_to_XYZ(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
         $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
-        list($L, $a, $b) = CheckArray::makeList($data, 'Lab');
-        list($X_r, $Y_r, $Z_r) = CheckArray::makeList($WP_RefTristimulus, 'XYZ');
+        list($L, $a, $b) = ArrayMethods::makeList($data, 'Lab');
+        list($X_r, $Y_r, $Z_r) = ArrayMethods::makeList($WP_RefTristimulus, 'XYZ');
 
         $f_y = ($L + 16) / 116;
         $f_x = ($a / 500) + $f_y;
@@ -458,7 +458,7 @@ class Convert {
      * @return array
      */
     public static function Lab_to_LCh(array $data) : array {
-        list($L, $a, $b) = CheckArray::makeList($data, 'Lab');
+        list($L, $a, $b) = ArrayMethods::makeList($data, 'Lab');
         $atan2 = rad2deg(atan2($b, $a));
 
         return [
@@ -544,7 +544,7 @@ class Convert {
      * @return array
      */
     public static function xyY_to_XYZ(array $data) : array {
-        list($x, $y, $Y) = CheckArray::makeList($data, 'xyY');
+        list($x, $y, $Y) = ArrayMethods::makeList($data, 'xyY');
 
         return $y == 0
             ? [
@@ -659,7 +659,7 @@ class Convert {
      * @return array
      */
     public static function XYZ_to_xyY(array $data) : array {
-        list($X, $Y, $Z) = CheckArray::makeList($data, 'XYZ');
+        list($X, $Y, $Z) = ArrayMethods::makeList($data, 'XYZ');
 
         return $X + $Y + $Z == 0
             ? [
@@ -683,8 +683,8 @@ class Convert {
      */
     public static function XYZ_to_Lab(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
         $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
-        list($X, $Y, $Z) = CheckArray::makeList($data, 'XYZ');
-        list($X_r, $Y_r, $Z_r) = CheckArray::makeList($WP_RefTristimulus, 'XYZ');
+        list($X, $Y, $Z) = ArrayMethods::makeList($data, 'XYZ');
+        list($X_r, $Y_r, $Z_r) = ArrayMethods::makeList($WP_RefTristimulus, 'XYZ');
 
         $x_r = $X / $X_r;
         $y_r = $Y / $Y_r;
@@ -720,8 +720,8 @@ class Convert {
      */
     public static function XYZ_to_Luv(array $data, array $WP_RefTristimulus = Tristimulus2::D65) : array {
         $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
-        list($X, $Y, $Z) = CheckArray::makeList($data, 'XYZ');
-        list($X_r, $Y_r, $Z_r) = CheckArray::makeList($WP_RefTristimulus, 'XYZ');
+        list($X, $Y, $Z) = ArrayMethods::makeList($data, 'XYZ');
+        list($X_r, $Y_r, $Z_r) = ArrayMethods::makeList($WP_RefTristimulus, 'XYZ');
 
         $y_r = $Y / $Y_r;
 
@@ -948,7 +948,7 @@ class Convert {
      * @return array
      */
     public static function RGB_to_HSL(array $data) : array {
-        list($R, $G, $B) = CheckArray::makeList($data, 'RGB');
+        list($R, $G, $B) = ArrayMethods::makeList($data, 'RGB');
 
         $M = max($data);
         $m = min($data);
@@ -982,7 +982,7 @@ class Convert {
      * @return array
      */
     public static function RGB_to_HSV(array $data) : array {
-        list($R, $G, $B) = CheckArray::makeList($data, 'RGB');
+        list($R, $G, $B) = ArrayMethods::makeList($data, 'RGB');
 
         $M = max($data);
         $m = min($data);
@@ -1014,7 +1014,7 @@ class Convert {
      * @return array
      */
     public static function HSL_to_RGB(array $data) : array {
-        list($H, $S, $L) = CheckArray::makeList($data, 'HSL');
+        list($H, $S, $L) = ArrayMethods::makeList($data, 'HSL');
 
         $d = $S * (1 - abs((2*$L)-1));
         $m = ($L - ($d / 2));
@@ -1133,7 +1133,7 @@ class Convert {
      * @return array
      */
     public static function HSL_to_HSV(array $data) : array {
-        list($H, $S, $L) = CheckArray::makeList($data, 'HSL');
+        list($H, $S, $L) = ArrayMethods::makeList($data, 'HSL');
 
         $V = $L + ($S * min($L, 1 - $L));
 
@@ -1156,7 +1156,7 @@ class Convert {
      * @return array
      */
     public static function HSV_to_RGB(array $data) : array {
-        list($H, $S, $V) = CheckArray::makeList($data, 'HSV');
+        list($H, $S, $V) = ArrayMethods::makeList($data, 'HSV');
 
         $M = $V;
         $m = $M * (1 - $S);
@@ -1202,7 +1202,7 @@ class Convert {
     }
 
     public static function HSV_to_HSL(array $data) : array {
-        list($H, $S, $V) = CheckArray::makeList($data, 'HSV');
+        list($H, $S, $V) = ArrayMethods::makeList($data, 'HSV');
 
         $L = $V * (1 - ($S / 2));
 
@@ -1341,13 +1341,13 @@ class Convert {
             if($length == 3) {
                 // assume XYZ
                 return
-                    CheckArray::forKeys($var, 'XYZ') === false
+                    ArrayMethods::checkForKeys($var, 'XYZ') === false
                         ? false
                         : array_values($var);
             } elseif($length == 2) {
                 // assume xy
                 return
-                    CheckArray::forKeys($var, 'xy') === false
+                    ArrayMethods::checkForKeys($var, 'xy') === false
                         ? false
                         : self::xy_to_XYZ($var);
             }

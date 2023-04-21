@@ -5,7 +5,7 @@ namespace tei187\ColorTools\Helpers;
 /**
  * Handles checking if array is a list with corresponding length, or an associative array with specific order.
  */
-class CheckArray {
+class ArrayMethods {
     /**
      * Validates structure of array, per specified profile (keys count or order).
      *
@@ -14,7 +14,7 @@ class CheckArray {
      * @return array|false If input is proper and checks out, returns list-like array. If not, returns FALSE.
      */
     static function makeList($data, $keys) {
-        $check = self::forKeys($data, $keys);
+        $check = self::checkForKeys($data, $keys);
         switch($check) {
             case 1: return array_values($data); break;
             default:
@@ -24,13 +24,13 @@ class CheckArray {
     }
 
     /**
-     * Undocumented function
+     * Validates array for length and corresponding keys? Can't remember anymore.
      *
      * @param array $data
      * @param array|string|int $keys Array of keys in specified order, string representing keys order or integer length of array to check against.
      * @return boolean|array True if input array is a match, false if it is not, specific part of array if not exact match (if input array is bigger than required profile).
      */
-    static function forKeys($data, $keys) {
+    static function checkForKeys($data, $keys) {
         if(self::isList($data)) {
             return
                 count($data) == self::evalLength($keys)

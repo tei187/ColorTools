@@ -2,7 +2,7 @@
 
 namespace tei187\ColorTools\Delta;
 
-use tei187\ColorTools\Helpers\CheckArray;
+use tei187\ColorTools\Helpers\ArrayMethods;
 
 class CIEDE2000 {
     /**
@@ -16,8 +16,8 @@ class CIEDE2000 {
      * @return float
      */
     public static function calculateDelta(array $data) {
-        list($L1, $a1, $b1) = CheckArray::makeList($data[0], 'Lab');
-        list($L2, $a2, $b2) = CheckArray::makeList($data[1], 'Lab');
+        list($L1, $a1, $b1) = ArrayMethods::makeList($data[0], 'Lab');
+        list($L2, $a2, $b2) = ArrayMethods::makeList($data[1], 'Lab');
 
         $C_1 = sqrt(pow($a1,2) + pow($b1, 2)); // (2)
         $C_2 = sqrt(pow($a2,2) + pow($b2, 2)); // (2)

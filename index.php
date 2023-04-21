@@ -1,7 +1,7 @@
 <?php
 
 // Utilities
-    require_once __DIR__ . "/src/Helpers/CheckArray.php";
+    require_once __DIR__ . "/src/Helpers/ArrayMethods.php";
     require_once __DIR__ . "/src/Helpers/ClassMethods.php";
 
 // Interfaces

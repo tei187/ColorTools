@@ -2,7 +2,7 @@
 
 namespace tei187\ColorTools\Chromaticity;
 
-use tei187\ColorTools\Helpers\CheckArray;
+use tei187\ColorTools\Helpers\ArrayMethods;
 
 class Temperature {
     /**
@@ -73,8 +73,8 @@ class Temperature {
     static public function XYZ_to_temp(array $xyz) {
         list($X, $Y, $Z) = 
             isset($xyz['values'])
-                ? CheckArray::makeList($xyz['values'], 'XYZ')
-                : CheckArray::makeList($xyz, 'XYZ');
+                ? ArrayMethods::makeList($xyz['values'], 'XYZ')
+                : ArrayMethods::makeList($xyz, 'XYZ');
         
         if($X < 1.0e-20 && $Y < 1.0e-20 && $Z < 1.0e-20) {
             return(false);
@@ -110,7 +110,7 @@ class Temperature {
      * @return float
      */
     static public function xy_to_temp(array $xy) : float {
-        list($x, $y) = CheckArray::makeList($xy, 'xy');
+        list($x, $y) = ArrayMethods::makeList($xy, 'xy');
 
         $n = ($x - 0.3320) / (0.1858 - $y);
         return (437 * pow($n, 3)) + (3601 * pow($n, 2)) + (6861 * $n) + 5517;
