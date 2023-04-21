@@ -1,0 +1,100 @@
+<?php
+
+namespace tei187\ColorTools\Traits;
+
+use tei187\ColorTools\Delta\CIE76;
+use tei187\ColorTools\Delta\CIE94;
+use tei187\ColorTools\Delta\CIEDE2000;
+use tei187\ColorTools\Delta\CMC_lc;
+use tei187\ColorTools\Helpers\ArrayMethods;
+use tei187\ColorTools\Helpers\ClassMethods;
+
+trait Delta {
+    /**
+     * Checks if passed argument is proper to do deltaE calculations.
+     *
+     * @param mixed $data
+     * @return array|false;
+     */
+    protected function _assessDeltaInputValues($data) {
+        $validated = false;
+        switch(gettype($data)) {
+            case 'array':
+                if(ArrayMethods::checkForKeys($data, 'lab') === TRUE) {
+                    $validated = array_values($data);
+                }
+                break;
+            case 'object':
+                if( ClassMethods::checkForInterface($data, 'tei187\\ColorTools\\Interfaces\\Measure') &&
+                    ClassMethods::checkForTrait($data, 'tei187\\ColorTools\\Traits\\Illuminants') && 
+                    ClassMethods::checkForTrait($data, 'tei187\\ColorTools\\Traits\\ChromaticAdaptation')
+                ) {
+                    $validated = array_values($data->toLab()->getValues());
+                }
+                break;
+            default:
+                break;
+        }
+        return $validated;
+    }
+
+    /**
+     * Calculates deltaE between current values and specified argument, using CIE76 algorithm.
+     *
+     * @param object|array $data Either a measure object (of any type) or array with Lab values.
+     * @return float|false Float outcome if success, false on failure (indicates wrong input).
+     */
+    public function deltaCIE76($data) {
+        $assessed = $this->_assessDeltaInputValues($data);
+        return
+            $assessed !== false
+                ? CIE76::calculateDelta([ array_values($this->toLab()->getValues()), $assessed ])
+                : false;
+    }
+
+    /**
+     * Calculates deltaE between current values and specified argument, using CIE94 algorithm.
+     *
+     * @param object|array $data Either a measure object (of any type) or array with Lab values.
+     * @param string $mode Switch for application, allows `self::MODE_GRAPHIC_ARTS` (default) or `self::MODE_TEXTILES`, corresponding to `'graphic_arts'` or `'textiles'` strings respectively.
+     * @return float|false Float outcome if success, false on failure (indicates wrong input).
+     */
+    public function deltaCIE94($data, $mode = CIE94::MODE_GRAPHIC_ARTS) {
+        $assessed = $this->_assessDeltaInputValues($data);
+        return
+            $assessed !== false
+                ? CIE94::calculateDelta([ array_values($this->toLab()->getValues()), $assessed ], $mode)
+                : false;
+    }
+
+        /**
+     * Calculates deltaE between current values and specified argument, using CMC l:c algorithm.
+     *
+     * @param object|array $data Either a measure object (of any type) or array with Lab values.
+     * @param string $mode Mode switch for 'l' (lightness) and 'c' (chroma) values used in equations. self::MODE_ACCEPTABILITY (default, string "acceptability") for 2:1, self::MODE_IMPERCEPTABILITY (string "imperceptability") for 1:1.
+     * @return float|false Float outcome if success, false on failure (indicates wrong input).
+     */
+    public function deltaCMClc($data, $mode = CMC_lc::MODE_ACCEPTABILITY) {
+        $assessed = $this->_assessDeltaInputValues($data);
+        return
+            $assessed !== false
+                ? CMC_lc::calculateDelta([ array_values($this->toLab()->getValues()), $assessed ], $mode)
+                : false;
+    }
+
+    /**
+     * Calculates deltaE between current values and specified argument, using CIEDE2000 algorithm.
+     *
+     * @param object|array $data Either a measure object (of any type) or array with Lab values.
+     * @return float|false Float outcome if success, false on failure (indicates wrong input).
+     */
+    public function deltaCIE00($data) {
+        $assessed = $this->_assessDeltaInputValues($data);
+        return
+            $assessed !== false
+                ? CIEDE2000::calculateDelta([ array_values($this->toLab()->getValues()), $assessed ])
+                : false;
+    }
+
+    
+}

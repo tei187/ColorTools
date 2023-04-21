@@ -4,11 +4,13 @@ namespace tei187\ColorTools\Measures;
 
 use tei187\ColorTools\Chromaticity\Temperature;
 use tei187\ColorTools\Traits\ChromaticAdaptation;
+use tei187\ColorTools\Traits\Delta;
 use tei187\ColorTools\Traits\Illuminants;
 
 abstract class MeasureAbstract {
     use Illuminants,
-        ChromaticAdaptation;
+        ChromaticAdaptation,
+        Delta;
 
     protected $values = [];
 
