@@ -2,6 +2,9 @@
 
 namespace tei187\ColorTools\Helpers;
 
+/**
+ * Class methods missing from native or required for application.
+ */
 class ClassMethods {
     /**
      * Verifies if listed methods are available in class.

@@ -4,6 +4,9 @@ namespace tei187\ColorTools\Delta;
 
 use tei187\ColorTools\Helpers\ArrayMethods;
 
+/**
+ * CMC l:c delta calculation methods.
+ */
 class CMC_lc {
 
     /**

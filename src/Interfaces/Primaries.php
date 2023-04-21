@@ -2,6 +2,9 @@
 
 namespace tei187\ColorTools\Interfaces;
 
+/**
+ * Interface for RGB primaries methods.
+ */
 interface Primaries {
     public function getPrimariesXYY() : array;
     public function getPrimariesName() : ?string;

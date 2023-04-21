@@ -4,6 +4,9 @@ namespace tei187\ColorTools\Delta;
 
 use tei187\ColorTools\Helpers\ArrayMethods;
 
+/**
+ * CIE94 delta calculation methods.
+ */
 class CIE94 {
     /**
      * Calculation mode/application value for graphic arts.

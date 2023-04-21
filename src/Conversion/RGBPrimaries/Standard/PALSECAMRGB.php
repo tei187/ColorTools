@@ -4,6 +4,9 @@ namespace tei187\ColorTools\Conversion\RGBPrimaries\Standard;
 use tei187\ColorTools\Conversion\RGBPrimaries\PrimariesAbstract;
 use tei187\ColorTools\Traits\Companding\GammaCompanding;
 
+/**
+ * Standard class for PAL/SECAM RGB color space primaries.
+ */
 class PALSECAMRGB extends PrimariesAbstract {
     use GammaCompanding;
     const NAME = "PAL/SECAM RGB";

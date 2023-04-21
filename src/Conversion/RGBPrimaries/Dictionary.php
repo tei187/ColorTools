@@ -2,6 +2,9 @@
 
 namespace tei187\ColorTools\Conversion\RGBPrimaries;
 
+/**
+ * Class handling RGB primaries dictionary-based methods.
+ */
 class Dictionary {
     /**
      * Names of each available class for standard RGB primaries.

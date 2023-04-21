@@ -4,6 +4,9 @@ namespace tei187\ColorTools\Conversion\RGBPrimaries\Standard;
 use tei187\ColorTools\Conversion\RGBPrimaries\PrimariesAbstract;
 use tei187\ColorTools\Traits\Companding\sRGBCompanding;
 
+/**
+ * Standard class for sRGB color space primaries.
+ */
 class sRGB extends PrimariesAbstract {
     use sRGBCompanding;
     const NAME = "sRGB";

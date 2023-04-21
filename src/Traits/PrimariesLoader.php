@@ -6,7 +6,7 @@ use tei187\ColorTools\Conversion\RGBPrimaries\Dictionary;
 use tei187\ColorTools\Conversion\Convert;
 
 /**
- * Handles primaries loading.
+ * Handles RGB primaries loading.
  */
 trait PrimariesLoader {
     /**

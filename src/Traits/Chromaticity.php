@@ -2,6 +2,9 @@
 
 namespace tei187\ColorTools\Traits;
 
+/**
+ * @deprecated
+ */
 Trait Chromaticity {
     /**
      * @link https://engineering.purdue.edu/~bouman/ece637/notes/pdf/ColorSpaces.pdf

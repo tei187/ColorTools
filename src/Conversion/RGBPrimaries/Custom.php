@@ -6,6 +6,9 @@ use tei187\ColorTools\Interfaces\Primaries as PrimariesInterface;
 use tei187\ColorTools\Traits\Companding\GammaCompanding;
 use tei187\ColorTools\StandardIlluminants\Dictionary as StandardIlluminantDictionary;
 
+/**
+ * Class for creation of custom sets of RGB primaries.
+ */
 class Custom implements PrimariesInterface {
     use GammaCompanding;
     private $xyy = [];

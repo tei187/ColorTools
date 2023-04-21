@@ -4,6 +4,9 @@ namespace tei187\ColorTools\Delta;
 
 use tei187\ColorTools\Helpers\ArrayMethods;
 
+/**
+ * CIEDE2000 delta calculation methods.
+ */
 class CIEDE2000 {
     /**
      * Calculates dE using CIEDE2000 algorithm based on two L\*a\*b measures.

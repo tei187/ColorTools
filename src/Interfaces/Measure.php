@@ -2,6 +2,9 @@
 
 namespace tei187\ColorTools\Interfaces;
 
+/**
+ * Interface for measure/swatch methods.
+ */
 interface Measure {
     public function setValues(...$values);
     public function getValues();

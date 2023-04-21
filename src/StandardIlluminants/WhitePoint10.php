@@ -2,15 +2,12 @@
 
 namespace tei187\ColorTools\StandardIlluminants;
 
-use tei187\ColorTools\Traits\Chromaticity;
-
 /**
  * Standard illuminants chromaticity x,y coordinates at 10 degree supplementary standard colorimetric observer (CIE 1964).
  * 
  * @link https://en.wikipedia.org/wiki/Standard_illuminant#White_points_of_standard_illuminants
  */
 Class WhitePoint10 {
-    use Chromaticity;
 
     /** 
      * Incadescent / tungsten. 

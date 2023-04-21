@@ -5,6 +5,9 @@ namespace tei187\ColorTools\Traits;
 use tei187\ColorTools\Conversion\Convert;
 use tei187\ColorTools\StandardIlluminants\WhitePoint2;
 
+/**
+ * Trait handling illuminant-oriented properties and methods.
+ */
 trait Illuminants {
     /**
      * Illuminant xy values.

@@ -4,8 +4,10 @@ namespace tei187\ColorTools\Conversion\RGBPrimaries;
 
 use tei187\ColorTools\Interfaces\Primaries as PrimariesInterface;
 
+/**
+ * Abstract class for RGB primaries.
+ */
 abstract class PrimariesAbstract implements PrimariesInterface {
-
     const XYY = self::XYY;
     const NAME = self::NAME;
     const ILLUMINANT = self::ILLUMINANT;

@@ -4,6 +4,9 @@ namespace tei187\ColorTools\Delta;
 
 use tei187\ColorTools\Helpers\ArrayMethods;
 
+/**
+ * CIE76 delta calculation methods.
+ */
 class CIE76 {
     /**
      * Calculates dE using CIE76 algorithm based on two L\*a\*b measures.

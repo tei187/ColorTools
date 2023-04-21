@@ -4,6 +4,9 @@ namespace tei187\ColorTools\StandardIlluminants;
 
 use tei187\ColorTools\Conversion\Convert;
 
+/**
+ * Class handling standard illuminants' dictionary-based methods.
+ */
 class Dictionary {
     /**
      * Array holding information about defined standard illuminants names.

@@ -8,7 +8,7 @@ use tei187\ColorTools\Conversion\Convert;
 /**
  * Chromatic adaptation handler.
  * 
- * @see https://www.xrite.com/pl-pl/service-support/chromaticadaptationwhatisitwhatdoesitdo
+ * @see https://www.xrite.com/en/service-support/chromaticadaptationwhatisitwhatdoesitdo
  * @see http://www.russellcottrell.com/photo/matrixCalculator.htm
  * @see https://www.wikihow.com/Find-the-Inverse-of-a-3x3-Matrix Math based on article.
  */

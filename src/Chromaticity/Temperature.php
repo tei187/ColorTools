@@ -4,6 +4,9 @@ namespace tei187\ColorTools\Chromaticity;
 
 use tei187\ColorTools\Helpers\ArrayMethods;
 
+/**
+ * Set of methods used in conversion to CCT (temperature).
+ */
 class Temperature {
     /**
      * Reciprocal temperature.

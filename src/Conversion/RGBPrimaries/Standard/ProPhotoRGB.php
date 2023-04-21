@@ -4,6 +4,9 @@ namespace tei187\ColorTools\Conversion\RGBPrimaries\Standard;
 use tei187\ColorTools\Conversion\RGBPrimaries\PrimariesAbstract;
 use tei187\ColorTools\Traits\Companding\GammaCompanding;
 
+/**
+ * Standard class for ProPhoto RGB color space primaries.
+ */
 class ProPhotoRGB extends PrimariesAbstract {
     use GammaCompanding;
     const NAME = "ProPhoto RGB";
