@@ -63,7 +63,7 @@ class Temperature {
     ];
 
     /**
-     * Calculates correlated color temperature (CCT), based on A. R. Robertson method.
+     * Calculates correlated color temperature (CCT) from XYZ coordinates, based on A. R. Robertson method.
      *
      * @see http://www.brucelindbloom.com/
      * 
@@ -99,5 +99,20 @@ class Temperature {
         $p = $dm / ( $dm - $di);
         $p = 1.0 / (self::RT[$i - 1] + ((self::RT[$i] - self::RT[$i - 1]) * $p));
         return $p;
+    }
+
+    /**
+     * Calcualted correlated color temperature (CCT) from xy chromaticity coordinates.
+     *
+     * @see https://www.waveformlighting.com/tech/calculate-color-temperature-cct-from-cie-1931-xy-coordinates
+     * 
+     * @param array $xy
+     * @return float
+     */
+    static public function xy_to_temp(array $xy) : float {
+        list($x, $y) = CheckArray::makeList($xy, 'xy');
+
+        $n = ($x - 0.3320) / (0.1858 - $y);
+        return (437 * pow($n, 3)) + (3601 * pow($n, 2)) + (6861 * $n) + 5517;
     }
 }
