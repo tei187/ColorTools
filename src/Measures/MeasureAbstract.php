@@ -83,6 +83,13 @@ abstract class MeasureAbstract {
         return $e[array_key_last($e)];
     }
 
+    /**
+     * Converts to specified color model.
+     *
+     * @param string $class
+     * @param string|object $primaries
+     * @return object|null
+     */
     public function to($class, $primaries = 'sRGB') : ?object {
         $out = null;
         switch (strtolower($class)) {

@@ -13,6 +13,7 @@ interface Measure {
     public function toLuv();
     public function toLCh_uv();
     public function toRGB();
+    public function to($class, $primaries = 'sRGB');
 
     public function getTemperature();
 }

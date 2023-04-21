@@ -12,7 +12,9 @@ Overall, chromatic adaptation is an important process that helps us see colors a
 
 <br>
 
-## Methods
+## **Methods**
+
+### **Static**
 
 Chromatic adaptation is done on XYZ model base, using `\tei187\ColorTools\Chromaticity\Adaptation\Adaptation::adapt` method. Arguments explained below:
 * XYZ - array holding three values describing the measure/swatch XYZ tristimulus.
@@ -27,25 +29,47 @@ Chromatic adaptation is done on XYZ model base, using `\tei187\ColorTools\Chroma
     * ::Von_Kries,
     * ::XYZ_Scaling.
 
-Example of adapting XYZ values from D50 to D65 using Bradford BTM:
+Example of adapting XYZ values from D50 to D65 using Bradford CAT:
 ```php
+use tei187\ColorTools\Chromaticity\Adaptation\Adaptation;
+use tei187\ColorTools\Chromaticity\Adaptation\Matrices;
 
-    use tei187\ColorTools\Chromaticity\Adaptation\Adaptation;
-    use tei187\ColorTools\Chromaticity\Adaptation\Matrices;
+$xyz = [ .2967, .3178, .2817 ];
 
-    $xyz = [ .2967, .3178, .2817 ];
-
-    $adapted = Adaptation::adapt($xyz, 'D50', 'D65', Matrices::Bradford);
-    var_dump($adapted);
-
-    /*
-    Will return:
-    array(3) {
-        ["X"]=> float(0.29398243709503)
-        ["Y"]=> float(0.318484273531)
-        ["Z"]=> float(0.3718079889946)
-    }
-    */
+$adapted = Adaptation::adapt($xyz, 'D50', 'D65', Matrices::Bradford);
+print_r($adapted);
+/*
+(
+    [X] => 0.29398189555895
+    [Y] => 0.31848432208093
+    [Z] => 0.37180875886393
+)
+*/
 ```
 
 **IMPORTANT:** For ease of use, when converting to RGB, chromatic adaptation is being utilized in the method itself between measure's illuminant and designated illuminant of set RGB primaries.
+
+### **Object**
+
+It is possible to use an object method `adapt()`, similarily to conversion methods. What it does is that it takes the object, converts it to XYZ space, applies transformation and converts back to your primary object class.
+Adapt accepts two parameters:
+* destination - the final white point reference, can be standard illuminant name, xy chromatic coordinates or xyz tristimulus,
+* CAT - chromatic adaptation transform matrix (Bradford CAT by default).
+```php
+use tei187\ColorTools\Measures\XYZ;
+use tei187\ColorTools\Chromaticity\Adaptation\Adaptation;
+use tei187\ColorTools\Chromaticity\Adaptation\Matrices;
+
+$obj = new XYZ();
+$obj->setValues([ .2967, .3178, .2817 ])
+    ->setIlluminant('D50', 2);
+
+print_r( $obj->adapt('D65', Matrices::Bradford)->getValues() );
+/*
+(
+    [X] => 0.29398189555895
+    [Y] => 0.31848432208093
+    [Z] => 0.37180875886393
+)
+*/
+```

@@ -81,8 +81,15 @@ Alternatively, or for ease of use, one may find the `tei187\ColorTools\StandardI
 ```php
 use tei187\ColorTools\StandardIlluminants\Dictionary;
 
-print_r(Dictionary::getChromaticCoordinates('D50', 2)); // (array) [ 0.34567, 0.3585 ]
-print_r(Dictionary::getChromaticCoordinates('D65|10')); // (array) [ 0.31382, 0.331  ]
-print_r(Dictionary::getTristimulus('D50', 2)); // (array) [ 0.9642119944212,  1, 0.82518828451883 ]
-print_r(Dictionary::getTristimulus('D65|10')); // (array) [ 0.94809667673716, 1, 1.0730513595166  ]
+print_r(Dictionary::getChromaticCoordinates('D50', 2));
+// (array) [ 0.34567, 0.3585 ]
+
+print_r(Dictionary::getChromaticCoordinates('D65|10'));
+// (array) [ 0.31382, 0.331  ]
+
+print_r(Dictionary::getTristimulus('D50', 2));
+// (array) [ 0.9642119944212,  1, 0.82518828451883 ]
+
+print_r(Dictionary::getTristimulus('D65|10'));
+// (array) [ 0.94809667673716, 1, 1.0730513595166  ]
 ```
