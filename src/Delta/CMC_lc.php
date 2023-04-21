@@ -46,7 +46,7 @@ class CMC_lc {
     public static function calculateDelta(array $data, string $mode = self::MODE_ACCEPTABILITY) : float {
         $mode = !in_array(strtolower(trim($mode)), self::ALLOWED_MODES) ? self::MODE_ACCEPTABILITY : $mode;
         
-        list($l, $c) = self::MODE_VALUES[$mode];
+        list($l, $c) = array_values(self::MODE_VALUES[$mode]);
 
         list($L1, $a1, $b1) = ArrayMethods::makeList($data[0], 'Lab');
         list($L2, $a2, $b2) = ArrayMethods::makeList($data[1], 'Lab');

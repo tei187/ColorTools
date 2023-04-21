@@ -44,7 +44,7 @@ class CIE94 {
      */
     public static function calculateDelta(array $data, string $mode = self::MODE_GRAPHIC_ARTS) : float {
         $mode = !in_array(strtolower(trim($mode)), self::ALLOWED_MODES) ? self::MODE_GRAPHIC_ARTS : $mode;
-        list($k_L, $K_1, $K_2) = self::K_VALUES[$mode];
+        list($k_L, $K_1, $K_2) = array_values(self::K_VALUES[$mode]);
 
         list($L1, $a1, $b1) = ArrayMethods::makeList($data[0], 'Lab');
         list($L2, $a2, $b2) = ArrayMethods::makeList($data[1], 'Lab');

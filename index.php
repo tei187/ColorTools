@@ -26,7 +26,7 @@
     require_once __DIR__ . "/src/Delta/CIE94.php";
     require_once __DIR__ . "/src/Delta/CIEDE2000.php";
     require_once __DIR__ . "/src/Delta/CIE00.php";
-    require_once __DIR__ . "/src/Delta/CMC_Ic.php";
+    require_once __DIR__ . "/src/Delta/CMC_lc.php";
 
 // Chromaticity
     require_once __DIR__ . "/src/Chromaticity/Adaptation/Matrices/XYZ_Scaling.php";
