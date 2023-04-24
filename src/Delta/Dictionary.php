@@ -25,12 +25,14 @@ class Dictionary {
      * @var string[]
      */
     CONST ASSIGNMENT = [
-        '2000' =>   'CIEDE2000',
-        '00' =>     'CIEDE2000',
-        '76' =>     'CIE76',
-        '94' =>     'CIE94',
-        'cmc' =>    'CMC_lc',
-        'cmclc' =>  'CMC_lc',
+        'ciede00' => 'CIEDE2000',
+        'cie2000' => 'CIEDE2000',
+        '2000' =>    'CIEDE2000',
+        '00' =>      'CIEDE2000',
+        '76' =>      'CIE76',
+        '94' =>      'CIE94',
+        'cmc' =>     'CMC_lc',
+        'cmclc' =>   'CMC_lc',
     ];
 
     /**
