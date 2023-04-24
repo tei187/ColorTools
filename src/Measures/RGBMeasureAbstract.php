@@ -6,11 +6,13 @@ use tei187\ColorTools\Conversion\RGBPrimaries\Standard\sRGB;
 use tei187\ColorTools\Helpers\ArrayMethods;
 use tei187\ColorTools\Traits\Illuminants;
 use tei187\ColorTools\Traits\PrimariesLoader;
+use tei187\ColorTools\Traits\Delta;
 use tei187\ColorTools\Measures\MeasureAbstract;
 
 abstract class RGBMeasureAbstract extends MeasureAbstract {
     use Illuminants,
-        PrimariesLoader;
+        PrimariesLoader,
+        Delta;
 
     /**
      * RGB values.
@@ -54,6 +56,11 @@ abstract class RGBMeasureAbstract extends MeasureAbstract {
         return $this->primaries;
     }
 
+    public function setPrimaries(object $primaries) : self {
+        $this->primaries = $primaries;
+        return $this;
+    }
+
     /**
      * Sets values for object.
      *
@@ -62,7 +69,7 @@ abstract class RGBMeasureAbstract extends MeasureAbstract {
      */
     public function setValues(...$values) : self {
         if(count($values) == 1) {
-            $values = $values[0];
+            $values = array_values($values)[0];
             if(is_string($values)) {
                 $t = str_replace(["#", " "], "", trim($values));
                 $t_l = strlen($t);
@@ -171,6 +178,12 @@ abstract class RGBMeasureAbstract extends MeasureAbstract {
      */
     abstract public function toLuv(): Luv;
     abstract public function toRGB($primaries = 'sRGB'): RGB;
+    /**
+     * Converts from RGB to HSL values in the same illuminant as default for specified RGB primaries set.
+     *
+     * @return HSL
+     */
+    abstract public function toHSL($primaries = 'sRGB'): HSL;
 
     /**
      * Returns RGB values in hex form.

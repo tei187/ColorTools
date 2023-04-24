@@ -149,6 +149,13 @@ abstract class MeasureAbstract {
      */
     abstract public function toRGB($primaries = 'sRGB') : RGB;
     /**
+     * Converts from specified color model to HSL model, based on RGB primaries set.
+     *
+     * @param object|string $primaries
+     * @return HSL
+     */
+    abstract public function toHSL($primaries = 'sRGB') : HSL;
+    /**
      * Returns calculated temperature in K (Kelvin).
      *
      * @return float|integer

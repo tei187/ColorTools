@@ -110,4 +110,10 @@ class XYZ extends MeasureAbstract implements Measure {
         */
         return new RGB(Convert::XYZ_to_RGB($this->getValues(), $primaries, $this->illuminantT), $primaries);
     }
+
+    public function toHSL($primaries = 'sRGB') : HSL {
+        return
+        $this->toRGB($primaries)
+             ->toHSL();
+    }
 }

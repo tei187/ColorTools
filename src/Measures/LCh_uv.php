@@ -67,4 +67,8 @@ class LCh_uv extends MeasureAbstract implements Measure {
                 ->setIlluminantTristimulus($this->illuminantT)
             ->toRGB($primaries);
     }
+
+    public function toHSL($primaries = 'sRGB') : HSL {
+        return $this->toRGB($primaries)->toHSL();
+    }
 }

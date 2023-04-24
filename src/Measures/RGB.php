@@ -14,9 +14,10 @@ class RGB extends RGBMeasureAbstract {
         $outcome = Convert::RGB_to_XYZ($this->getValues(), $this->primaries);
         return
             (new XYZ($outcome))
-                ->setIlluminant($this->getIlluminantName(), 2)
-                ->setIlluminantName($this->getIlluminantName())
-                ->setIlluminantTristimulus(Convert::XYZ_to_xy($this->getIlluminantTristimulus()));
+                ->setIlluminant($this->illuminant, $this->illuminantAngle === null ? 2 : $this->illuminantAngle)
+                ->setIlluminantName($this->illuminantName)
+                //->setIlluminantTristimulus(Convert::XYZ_to_xy($this->getIlluminantTristimulus()));
+                ->setIlluminantTristimulus($this->illuminantT);
     }
 
     public function toxyY(): xyY {
@@ -55,6 +56,16 @@ class RGB extends RGBMeasureAbstract {
                 ->setIlluminantTristimulus($this->illuminantT);
     }
 
+    public function toHSL($primaries = null): HSL {
+        $outcome = Convert::RGB_to_HSL($this->getValues());
+        return
+            (new HSL($outcome))
+                ->setPrimaries($this->primaries)
+                ->setIlluminant($this->illuminant, $this->illuminantAngle === null ? 2 : $this->illuminantAngle)
+                ->setIlluminantName($this->illuminantName)
+                ->setIlluminantTristimulus($this->illuminantT);
+    }
+
     public function toLCh_uv(): LCh_uv {
         $outcome = Convert::RGB_to_LCh_uv($this->getValues(), $this->primaries);
         return 
@@ -64,7 +75,7 @@ class RGB extends RGBMeasureAbstract {
                 ->setIlluminantTristimulus($this->illuminantT);
     }
 
-    public function toRGB($primaries = null): RGB {
+    public function toRGB($primaries = 'sRGB'): RGB {
         return $this;
     }
 }
