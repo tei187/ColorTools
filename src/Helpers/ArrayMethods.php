@@ -23,6 +23,19 @@ class ArrayMethods {
         }
     }
 
+    static function formList($data, $keys) {
+        $check = self::makeList($data, $keys);
+        if($check !== false) {
+            $keys = is_array($keys) ? $keys : str_split($keys);
+            $output = [ ];
+            foreach($check as $k => $v) {
+                $output[$keys[$k]] = $v;
+            }
+            return $output;
+        }
+        return false;
+    }
+
     /**
      * Validates array for length and corresponding keys? Can't remember anymore.
      *
@@ -119,6 +132,8 @@ class ArrayMethods {
     /**
      * Checks if each element of array is a numeric value between 0 and 1.
      *
+     * @todo check if any is float?
+     * 
      * @param array $data
      * @return boolean
      */
@@ -140,6 +155,16 @@ class ArrayMethods {
      */
     static function itemsBetween0and255(array $data) : bool {
         $checks = array_map(function($v) {return is_numeric($v) && $v >= 0 && $v <= 255 ? true : false;}, $data);
+        $uniques = array_unique(array_values($checks));
+
+        return 
+            count($uniques) == 1 && $uniques[0] === true
+                ? true
+                : false;
+    }
+
+    static function itemsNumeric(array $data) : bool {
+        $checks = array_map(function($v) { return is_numeric($v); }, $data);
         $uniques = array_unique(array_values($checks));
 
         return 
