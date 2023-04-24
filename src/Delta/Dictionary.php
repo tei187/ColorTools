@@ -33,6 +33,7 @@ class Dictionary {
         '94' =>      'CIE94',
         'cmc' =>     'CMC_lc',
         'cmclc' =>   'CMC_lc',
+        'cmc-lc' =>  'CMC_lc',
     ];
 
     /**

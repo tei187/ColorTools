@@ -15,6 +15,7 @@ interface Measure {
     public function toLCh();
     public function toLuv();
     public function toLCh_uv();
+    public function toHSL();
     public function toRGB();
     public function to($class, $primaries = 'sRGB');
 

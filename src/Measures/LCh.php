@@ -5,13 +5,19 @@ namespace tei187\ColorTools\Measures;
 use tei187\ColorTools\Interfaces\Measure;
 use tei187\ColorTools\Conversion\Convert;
 use tei187\ColorTools\Traits\Illuminants;
-use tei187\ColorTools\Measures\MeasureAbstract;
 
-class LCh extends MeasureAbstract implements Measure {
+class LCh extends DeviceIndependentAbstract implements Measure {
     use Illuminants;
 
     protected $values = ['L' => 0, 'C' => 0, 'h' => 0];
 
+    /**
+     * Creates a LCh swatch.
+     *
+     * @param array $values
+     * @param array|string $illuminant Array with 2 values (x,y) or string corresponding a constant name in specific Standard Illuminants static class.
+     * @param integer $observerAngle Standard observer angle.
+     */
     public function __construct(array $values = [0,0,0], $illuminant = null, int $observerAngle = 2 ) {
         $this->_setValuesKeys("LCh");
         $this

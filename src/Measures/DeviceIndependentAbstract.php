@@ -7,7 +7,10 @@ use tei187\ColorTools\Traits\ChromaticAdaptation;
 use tei187\ColorTools\Traits\Delta;
 use tei187\ColorTools\Traits\Illuminants;
 
-abstract class MeasureAbstract {
+/**
+ * Abstract class for device independent measures.
+ */
+abstract class DeviceIndependentAbstract {
     use Illuminants,
         ChromaticAdaptation,
         Delta;

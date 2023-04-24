@@ -7,9 +7,11 @@ use tei187\ColorTools\Helpers\ArrayMethods;
 use tei187\ColorTools\Traits\Illuminants;
 use tei187\ColorTools\Traits\PrimariesLoader;
 use tei187\ColorTools\Traits\Delta;
-use tei187\ColorTools\Measures\MeasureAbstract;
 
-abstract class RGBMeasureAbstract extends MeasureAbstract {
+/**
+ * Abstract class for device-dependent measures.
+ */
+abstract class DeviceDependentAbstract extends DeviceIndependentAbstract {
     use Illuminants,
         PrimariesLoader,
         Delta;
@@ -31,33 +33,28 @@ abstract class RGBMeasureAbstract extends MeasureAbstract {
      */
     protected $primaries;
 
-    /**
-     * @param string|array $values Array with RGB values in one of the forms: 
-     * * array with 3 arithmetic values ranging from 0 to 1 (float),
-     * * array with 3 integer values ranging from 0 to 255
-     * * string with hexadecimal representation of 3 values (`'#rrggbb'` or `'#rgb'`).
-     * @param object|string $primaries RGB primaries object of tei187\ColorTools\Conversion\RGBPrimaries namespace or string corresponding to available primaries name/identifier.
-     */
-    public function __construct($values = [0,0,0], $primaries = 'sRGB') {
-        $this->_setValuesKeys('RGB');
-        $this->setValues($values);
+    public function getPrimaries() : object {
+        return $this->primaries;
+    }
 
+    /**
+     * Sets primaries and primaries-based illuminant references (name, tristimulus).
+     * 
+     * **IMPORTANT:** this method does not cause chromatic adaptation between different white points and should only be used when creating a new object based on already adapted data.
+     *
+     * @param object|string $primaries RGB primaries object of tei187\ColorTools\Conversion\RGBPrimaries namespace or string corresponding to available primaries name/identifier.
+     * @return self
+     */
+    public function setPrimaries($primaries) : self {
         $assessedPrimaries = $this->loadPrimaries($primaries);
         
         $this->primaries =
             $assessedPrimaries === false
                 ? new sRGB
                 : $assessedPrimaries;
+        
         $this->setIlluminant($this->primaries->getIlluminantName(), 2);
         $this->illuminantT = $this->primaries->getIlluminantTristimulus();
-    }
-
-    public function getPrimaries() : object {
-        return $this->primaries;
-    }
-
-    public function setPrimaries(object $primaries) : self {
-        $this->primaries = $primaries;
         return $this;
     }
 
@@ -142,88 +139,51 @@ abstract class RGBMeasureAbstract extends MeasureAbstract {
     }
 
     /**
-     * Converts from RGB to XYZ values in the same illuminant as default for specified RGB primaries set. If another destination illuminant is required, use chromatic adaptation methods.
+     * Converts to XYZ values in the same illuminant as default for specified RGB primaries set. If another destination illuminant is required, use chromatic adaptation methods.
      *
      * @return XYZ
      */
     abstract public function toXYZ(): XYZ;
     /**
-     * Converts from RGB to xyY values in the same illuminant as default for specified RGB primaries set. If another destination illuminant is required, use chromatic adaptation methods.
+     * Converts to xyY values in the same illuminant as default for specified RGB primaries set. If another destination illuminant is required, use chromatic adaptation methods.
      *
      * @return xyY
      */
     abstract public function toxyY(): xyY;
     /**
-     * Converts from RGB to L\*a\*b values in the same illuminant as default for specified RGB primaries set. If another destination illuminant is required, use chromatic adaptation methods.
+     * Converts to L\*a\*b values in the same illuminant as default for specified RGB primaries set. If another destination illuminant is required, use chromatic adaptation methods.
      *
      * @return Lab
      */
     abstract public function toLab(): Lab;
     /**
-     * Converts from RGB to L\*C\*h values in the same illuminant as default for specified RGB primaries set. If another destination illuminant is required, use chromatic adaptation methods.
+     * Converts to L\*C\*h values in the same illuminant as default for specified RGB primaries set. If another destination illuminant is required, use chromatic adaptation methods.
      *
      * @return LCh
      */
     abstract public function toLCh(): LCh;
     /**
-     * Converts from RGB to LChUV values in the same illuminant as default for specified RGB primaries set. If another destination illuminant is required, use chromatic adaptation methods.
+     * Converts to LChUV values in the same illuminant as default for specified RGB primaries set. If another destination illuminant is required, use chromatic adaptation methods.
      *
      * @return LCh_uv
      */
     abstract public function toLCh_uv(): LCh_uv;
     /**
-     * Converts from RGB to Luv values in the same illuminant as default for specified RGB primaries set. If another destination illuminant is required, use chromatic adaptation methods.
+     * Converts to Luv values in the same illuminant as default for specified RGB primaries set. If another destination illuminant is required, use chromatic adaptation methods.
      *
      * @return Luv
      */
     abstract public function toLuv(): Luv;
+    /**
+     * Converts to RGB values in the same illuminant as default for specified RGB primaries set.
+     *
+     * @return RGB
+     */
     abstract public function toRGB($primaries = 'sRGB'): RGB;
     /**
-     * Converts from RGB to HSL values in the same illuminant as default for specified RGB primaries set.
+     * Converts to HSL values in the same illuminant as default for specified RGB primaries set.
      *
      * @return HSL
      */
     abstract public function toHSL($primaries = 'sRGB'): HSL;
-
-    /**
-     * Returns RGB values in hex form.
-     *
-     * @param boolean $asString Boolean switch. If true, returns a string in '#RRGGBB' formatting. If false, returns an array with RGB keys.
-     * @return array|string
-     */
-    public function getValuesHex(bool $asString = false) {
-        list($R, $G, $B) = array_values($this->getValuesFF());
-        if(!$asString) {
-            return [
-                'R' => str_pad(dechex($R), 2, "0", STR_PAD_LEFT),
-                'G' => str_pad(dechex($G), 2, "0", STR_PAD_LEFT),
-                'B' => str_pad(dechex($B), 2, "0", STR_PAD_LEFT) 
-            ];
-        }
-        return "#".str_pad(dechex($R), 2, "0", STR_PAD_LEFT).str_pad(dechex($G), 2, "0", STR_PAD_LEFT).str_pad(dechex($B), 2, "0", STR_PAD_LEFT);
-    }
-
-    /**
-     * Returns RGB values array in integer form, from 0 to 255.
-     *
-     * @return array
-     */
-    public function getValuesFF() : array {
-        list($R, $G, $B) = array_values($this->getValues());
-        return [
-            'R' => intval(round($R * 255)),
-            'G' => intval(round($G * 255)),
-            'B' => intval(round($B * 255))
-        ];
-    }
-
-    /**
-     * Returns RGB values array in string form, formatting as "rgb(R,G,B)".
-     *
-     * @return string
-     */
-    public function getValuesString() : string {
-        list($R, $G, $B) = array_values($this->getValuesFF());
-        return "rgb({$R},{$G},{$B})";
-    }
 }
