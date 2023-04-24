@@ -19,6 +19,6 @@ class CIE76 {
     public static function calculateDelta(array $data) {
         list($L1, $a1, $b1) = ArrayMethods::makeList($data[0], 'Lab');
         list($L2, $a2, $b2) = ArrayMethods::makeList($data[1], 'Lab');
-        return round( sqrt( pow(($L2 - $L1), 2) + pow(($a2 - $a1), 2) + pow(($b2 - $b1), 2) ) , 2);
+        return sqrt( pow(($L2 - $L1), 2) + pow(($a2 - $a1), 2) + pow(($b2 - $b1), 2) );
     }
 }
