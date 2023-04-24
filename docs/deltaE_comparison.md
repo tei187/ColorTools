@@ -9,6 +9,17 @@ Delta E is also used in a variety of applications in the field of vision science
 
 <br>
 
+## **Standard list**
+
+| Name | Namespace | Modes | Custom identifiers |
+|---|---|---|---|
+| CIE76 | `tei187\ColorTools\Delta\CIE76` | N/A | _76_ |
+| CIE94 | `tei187\ColorTools\Delta\CIE94` | "graphic_arts", "textiles" | _94_ |
+| CIEDE2000 | `tei187\ColorTools\Delta\CIE00` | N/A | _ciede00, cie2000, 2000, 00_ |
+| CMC l:c | `tei187\ColorTools\Delta\CMC_lc` | "acceptability", "imperceptibility" | _cmc, cmclc_ |
+
+<br>
+
 ## **Objects**
 
 You can use specific object methods to calculate delta E:

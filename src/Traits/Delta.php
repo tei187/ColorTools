@@ -101,9 +101,9 @@ trait Delta {
      * Calculates deltaE between current values and specified argument, using specified algorithm.
      *
      * @param object|array $data Either a measure object (of any type) or array with Lab values.
-     * @param string $algorithm Delta E measuring algorithm name. Refer to dictionary for short-hands.
+     * @param string $algorithm Delta E measuring algorithm name. Refer to dictionary for short-hands. By default CIE76.
      * @param string|null $mode Applicable for CIE94 and CMC l:c algorithms only, defining measure mode. Null by default.
-     * @return float|false Float outcome if success, false on failure (indicates wrong input).
+     * @return float|false Float outcome if success, false on failure (indicates wrong input of measure data or unrecognized algorithm name).
      */
     public function delta($data, $algorithm = 'CIE76', ?string $mode = null) {
         $assessed  = $this->_assessDeltaInputValues($data);
