@@ -6,6 +6,7 @@ use tei187\ColorTools\Delta\CIE76;
 use tei187\ColorTools\Delta\CIE94;
 use tei187\ColorTools\Delta\CIEDE2000;
 use tei187\ColorTools\Delta\CMC_lc;
+use tei187\ColorTools\Delta\Dictionary;
 use tei187\ColorTools\Helpers\ArrayMethods;
 use tei187\ColorTools\Helpers\ClassMethods;
 
@@ -59,7 +60,7 @@ trait Delta {
      * @param string $mode Switch for application, allows `self::MODE_GRAPHIC_ARTS` (default) or `self::MODE_TEXTILES`, corresponding to `'graphic_arts'` or `'textiles'` strings respectively.
      * @return float|false Float outcome if success, false on failure (indicates wrong input).
      */
-    public function deltaCIE94($data, $mode = CIE94::MODE_GRAPHIC_ARTS) {
+    public function deltaCIE94($data, string $mode = CIE94::MODE_GRAPHIC_ARTS) {
         $assessed = $this->_assessDeltaInputValues($data);
         return
             $assessed !== false
@@ -74,7 +75,7 @@ trait Delta {
      * @param string $mode Mode switch for 'l' (lightness) and 'c' (chroma) values used in equations. self::MODE_ACCEPTABILITY (default, string "acceptability") for 2:1, self::MODE_IMPERCEPTABILITY (string "imperceptability") for 1:1.
      * @return float|false Float outcome if success, false on failure (indicates wrong input).
      */
-    public function deltaCMClc($data, $mode = CMC_lc::MODE_ACCEPTABILITY) {
+    public function deltaCMClc($data, string $mode = CMC_lc::MODE_ACCEPTABILITY) {
         $assessed = $this->_assessDeltaInputValues($data);
         return
             $assessed !== false
@@ -94,6 +95,39 @@ trait Delta {
             $assessed !== false
                 ? CIEDE2000::calculateDelta([ array_values($this->toLab()->getValues()), $assessed ])
                 : false;
+    }
+
+    /**
+     * Calculates deltaE between current values and specified argument, using specified algorithm.
+     *
+     * @param object|array $data Either a measure object (of any type) or array with Lab values.
+     * @param string $algorithm Delta E measuring algorithm name. Refer to dictionary for short-hands.
+     * @param string|null $mode Applicable for CIE94 and CMC l:c algorithms only, defining measure mode. Null by default.
+     * @return float|false Float outcome if success, false on failure (indicates wrong input).
+     */
+    public function delta($data, $algorithm = 'CIE76', ?string $mode = null) {
+        $assessed  = $this->_assessDeltaInputValues($data);
+        $algorithm = Dictionary::assessDeltaEClass($algorithm);
+
+        if($assessed && $algorithm) {
+            switch($algorithm) {
+                case 'CIE76':
+                    $delta = $this->deltaCIE76($assessed);
+                    break;
+                case 'CIE94':
+                    $delta = $this->deltaCIE94($assessed, is_null($mode) ? 'graphic_arts' : $mode);
+                    break;
+                case 'CIE00':
+                case 'CIEDE2000':
+                    $delta = $this->deltaCIE00($assessed);
+                    break;
+                case 'CMC_lc':
+                    $delta = $this->deltaCMClc($assessed, is_null($mode) ? 'acceptability' : $mode);
+                    break;
+            }
+            return $delta;
+        }
+        return false;
     }
 
     
