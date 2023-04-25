@@ -20,6 +20,7 @@
     require_once __DIR__ . "/src/Traits/Companding/LCompanding.php";
     require_once __DIR__ . "/src/Traits/Companding/sRGBCompanding.php";
     require_once __DIR__ . "/src/Traits/Delta.php";
+    require_once __DIR__ . "/src/Traits/Contrast.php";
 
 // deltaE
     require_once __DIR__ . "/src/Delta/CIE76.php";

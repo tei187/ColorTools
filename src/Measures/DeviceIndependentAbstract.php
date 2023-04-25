@@ -4,6 +4,7 @@ namespace tei187\ColorTools\Measures;
 
 use tei187\ColorTools\Chromaticity\Temperature;
 use tei187\ColorTools\Traits\ChromaticAdaptation;
+use tei187\ColorTools\Traits\Contrast;
 use tei187\ColorTools\Traits\Delta;
 use tei187\ColorTools\Traits\Illuminants;
 
@@ -13,7 +14,8 @@ use tei187\ColorTools\Traits\Illuminants;
 abstract class DeviceIndependentAbstract {
     use Illuminants,
         ChromaticAdaptation,
-        Delta;
+        Delta,
+        Contrast;
 
     protected $values = [];
 
@@ -30,7 +32,7 @@ abstract class DeviceIndependentAbstract {
      * Assigns keys for array property 'values' per string input (assumed only one-character keys).
      *
      * @param string $keys
-     * @return void
+     * @return self
      */
     protected function _setValuesKeys(string $keys) : self {
         $keys = str_split(trim($keys));
