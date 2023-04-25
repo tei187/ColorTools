@@ -11,12 +11,13 @@ Delta E is also used in a variety of applications in the field of vision science
 
 ## **Standard list**
 
-| Name | Namespace | Modes | Custom identifiers |
-|---|---|---|---|
-| CIE76 | `tei187\ColorTools\Delta\CIE76` | N/A | _76_ |
-| CIE94 | `tei187\ColorTools\Delta\CIE94` | "graphic_arts", "textiles" | _94_ |
-| CIEDE2000 | `tei187\ColorTools\Delta\CIE00` | N/A | _ciede00, cie2000, 2000, 00_ |
-| CMC l:c | `tei187\ColorTools\Delta\CMC_lc` | "acceptability", "imperceptibility" | _cmc, cmclc_ |
+| Name      | Namespace                        | Modes                                  | Custom identifiers \*        |
+|-----------|----------------------------------|----------------------------------------|------------------------------|
+| CIE76     | `tei187\ColorTools\Delta\CIE76`  | N/A                                    | _76_                         |
+| CIE94     | `tei187\ColorTools\Delta\CIE94`  | "graphic_arts",<br>"textiles"          | _94_                         |
+| CIEDE2000 | `tei187\ColorTools\Delta\CIE00`  | N/A                                    | _ciede00, cie2000, 2000, 00_ |
+| CMC l:c   | `tei187\ColorTools\Delta\CMC_lc` | "acceptability",<br>"imperceptibility" | _cmc, cmclc, cmc-lc_         |
+<span style="color:red">\*</span> <span style="color:gray">custom identifiers can be used in non-specific delta methods, like `delta()` in measures object, instead of using exact class names.</span>
 
 <br>
 
@@ -27,6 +28,8 @@ You can use specific object methods to calculate delta E:
 * `deltaCIE94()` for [CIE94](https://en.wikipedia.org/wiki/Color_difference#CIE94) algorithm,
 * `deltaCIE00()` for [CIEDE2000](https://en.wikipedia.org/wiki/Color_difference#CIEDE2000) algorithm,
 * `deltaCMClc()` for [CMC l:c](https://en.wikipedia.org/wiki/Color_difference#CMC_l:c_(1984)) algorithm.
+
+Alternatively, for subjective readability improvement, you can as well use a `delta()` method, taking parameters of reference swatch and identifier leading to specific delta E class. If the identifier is not set, it defaults to CIE76.
 
 For CIE94 and CMC l:c refer to class documentation (additional parameters required).
 
@@ -39,12 +42,19 @@ use tei187\ColorTools\Measures\LCh;
 $a = new XYZ([.2967, .3178, .2817]);
 $b = new LCh([63.61469287626, 9.1862923416512, 103.13494521567]);
 
-echo $a->deltaCIE00($b);
-// 0.39877497284808
+// Using specific delta method:
+    $outcome1 = $a->deltaCIE00($b);
+    echo $outcome1;
+    // 0.39877497284808
 
-echo $a->delta($b, 'cie00');
-// 0.39877497284808
+// Using non-specific/alternative delta method:
+    $outcome2 = $a->delta($b, 'cie00');
+    echo $outcome2;
+    // 0.39877497284808
 
+// Verifying methods outcomes:
+    var_dump($outcome1 === $outcome2);
+    // bool(true)
 ```
 
 ## **Static methods**
@@ -57,7 +67,7 @@ You can use on of the classes of namespace:
 
 with each of these having a static method called `::calculateDelta(...)`. For CIE94 and CMC l:c refer to class documentation (additional parameters required).
 
-**Important:** all of these methods operate only on and assume arguments to be proper L\*a\*b values.
+**Important:** All of these methods operate only on and assume arguments to be proper L\*a\*b values. No array checks are being done.
 
 ```php
 use tei187\ColorTools\Delta\CIE76;
