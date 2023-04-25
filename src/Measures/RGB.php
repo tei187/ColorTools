@@ -89,6 +89,16 @@ class RGB extends DeviceDependentAbstract {
         return $this;
     }
 
+    public function toHSV($primaries = 'sRGB') : HSV {
+        $outcome = Convert::RGB_to_HSV($this->getValues());
+        return
+            (new HSV($outcome))
+                ->setPrimaries($this->primaries)
+                ->setIlluminant($this->illuminant, $this->illuminantAngle === null ? 2 : $this->illuminantAngle)
+                ->setIlluminantName($this->illuminantName)
+                ->setIlluminantTristimulus($this->illuminantT);
+    }
+
     /**
      * Returns RGB values in hex form.
      *

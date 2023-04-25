@@ -115,4 +115,10 @@ class XYZ extends DeviceIndependentAbstract implements Measure {
         $this->toRGB($primaries)
              ->toHSL();
     }
+
+    public function toHSV($primaries = 'sRGB') : HSV {
+        return
+            $this->toRGB($primaries)
+                 ->toHSV();
+    }
 }

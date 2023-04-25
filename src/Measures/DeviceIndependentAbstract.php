@@ -159,6 +159,13 @@ abstract class DeviceIndependentAbstract {
      */
     abstract public function toHSL($primaries = 'sRGB') : HSL;
     /**
+     * Converts from specified color model to HSV model, based on RGB primaries set.
+     *
+     * @param object|string $primaries
+     * @return HSV
+     */
+    abstract public function toHSV($primaries = 'sRGB') : HSV;
+    /**
      * Returns calculated temperature in K (Kelvin).
      *
      * @return float|integer

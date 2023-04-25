@@ -77,4 +77,10 @@ class Luv extends DeviceIndependentAbstract implements Measure {
     public function toHSL($primaries = 'sRGB') : HSL {
         return $this->toRGB($primaries)->toHSL();
     }
+
+    public function toHSV($primaries = 'sRGB') : HSV {
+        return
+            $this->toRGB($primaries)
+                 ->toHSV();
+    }
 }

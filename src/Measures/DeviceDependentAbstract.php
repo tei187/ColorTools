@@ -186,4 +186,10 @@ abstract class DeviceDependentAbstract extends DeviceIndependentAbstract {
      * @return HSL
      */
     abstract public function toHSL($primaries = 'sRGB'): HSL;
+        /**
+     * Converts to HSV values in the same illuminant as default for specified RGB primaries set.
+     *
+     * @return HSV
+     */
+    abstract public function toHSV($primaries = 'sRGB'): HSV;
 }

@@ -82,3 +82,4 @@
     require_once __DIR__ . "/src/Measures/XYZ.php";
     require_once __DIR__ . "/src/Measures/RGB.php";
     require_once __DIR__ . "/src/Measures/HSL.php";
+    require_once __DIR__ . "/src/Measures/HSV.php";

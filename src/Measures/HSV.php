@@ -5,9 +5,9 @@ namespace tei187\ColorTools\Measures;
 use tei187\ColorTools\Conversion\Convert;
 use tei187\ColorTools\Helpers\ArrayMethods;
 
-class HSL extends DeviceDependentAbstract {
+class HSV extends DeviceDependentAbstract {
     /**
-     * HSL values.
+     * HSV values.
      *
      * @var array
      */
@@ -20,13 +20,13 @@ class HSL extends DeviceDependentAbstract {
     protected $primaries;
 
     /**
-     * Creates a HSL swatch.
+     * Creates a HSV swatch.
      *
-     * @param array $values An array with HSL values (in this order), where H takes a numeric value between 0 and 360 (degrees), S and L a float value between 0 and 1 (equivalent of percentage).
+     * @param array $values An array with HSV values (in this order), where H takes a numeric value between 0 and 360 (degrees), S and V a float value between 0 and 1 (equivalent of percentage).
      * @param object|string $primaries RGB primaries to be used in conversion. By default sRGB.
      */
     public function __construct($values = [0,0,0], $primaries = 'sRGB') {
-        $this->_setValuesKeys('HSL');
+        $this->_setValuesKeys('HSV');
         $this->setValues($values);
         $this->setPrimaries($primaries);
     }
@@ -40,12 +40,12 @@ class HSL extends DeviceDependentAbstract {
     public function setValues(...$values) : self {
         $values = array_values($values);
         if(count($values) == 1 && is_array($values[0]) && ArrayMethods::itemsNumeric($values[0])) {
-            $this->values = ArrayMethods::formList($values[0], 'HSL') ?: $this->values;
+            $this->values = ArrayMethods::formList($values[0], 'HSV') ?: $this->values;
         } elseif (count($values) == 3 && ArrayMethods::itemsNumeric($values)) {
             $this->values = [
                 'H' => $values[0],
                 'S' => $values[1],
-                'L' => $values[2]
+                'V' => $values[2]
             ];
         }
         return $this;
@@ -53,7 +53,7 @@ class HSL extends DeviceDependentAbstract {
 
     public function toXYZ() : XYZ {
         return (new XYZ())
-            ->setValues(Convert::HSL_to_XYZ($this->getValues(), $this->getPrimaries()))
+            ->setValues(Convert::HSV_to_XYZ($this->getValues(), $this->getPrimaries()))
             ->setIlluminant($this->illuminant, $this->illuminantAngle === null ? 2 : $this->illuminantAngle)
             ->setIlluminantName($this->illuminantName)
             ->setIlluminantTristimulus($this->illuminantT);
@@ -61,7 +61,7 @@ class HSL extends DeviceDependentAbstract {
 
     public function toxyY() : xyY {
         return (new xyY())
-            ->setValues(Convert::HSL_to_xyY($this->getValues(), $this->getPrimaries()))
+            ->setValues(Convert::HSV_to_xyY($this->getValues(), $this->getPrimaries()))
             ->setIlluminant($this->illuminant, $this->illuminantAngle === null ? 2 : $this->illuminantAngle)
             ->setIlluminantName($this->illuminantName)
             ->setIlluminantTristimulus($this->illuminantT);
@@ -69,7 +69,7 @@ class HSL extends DeviceDependentAbstract {
 
     public function toLab() : Lab {
         return (new Lab())
-            ->setValues(Convert::HSL_to_Lab($this->getValues(), $this->getPrimaries()))
+            ->setValues(Convert::HSV_to_Lab($this->getValues(), $this->getPrimaries()))
             ->setIlluminant($this->illuminant, $this->illuminantAngle === null ? 2 : $this->illuminantAngle)
             ->setIlluminantName($this->illuminantName)
             ->setIlluminantTristimulus($this->illuminantT);
@@ -77,7 +77,7 @@ class HSL extends DeviceDependentAbstract {
 
     public function toLCh() : LCh {
         return (new LCh())
-            ->setValues(Convert::HSL_to_LCh($this->getValues(), $this->getPrimaries()))
+            ->setValues(Convert::HSV_to_LCh($this->getValues(), $this->getPrimaries()))
             ->setIlluminant($this->illuminant, $this->illuminantAngle === null ? 2 : $this->illuminantAngle)
             ->setIlluminantName($this->illuminantName)
             ->setIlluminantTristimulus($this->illuminantT);
@@ -85,7 +85,7 @@ class HSL extends DeviceDependentAbstract {
 
     public function toLCh_uv() : LCh_uv {
         return (new LCh_uv())
-            ->setValues(Convert::HSL_to_LCh_uv($this->getValues(), $this->getPrimaries()))
+            ->setValues(Convert::HSV_to_LCh_uv($this->getValues(), $this->getPrimaries()))
             ->setIlluminant($this->illuminant, $this->illuminantAngle === null ? 2 : $this->illuminantAngle)
             ->setIlluminantName($this->illuminantName)
             ->setIlluminantTristimulus($this->illuminantT);
@@ -93,7 +93,7 @@ class HSL extends DeviceDependentAbstract {
 
     public function toRGB($primaries = null) : RGB {
         return (new RGB())
-            ->setValues(Convert::HSL_to_RGB($this->getValues()))
+            ->setValues(Convert::HSV_to_RGB($this->getValues()))
             ->setPrimaries($this->primaries)
             ->setIlluminant($this->illuminant, $this->illuminantAngle === null ? 2 : $this->illuminantAngle)
             ->setIlluminantName($this->illuminantName)
@@ -103,69 +103,48 @@ class HSL extends DeviceDependentAbstract {
     public function toLuv(): Luv {
         return 
             (new Luv())
-                ->setValues(Convert::HSL_to_Luv($this->getValues(), $this->primaries))
-                ->setIlluminant($this->illuminant, $this->illuminantAngle === null ? 2 : $this->illuminantAngle)
-                ->setIlluminantName($this->illuminantName)
-                ->setIlluminantTristimulus($this->illuminantT);
-    }
-
-    public function toHSV($primaries = null): HSV {
-        return
-            (new HSV())
-                ->setValues(Convert::HSL_to_HSV($this->getValues()))
-                ->setPrimaries($this->primaries)
+                ->setValues(Convert::HSV_to_Luv($this->getValues(), $this->primaries))
                 ->setIlluminant($this->illuminant, $this->illuminantAngle === null ? 2 : $this->illuminantAngle)
                 ->setIlluminantName($this->illuminantName)
                 ->setIlluminantTristimulus($this->illuminantT);
     }
 
     public function toHSL($primaries = null): HSL {
+        return
+            (new HSL())
+                ->setValues(Convert::HSV_to_HSL($this->getValues()))
+                ->setPrimaries($this->primaries)
+                ->setIlluminant($this->illuminant, $this->illuminantAngle === null ? 2 : $this->illuminantAngle)
+                ->setIlluminantName($this->illuminantName)
+                ->setIlluminantTristimulus($this->illuminantT);
+    }
+
+    public function toHSV($primaries = null): HSV {
         return $this;
     }
 
     /**
-     * Returns HSL values array with formatted strings.
+     * Returns HSV values array with formatted strings.
      *
      * @param integer|false $round If integer, rounds to specified precision. If false, leaves original values.
      * @return array
      */
     public function getValuesFormatted($round = false) : array {
-        list($H, $S, $L) = array_values($this->values);
+        list($H, $S, $V) = array_values($this->values);
 
         $S = $S * 100;
-        $L = $L * 100;
+        $V = $V * 100;
 
         if($round !== false && is_int($round) && $round >= 0) {
             $H = round($H, $round);
             $S = round($S, $round);
-            $L = round($L, $round);
+            $V = round($V, $round);
         }
 
         return [
             'H' => $H . "°",
             'S' => $S . "%",
-            'L' => $L . "%"
+            'V' => $V . "%"
         ];
-    }
-
-    /**
-     * Returns HSL values array in string form, formatting as `hsl(Hdeg, S%, L%)`.
-     *
-     * @param integer|false $round If integer, rounds to specified precision. If false, leaves original values.
-     * @return string
-     */
-    public function getValuesString($round = false) : string {
-        list($H, $S, $L) = array_values($this->values);
-
-        $S = $S * 100;
-        $L = $L * 100;
-
-        if($round !== false && is_int($round) && $round >= 0) {
-            $H = round($H, $round);
-            $S = round($S, $round);
-            $L = round($L, $round);
-        }
-
-        return "hsl({$H}deg, {$S}%, {$L}%)";
     }
 }
