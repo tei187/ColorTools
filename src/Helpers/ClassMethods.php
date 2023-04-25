@@ -40,6 +40,10 @@ class ClassMethods {
         return in_array($trait, self::get_all_traits($obj));
     }
 
+    static function checkForParent($obj, string $parent) : bool {
+        return in_array($parent, self::get_all_parents($obj));
+    }
+
     /**
      * Returns array of all inherited and current traits.
      *
@@ -68,5 +72,13 @@ class ClassMethods {
             $interfaces = array_merge($interfaces, class_implements($parentClass));
         }
         return $interfaces;
+    }
+
+    static function get_all_parents($obj) : array {
+        $parents = class_parents($obj);
+        foreach ($parents as $parentClass) {
+            $parents = array_merge($parents, class_parents($parentClass));
+        }
+        return $parents;
     }
 }
