@@ -2,8 +2,19 @@
 
 namespace tei187\ColorTools\Traits;
 
+/**
+ * Handles contrast math between swatches.
+ */
 trait Contrast {
-    public function getContrast(object $b) {
+    /**
+     * Calculates color contrast based on current object's values and reference object's values.
+     *
+     * @param object $reference Reference measure object.
+     * @param integer|null $roundTo If integer, will round the outcome contrast to specified precision. If NULL (default), leaves original value.
+     * @param boolean $returnAsRatio If set to TRUE, returns as string "x:1". If FALSE (default), returns float.
+     * @return float|string
+     */
+    public function getContrast(object $reference, ?int $roundTo = null, bool $returnAsRatio = false) {
         // SOURCE: toRGB & remove gamma companding
         $rgb1 = $this->toRGB();
         $rgb1_gamma_inv = [];
@@ -13,7 +24,7 @@ trait Contrast {
         $rgb1_xyY = $this->getPrimaries()->getPrimariesXYY();
 
         // REFERENCE: toRGB & remove gamma companding
-        $rgb2 = $b->toRGB();
+        $rgb2 = $reference->toRGB();
         $rgb2_gamma_inv = [];
         foreach($rgb2->getValues() as $k => $v) {
             $rgb2_gamma_inv[$k] = $this->primaries->applyInverseCompanding($v);
@@ -32,7 +43,15 @@ trait Contrast {
             + ($rgb2['G'] * $rgb2_xyY['G']['2']) 
             + ($rgb2['B'] * $rgb2_xyY['B']['2']);
 
-        return ($L1 + .05) / ($L2 + .05);
+        $contrast = ($L1 + .05) / ($L2 + .05);
+
+        if($roundTo !== null) {
+            $contrast = round($contrast, $roundTo);
+        }
+
+        return $returnAsRatio
+            ? strval($contrast . ":1")
+            : floatval($contrast);
     }
     
 }
