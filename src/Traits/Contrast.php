@@ -45,6 +45,7 @@ trait Contrast {
 
         $contrast = ($L1 + .05) / ($L2 + .05);
 
+        // OUTPUT PARAMETERS HANDLING & RETURN
         if($roundTo !== null) {
             $contrast = round($contrast, $roundTo);
         }
