@@ -25,10 +25,10 @@ Delta E is also used in a variety of applications in the field of vision science
 ## **Objects**
 
 You can use specific object methods to calculate delta E:
-* `deltaCIE76\left (\right )` for [CIE76]\left (https://en.wikipedia.org/wiki/Color_difference#CIE76\right ) algorithm,
-* `deltaCIE94\left (\right )` for [CIE94]\left (https://en.wikipedia.org/wiki/Color_difference#CIE94\right ) algorithm,
-* `deltaCIE00\left (\right )` for [CIEDE2000]\left (https://en.wikipedia.org/wiki/Color_difference#CIEDE2000\right ) algorithm,
-* `deltaCMClc\left (\right )` for [CMC l:c]\left (https://en.wikipedia.org/wiki/Color_difference#CMC_l:c_\left (1984\right )\right ) algorithm.
+* `deltaCIE76()` for [CIE76](https://en.wikipedia.org/wiki/Color_difference#CIE76 ) algorithm,
+* `deltaCIE94()` for [CIE94](https://en.wikipedia.org/wiki/Color_difference#CIE94) algorithm,
+* `deltaCIE00()` for [CIEDE2000](https://en.wikipedia.org/wiki/Color_difference#CIEDE2000) algorithm,
+* `deltaCMClc()` for [CMC l:c](https://en.wikipedia.org/wiki/Color_difference#CMC_l:c_(1984)) algorithm.
 
 Alternatively, for subjective readability improvement, you can as well use a `delta()` method, taking parameters of reference swatch and identifier leading to specific delta E class. If the identifier is not set, it defaults to CIE76.
 
