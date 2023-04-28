@@ -1,0 +1,18 @@
+{
+    "name": "tei187/color-tools",
+    "description": "Handling of color based methods, such as conversion, chromatic adaptation, difference measurement.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "tei187\\ColorTools\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "tei187",
+            "email": "59267193+tei187@users.noreply.github.com"
+        }
+    ],
+    "require": {}
+}

@@ -131,8 +131,6 @@ class ArrayMethods {
 
     /**
      * Checks if each element of array is a numeric value between 0 and 1.
-     *
-     * @todo check if any is float?
      * 
      * @param array $data
      * @return boolean
