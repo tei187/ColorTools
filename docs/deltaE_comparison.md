@@ -1,6 +1,6 @@
 # **deltaE comparison**
 
-In colorimetry, delta E \left (ΔE\right ) is a measure of the difference between two colors. 
+In colorimetry, delta E (ΔE) is a measure of the difference between two colors. 
 
 Delta E is a commonly used unit of measurement in colorimetry, and is often used in a variety of applications, such as color matching, color correction, and color quality control. It is important to note that delta E is a relative measure, and that the exact value of delta E will depend on the specific method of measurement and the units used to express the tristimulus values.
 In addition to its use in color matching and color quality control, delta E is also used in a variety of other fields, such as printing, painting, and design. In printing, for example, delta E is often used to compare the colors of different print jobs, and to ensure that they match the original design. In painting, delta E is used to compare the colors of different paints, and to ensure that they match the desired color. In design, delta E is used to compare the colors of different design elements, and to ensure that they match the overall design scheme.
@@ -92,13 +92,21 @@ echo CMC_lc::calculateDelta([$lab1, $lab2], "acceptability");
 
 * ### **CIE76**
 
-  $\Delta E_{76} = \sqrt{\left ( L_{2} - L_{1} \right )^{2} + \left ( a_{2} - a_{1} \right )^{2} + \left ( b_{2} - b_{1} \right )^{2}}$
+$$\LARGE \Delta E_{76} = \sqrt{\left ( \Delta L \right )^{2} + \left ( \Delta a \right )^{2} + \left ( \Delta b \right )^{2}}$$
+
+$$\text{where}$$
+
+$$\Delta L = L_{2} - L_{1}$$
+
+$$\Delta a = a_{2} - a_{1}$$
+
+$$\Delta b = b_{2} - b_{1}$$
 
 <br>
 
 * ### **CIE94**
 
-$$\Delta E_{94} = \sqrt{\left (\frac{\Delta L}{K_{L} \times S_{L}}\right )^{2} + \left (\frac{\Delta C}{K_{C} \times S_{C}}\right )^{2} + \left (\frac{\Delta H}{K_{H} \times S_{H}}\right )^{2}}$$
+$$\LARGE \Delta E_{94} = \sqrt{\left (\frac{\Delta L}{K_{L} \times S_{L}}\right )^{2} + \left (\frac{\Delta C}{K_{C} \times S_{C}}\right )^{2} + \left (\frac{\Delta H}{K_{H} \times S_{H}}\right )^{2}}$$
 
 $$\text{where}$$
 
@@ -139,7 +147,7 @@ $$S_{h} = 1 + \left (K_{2} \times C_{1}\right )$$
 
 * ### **CIEDE2000**
 
-$$\Delta E_{00} = {\left (\frac{\Delta {L}'}{k_{L} \times S_{L}}\right )}^{2} + {\left (\frac{\Delta {C}'}{k_{C} \times S_{C}}\right )}^{2} + {\left (\frac{\Delta {H}'}{k_{H} \times S_{H}}\right )}^{2} + R_{T} \times \left (\frac{\Delta {C}'}{k_{C} \times S_{C}}\right )\left (\frac{\Delta {H}'}{k_{H} \times S_{H}}\right )$$
+$$\LARGE \Delta E_{00} = \sqrt{{\left (\frac{\Delta {L}'}{k_{L} \times S_{L}}\right )}^{2} + {\left (\frac{\Delta {C}'}{k_{C} \times S_{C}}\right )}^{2} + {\left (\frac{\Delta {H}'}{k_{H} \times S_{H}}\right )}^{2} + R_{T} \times \left (\frac{\Delta {C}'}{k_{C} \times S_{C}}\right )\left (\frac{\Delta {H}'}{k_{H} \times S_{H}}\right )}$$
 
 $$\text{where}$$
 
@@ -200,7 +208,7 @@ $$R_{T} = -1 \times \sin(2\Delta \theta) \times R_{C}$$
 
 * ### **CMC l:c**
 
-$$\Delta E_{CMC} = \sqrt{ \left ( \frac{\Delta L}{l S_{L}} \right ) ^ 2 + \left ( \frac{\Delta C}{c S_{C}} \right ) ^ 2 + \left ( \frac{\Delta H}{S_{H}} \right ) ^ 2 }$$
+$$\LARGE \Delta E_{CMC} = \sqrt{ \left ( \frac{\Delta L}{l S_{L}} \right ) ^ 2 + \left ( \frac{\Delta C}{c S_{C}} \right ) ^ 2 + \left ( \frac{\Delta H}{S_{H}} \right ) ^ 2 }$$
 
 $$\text{where}$$
   
