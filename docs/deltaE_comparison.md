@@ -133,7 +133,7 @@ $$S_{L} = 1$$
 
 $$S_{C} = 1 + \left (K_{1} \times C_{1}\right )$$
 
-$$S_{h} = 1 + \left (K_{2} \times C_{1}\right )$$$
+$$S_{h} = 1 + \left (K_{2} \times C_{1}\right )$$
 
 <br>
 
@@ -186,7 +186,7 @@ $${\bar{h}}' = \begin{cases}
 
 $$T = 1 - .17 \times \cos{\left ({\bar{h}}' - 30^{\circ} \right )} + .24 \times \cos{\left (2{\bar{h}}' \right )} + .32 \times \cos{\left (3{\bar{h}}' + 6^{\circ} \right )} - .20 \times \cos{\left (4{\bar{h}}' - 63^{\circ} \right )}$$
 
-$$\Delta \theta = 30 \times \exp \left \( - {\left [ \frac{{\bar{h}' - 275^{\circ}}}{25} \right ]}^2 \right \)$$
+$$\Delta \theta = 30 \times \exp \left ( - {\left [ \frac{{\bar{h}' - 275^{\circ}}}{25} \right ] }^2 \right )$$
 
 $$R_{C} = 2 \times \sqrt{ \frac{ ({\bar{C}}')^7 }{ ({\bar{C}}')^7 + 25^7 } }$$
 
