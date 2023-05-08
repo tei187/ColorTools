@@ -137,6 +137,10 @@ $$\Delta a = a_{1} - a_{2}$$
 
 $$\Delta b = b_{1} - b_{2}$$
 
+$$\Delta C_{ab} = C_{1} - C_{2}$$
+
+$$\Delta H = \sqrt{ \Delta a^{2} + \Delta b^{2} - \Delta C_{ab}^{2} }$$
+
 $$S_{L} = 1$$
 
 $$S_{C} = 1 + \left (K_{1} \times C_{1}\right )$$
