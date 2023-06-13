@@ -812,11 +812,19 @@ class Convert {
         $matrix = Adaptation::transpose3x3Matrix( Adaptation::invert3x3Matrix($primariesXYZ) );
         $xyz_rgb = Adaptation::matrixVector($matrix, array_values($data));
 
-        return [
+        $gammaCompanding = [
             'R' => $primaries->applyCompanding($xyz_rgb[0], $primaries->getGamma()),
             'G' => $primaries->applyCompanding($xyz_rgb[1], $primaries->getGamma()),
             'B' => $primaries->applyCompanding($xyz_rgb[2], $primaries->getGamma())
         ];
+
+        $gammaCompanding = array_map(function($v) { 
+                if($v < 0) { $v = 0; }
+            elseif($v > 1) { $v = 1; }
+            return $v;
+        }, $gammaCompanding);
+
+        return $gammaCompanding;
     }
 
     /**
