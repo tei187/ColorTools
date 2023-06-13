@@ -788,7 +788,6 @@ class Convert {
             }
         }
         if(is_string($primaries)) {
-            echo "3";
             $primaries = self::loadPrimaries($primaries);
             if($primaries === false) {
                 return false;
@@ -797,7 +796,6 @@ class Convert {
 
         $primariesXYZ = [];
         if($WP_RefTristimulus !== null) {
-            echo "4";
             foreach($primaries->getPrimariesXYY() as $values) {
                 $primariesXYZ[] = array_values(
                     Adaptation::adapt(
@@ -823,7 +821,7 @@ class Convert {
         return
             array_map(
                 function($v) { 
-                        if($v < 0 || is_nan($v)) { $v = 0; }
+                        if($v < 0) { $v = 0; }
                     elseif($v > 1) { $v = 1; }
                     return $v;
                 }, 
