@@ -32,14 +32,35 @@ class ClassMethods {
         return $outcome;
     }
 
+    /**
+     * Checks if specified object or class uses a specified interface.
+     *
+     * @param object|string $obj Object or valid namespace.
+     * @param string $interface Full namespace of interface.
+     * @return boolean
+     */
     static function checkForInterface($obj, string $interface) : bool {
         return in_array($interface, self::get_all_interfaces($obj));
     }
 
+    /**
+     * Checks if specified object or class uses a specified trait.
+     *
+     * @param object|string $obj Object or valid namespace.
+     * @param string $trait Full namespace of trait.
+     * @return boolean
+     */
     static function checkForTrait($obj, string $trait) : bool {
         return in_array($trait, self::get_all_traits($obj));
     }
 
+    /**
+     * Checks if specified object or class has a specified parent class.
+     *
+     * @param object|string $obj Object or valid namespace.
+     * @param string $parent Full namespace of parent class.
+     * @return boolean
+     */
     static function checkForParent($obj, string $parent) : bool {
         return in_array($parent, self::get_all_parents($obj));
     }
@@ -47,7 +68,7 @@ class ClassMethods {
     /**
      * Returns array of all inherited and current traits.
      *
-     * @param object|string $obj
+     * @param object|string $obj Object or valid namespace.
      * @return array
      */
     static function get_all_traits($obj) : array {
@@ -62,7 +83,7 @@ class ClassMethods {
     /**
      * Returns array of all inherited and current interfaces.
      *
-     * @param object|string $obj
+     * @param object|string $obj Object or valid namespace.
      * @return array
      */
     static function get_all_interfaces($obj) : array {
@@ -74,6 +95,12 @@ class ClassMethods {
         return $interfaces;
     }
 
+    /**
+     * Returns array of all parent classes.
+     *
+     * @param object|string $obj Object or valid namespace.
+     * @return array
+     */
     static function get_all_parents($obj) : array {
         $parents = class_parents($obj);
         foreach ($parents as $parentClass) {

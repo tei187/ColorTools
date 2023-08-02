@@ -161,6 +161,12 @@ class ArrayMethods {
                 : false;
     }
 
+    /**
+     * Checks if each element of array is numeric.
+     *
+     * @param array $data
+     * @return boolean
+     */
     static function itemsNumeric(array $data) : bool {
         $checks = array_map(function($v) { return is_numeric($v); }, $data);
         $uniques = array_unique(array_values($checks));

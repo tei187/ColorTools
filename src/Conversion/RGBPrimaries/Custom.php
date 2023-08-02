@@ -17,7 +17,7 @@ class Custom implements PrimariesInterface {
     private $gamma = 2.2;
 
     /**
-     * Undocumented function
+     * Custom primaries class constructor.
      *
      * @param array $xyy Array of arrays with xyY values for each channel.
      * @param string|null $name Custom name for primaries.
@@ -45,19 +45,39 @@ class Custom implements PrimariesInterface {
                 );
         $this->gamma = $gamma;
     }
-
+    /**
+     * Returns xyY array of RGB primaries.
+     *
+     * @return array
+     */
     public function getPrimariesXYY() : array {
         return $this->xyy;
     }
+    /**
+     * Returns formatted name of primaries used.
+     *
+     * @return string|null
+     */
     public function getPrimariesName() : ?string {
         return $this->name;
     }
+    /**
+     * Returns standard illuminant for specified primaries used.
+     *
+     * @return string|null
+     */
     public function getIlluminantName() : ?string {
         return
             is_array($this->illuminant)
                 ? null
                 : $this->illuminant;
     }
+    /**
+     * Returns tristimulus for illuminant for specified primaries used.
+     * If specified standard illuminant was not found, returns D65.
+     *
+     * @return array
+     */
     public function getIlluminantTristimulus() : array {
         if($this->illuminant == null) {
             $this->illuminant = 'D65';
@@ -72,6 +92,11 @@ class Custom implements PrimariesInterface {
         }
         return \tei187\ColorTools\StandardIlluminants\WhitePoint2::D65;
     }
+    /**
+     * Returns gamma value.
+     *
+     * @return int|float|string
+     */
     public function getGamma() {
         return $this->gamma;
     }

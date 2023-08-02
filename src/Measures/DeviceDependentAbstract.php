@@ -33,6 +33,16 @@ abstract class DeviceDependentAbstract extends DeviceIndependentAbstract {
      */
     protected $primaries;
 
+    /**
+     * Returns specific primaries as object.
+     * 
+     * Returned object should be
+     * - one of `\tei187\Colortools\Conversion\RGBPrimaries\Standard\`... classes
+     * - custom primaries set of `\tei187\Colortools\Conversion\RGBPrimaries\Custom` class
+     * - or separate object based on `\tei187\ColorTools\Interfaces\Primaries` interface and `\tei187\ColorTools\Conversion\RGBPrimaries\PrimariesAbstract` abstract class.
+     *
+     * @return object
+     */
     public function getPrimaries() : object {
         return $this->primaries;
     }
@@ -186,7 +196,7 @@ abstract class DeviceDependentAbstract extends DeviceIndependentAbstract {
      * @return HSL
      */
     abstract public function toHSL($primaries = 'sRGB'): HSL;
-        /**
+    /**
      * Converts to HSV values in the same illuminant as default for specified RGB primaries set.
      *
      * @return HSV

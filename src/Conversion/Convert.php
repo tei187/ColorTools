@@ -23,10 +23,19 @@ class Convert {
         PrimariesLoader;
 
     //const EPSILON_INTENT = 0.00885645167903563081717167575546;
+    /**
+     * Epsilon value.
+     */
     const EPSILON = .008856;
     //const KAPPA_INTENT = 903.2962962962962962962962962963;
+    /**
+     * Kappa value.
+     */
     const KAPPA = 903.3;
     //const EPSILON_x_KAPPA_INTENT = 7.999999999999971;
+    /**
+     * Epsilon multiplied by kappa value.
+     */
     const EPSILON_x_KAPPA = 7.9996248;
 
 // LCh
