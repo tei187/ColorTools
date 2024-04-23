@@ -66,3 +66,6 @@ Set of classes used to convert colors and calculate color difference.
   - CMC l:c.
 
 * ### Contrast ratio calculation.
+
+## Requirements
+PHP 8.1
