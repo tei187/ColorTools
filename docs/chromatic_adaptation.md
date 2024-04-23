@@ -16,11 +16,11 @@ Overall, chromatic adaptation is an important process that helps us see colors a
 
 ### **Static**
 
-Chromatic adaptation is done on XYZ model base, using `\tei187\ColorTools\Chromaticity\Adaptation\Adaptation::adapt` method. Arguments explained below:
+Chromatic adaptation is done on XYZ model base, using `\tei187\ColorTools\Math\Chromaticity\Adaptation::adapt` method. Arguments explained below:
 * XYZ - array holding three values describing the measure/swatch XYZ tristimulus.
 * WP_s - source white point / standard illuminant XYZ tristimulus as an array or proper name for standard illuminant as a string.
 * WP_d - destination white point / standard illuminant XYZ tristimulus as an array or proper name for standard illuminant as a string.
-* M_tran - 3x3 array of chromatic adaptation transformation (CAT) matrix. Others CAT are also available through `\tei187\ColorTools\Chromaticity\Adaptation\Matrices` constans within, as well as a custom 3x3 array of floats describing CAT matrix:
+* M_tran - 3x3 array of chromatic adaptation transformation (CAT) matrix. Others CAT are also available through `\tei187\ColorTools\Dictionaries\CAT\Matrices` constans within, as well as a custom 3x3 array of floats describing CAT matrix:
     * ::Bradford _(default)_,
     * ::CIECAT02,
     * ::CMCCAT2000,
@@ -32,7 +32,7 @@ Chromatic adaptation is done on XYZ model base, using `\tei187\ColorTools\Chroma
 Example of adapting XYZ values from D50 to D65 using Bradford CAT:
 ```php
 use tei187\ColorTools\Chromaticity\Adaptation\Adaptation;
-use tei187\ColorTools\Chromaticity\Adaptation\Matrices;
+use tei187\ColorTools\Dictionaries\CAT\Matrices;
 
 $xyz = [ .2967, .3178, .2817 ];
 
@@ -56,9 +56,9 @@ Adapt accepts two parameters:
 * destination - the final white point reference, can be standard illuminant name, xy chromatic coordinates or xyz tristimulus,
 * CAT - chromatic adaptation transform matrix (Bradford CAT by default).
 ```php
-use tei187\ColorTools\Measures\XYZ;
-use tei187\ColorTools\Chromaticity\Adaptation\Adaptation;
-use tei187\ColorTools\Chromaticity\Adaptation\Matrices;
+use tei187\ColorTools\ColorModels\XYZ;
+use tei187\ColorTools\Math\Chromaticity\Adaptation;
+use tei187\ColorTools\Dictionaries\CAT\Matrices;
 
 $obj = new XYZ();
 $obj->setValues([ .2967, .3178, .2817 ])

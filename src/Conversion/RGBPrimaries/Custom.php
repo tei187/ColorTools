@@ -2,14 +2,21 @@
 
 namespace tei187\ColorTools\Conversion\RGBPrimaries;
 
-use tei187\ColorTools\Interfaces\Primaries as PrimariesInterface;
+use tei187\ColorTools\Interfaces\RGBPrimaries as RGBPrimariesInterface;
 use tei187\ColorTools\Traits\Companding\GammaCompanding;
-use tei187\ColorTools\StandardIlluminants\Dictionary as StandardIlluminantDictionary;
+use tei187\ColorTools\Dictionaries\Illuminants\Standard\Dictionary as StandardIlluminantDictionary;
+use tei187\ColorTools\Illuminants\Illuminant;
+
+//use tei187\ColorTools\Illuminants\Illuminant;
 
 /**
  * Class for creation of custom sets of RGB primaries.
+ * 
+ * For the time being, quite useless. Don't use it, people.
+ * 
+ * @deprecated 
  */
-class Custom implements PrimariesInterface {
+class Custom implements RGBPrimariesInterface {
     use GammaCompanding;
     private $xyy = [];
     private $name = null;
@@ -76,6 +83,8 @@ class Custom implements PrimariesInterface {
      * Returns tristimulus for illuminant for specified primaries used.
      * If specified standard illuminant was not found, returns D65.
      *
+     * @todo check why tristimulus
+     * 
      * @return array
      */
     public function getIlluminantTristimulus() : array {
@@ -83,15 +92,16 @@ class Custom implements PrimariesInterface {
             $this->illuminant = 'D65';
         }
         if(is_string($this->illuminant)) {
-            $data = constant("\\tei187\\ColorTools\\StandardIlluminants\\Tristimulus2::".strtoupper($this->illuminant));
+            $data = constant("\\tei187\\ColorTools\\Dictionaries\\Illuminants\\Standard\\Tristimulus2::".strtoupper($this->illuminant));
             if($data !== null) {
                 return $data;
             }
         } elseif(is_array($this->illuminant)) {
             return $this->illuminant;
         }
-        return \tei187\ColorTools\StandardIlluminants\WhitePoint2::D65;
+        return \tei187\ColorTools\Dictionaries\Illuminants\Standard\WhitePoint2::D65;
     }
+
     /**
      * Returns gamma value.
      *
@@ -99,5 +109,16 @@ class Custom implements PrimariesInterface {
      */
     public function getGamma() {
         return $this->gamma;
+    }
+
+    public function getIlluminant(): ?Illuminant
+    {
+        if($this->illuminant == null) {
+            return null;
+        }
+        if(is_string($this->illuminant)) {
+            return StandardIlluminantDictionary::getIlluminant($this->illuminant);
+        }
+        return new Illuminant($this->getIlluminantTristimulus(), 2, $this->getIlluminantName());
     }
 }

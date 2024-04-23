@@ -7,28 +7,36 @@ namespace tei187\ColorTools\Traits\Companding;
  */
 trait sRGBCompanding {
     /**
-     * Applies sRGB companding.
+     * Applies sRGB companding to the given value.
      *
-     * @param float|integer $value
-     * @return float|integer
+     * If the value is less than or equal to 0.0031308, it is scaled using the linear sRGB formula.
+     * Otherwise, it is transformed using the nonlinear sRGB formula.
+     *
+     * @param float|integer $value The value to apply sRGB companding to.
+     * @return float|integer The companded value.
      */
-    public function applyCompanding($value) {
-        return 
+    public function applyCompanding($value)
+    {
+        return
             $value <= .0031308
-                ? 12.92 * $value
-                : (1.055 * pow($value, 1/ 2.4) - 0.055);
+            ? 12.92 * $value
+            : (1.055 * pow($value, 1 / 2.4) - 0.055);
     }
 
     /**
      * Applies inverse sRGB companding.
      *
-     * @param float|integer $value
-     * @return float|integer
+     * If the value is less than or equal to 0.04045, it is scaled using the linear sRGB formula.
+     * Otherwise, it is transformed using the nonlinear sRGB formula.
+     *
+     * @param float|integer $value The value to apply inverse sRGB companding to.
+     * @return float|integer The decompanded value.
      */
-    public function applyInverseCompanding($value) {
-        return 
+    public function applyInverseCompanding($value)
+    {
+        return
             $value <= .04045
-                ? $value / 12.92
-                : pow((($value + .055) / 1.055), 2.4);
+            ? $value / 12.92
+            : pow((($value + .055) / 1.055), 2.4);
     }
 }

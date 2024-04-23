@@ -15,7 +15,7 @@ The chromaticity coordinates of the RGB primaries depend on the specific definit
 
 ## **Standard list**
 
-Below the list of available standard RGB primaries:
+The following table contains the list of standard RGB primaries available through `\tei187\ColorTools\Dictionaries\RGBPrimaries\Standard\Primaries` namespace or loadable through appropriate dictionary.
 
 | Full name      | Illuminant | Class name    | Custom identifiers               |
 |----------------|------------|---------------|----------------------------------|

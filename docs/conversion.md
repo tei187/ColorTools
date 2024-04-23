@@ -30,15 +30,15 @@ Conversion can be done between pairs of different color models and transcription
 ## **Objects - intro**
 
 An object corresponding to color model can be created using one of the classes:
-* `tei187\ColorTools\Measures\HSL`,
-* `tei187\ColorTools\Measures\HSV`,
-* `tei187\ColorTools\Measures\Lab`,
-* `tei187\ColorTools\Measures\LCh`,
-* `tei187\ColorTools\Measures\LCh_uv`,
-* `tei187\ColorTools\Measures\Luv`,
-* `tei187\ColorTools\Measures\RGB`,
-* `tei187\ColorTools\Measures\xyY`,
-* `tei187\ColorTools\Measures\XYZ`.
+* `tei187\ColorTools\ColorModels\HSL`,
+* `tei187\ColorTools\ColorModels\HSV`,
+* `tei187\ColorTools\ColorModels\Lab`,
+* `tei187\ColorTools\ColorModels\LCh`,
+* `tei187\ColorTools\ColorModels\LCh_uv`,
+* `tei187\ColorTools\ColorModels\Luv`,
+* `tei187\ColorTools\ColorModels\RGB`,
+* `tei187\ColorTools\ColorModels\xyY`,
+* `tei187\ColorTools\ColorModels\XYZ`.
 
 <br>
 
@@ -59,7 +59,7 @@ Each measure type must be based on environment illuminant white point **xy** val
 Observer angle corresponds to the used illuminant parameter. By default it is 2 degrees. It is required to set it up properly, due to different **xy** values describing the illuminant white point space.
 
 ```php
-use tei187\ColorTools\Measures\Lab;
+use tei187\ColorTools\ColorModels\Lab;
 
 $swatch_Lab = new Lab([63.16, -3.67, -3.29], 'D50', 2);
 $swatch_XYZ = $swatch_Lab->toXYZ();
@@ -78,7 +78,7 @@ var_dump($swatch_XYZ->getValues());
 
 ### **Assigning**
 ```php
-use tei187\ColorTools\Measures\Lab;
+use tei187\ColorTools\ColorModels\Lab;
 
 $swatch_Lab = new Lab();
 $swatch_Lab->setValues(63.16, -3.67, -3.29) // set values
@@ -102,7 +102,7 @@ Due to the fact that there exist different color models used to describe RGB mea
 * **Primaries**, however, are required to reference a defined/standarized object of **`tei187\ColorTools\Conversion\RGBPrimaries\Standard` namespace**, coresponding to standarized RGB models. It is done this way because each RGB model has it's own set of primaries and illuminant used to describe the color space. Apart from standard primaries, you can also use custom-created ones (`tei187\ColorTools\Conversion\RGBPrimaries\Custom`) - see **_rgb_primaries.md_** doc for more information.
 
 ```php
-use tei187\ColorTools\Measures\RGB;
+use tei187\ColorTools\ColorModels\RGB;
 
 $swatch = new RGB('#ff8800', 'sRGB');
 ```
@@ -112,8 +112,8 @@ $swatch = new RGB('#ff8800', 'sRGB');
 Converting to RGB **will change the object's illuminant** to the one typical for specified primaries. If you wish to translate it using a different illuminant white point, chromatic adaptation has to be applied on the conversion outcome. This is quite important while converting to device-independent models.
 
 ```php
-use tei187\ColorTools\Measures\Lab;
-use tei187\ColorTools\Measures\RGB;
+use tei187\ColorTools\ColorModels\Lab;
+use tei187\ColorTools\ColorModels\RGB;
 
 $swatch_Lab = new Lab([63.16, -3.67, -3.29], 'D50', 2);
 $swatch_RGB = $swatch_Lab->toRGB('sRGB');
@@ -127,7 +127,7 @@ echo $swatch_RGB->getIlluminantName();
 
 Also, RGB-based objects can return values in various formatting.
 ```php
-use tei187\ColorTools\Measures\RGB;
+use tei187\ColorTools\ColorModels\RGB;
 
 $swatch = new RGB('#ff8800', 'sRGB');
 
@@ -149,4 +149,4 @@ Furthermore, the same as with RGB, converting to device-independent models may r
 <br>
 
 ## **Static methods**
-Each conversion available through object-based classes can be done using just static methods of `tei187\ColorTools\Conversion\Convert` class.
+Each conversion available through object-based classes can be done using just static methods of `tei187\ColorTools\Math\ModelConversion` class.
