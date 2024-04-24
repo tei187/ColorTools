@@ -120,6 +120,7 @@ class XYZ extends DeviceIndependentAbstract implements Measure {
         return
             new RGB($outcome, $primaries);
         */
+
         return new RGB(
             ModelConversion::XYZ_to_RGB(
                 $this->getValues(), 

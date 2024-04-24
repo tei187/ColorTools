@@ -5,9 +5,9 @@ namespace tei187\ColorTools\Traits;
 use tei187\ColorTools\Helpers\ClassMethods;
 use tei187\ColorTools\Math\ModelConversion;
 use tei187\ColorTools\Math\Chromaticity\Adaptation as AdaptationMath;
+use tei187\ColorTools\Dictionaries\Illuminants\Standard\Dictionary as StandardIlluminantDictionary;
 use tei187\ColorTools\Dictionaries\CAT\Matrices;
 use tei187\ColorTools\Interfaces\IlluminantDictionary;
-use tei187\ColorTools\Dictionaries\Illuminants\Standard\Dictionary as StandardIlluminantDictionary;
 use tei187\ColorTools\Illuminants\Illuminant;
 use tei187\ColorTools\ColorModels\XYZ;
 
@@ -19,19 +19,28 @@ trait ChromaticAdaptation {
      * Applies chromatic adaptation to the color values of the current object using the specified destination illuminant and chromatic adaptation transform (CAT).
      *
      * @param mixed $destination The destination illuminant to adapt the color to.
+     * @param mixed $returnAsXYZ Flag, if true returns value as XYZ color space, if false as current.
      * @param mixed $CAT The chromatic adaptation transform to use, defaults to Bradford.
      * @return array|false The adapted XYZ color values, or false if the 'UsesIlluminant' trait is not present.
      * @throws \Exception if the 'UsesIlluminant' trait is not present.
      */
-    public function getAdaptedValues($destination, $CAT = Matrices::Bradford)
+    public function getAdaptedValues($destination, bool $returnAsXYZ = false, $CAT = Matrices::Bradford)
     {
         if (ClassMethods::checkForTrait($this, 'tei187\\ColorTools\\Traits\\UsesIlluminant')) {
-            return AdaptationMath::adapt(
-                $this->toXYZ()->getValues(), 
+            $obj = clone $this;
+
+            $adapted = AdaptationMath::adapt(
+                $obj->toXYZ()->getValues(), 
                 $this->getIlluminant()->get('whitepoint'), 
                 $destination, 
                 $CAT
             );
+
+            $adaptedXYZ = new XYZ(array_values($adapted), $destination, $this->getIlluminant()->get('angle'));
+            
+            return $returnAsXYZ
+                ? $adaptedXYZ->getValues()
+                : $adaptedXYZ->to($this->getMeasureType(), isset($obj->primaries) ? $obj->getPrimaries() : null)->getValues();
         }
         throw new \Exception('Object does not use the UsesIlluminant trait, cannot apply chromatic adaptation.');
         return false;
@@ -70,16 +79,18 @@ trait ChromaticAdaptation {
 
             $class = explode("\\", get_class($this));
             $current = $class[array_key_last($class)];
-            $xyz_adapted = $this->getAdaptedValues($destination->getWhitepoint(), $CAT);
+            $xyz_adapted = $this->getAdaptedValues($destination->getWhitepoint(), true, $CAT, $dictionary);
 
             $obj = new XYZ(
                 $xyz_adapted,
-                $destination
+                $destination,
             );
+
+            //var_dump($obj);
 
             $new = $obj->to(
                 $current,
-                isset($this->primaries) ? $this->primaries : 'sRGB'
+                isset($this->primaries) ? $this->primaries::NAME : 'sRGB'
             );
 
             return $new;

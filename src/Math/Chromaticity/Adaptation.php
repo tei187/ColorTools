@@ -182,6 +182,7 @@ class Adaptation {
     {
         $WP_s = ModelConversion::_checkWhitePoint($WP_s);
         $WP_d = ModelConversion::_checkWhitePoint($WP_d);
+        
         list($rho_s, $gamma_s, $beta_s) = self::matrixVector($M_tran, $WP_s);
         list($rho_d, $gamma_d, $beta_d) = self::matrixVector($M_tran, $WP_d);
 

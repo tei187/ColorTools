@@ -790,7 +790,7 @@ class ModelConversion {
         $WP_RefTristimulus = self::_checkWhitePoint($WP_RefTristimulus);
         
         if(is_object($primaries)) {
-            if(!in_array("tei187\\ColorTools\\Interfaces\\Primaries", class_implements($primaries))) {
+            if(!in_array("tei187\\ColorTools\\Interfaces\\RGBPrimaries", class_implements($primaries))) {
                 return false;
             } else {
                 $WP_RefTristimulus = self::_checkWhitePoint($primaries->getIlluminantTristimulus());
@@ -875,14 +875,14 @@ class ModelConversion {
      */
     public static function RGB_to_XYZ(array $data, $primaries = 'sRGB', $simple = true) {
         $primaries = self::_primariesResolver($primaries);
-
+        
         $rgb_gamma = [];
         foreach($data as $value) {
             $rgb_gamma[] = $primaries->applyInverseCompanding(($value), $primaries->getGamma());
         }
-
+        
         $primariesXYZ = [];
-        foreach($primaries->getPrimariesXYY() as $values) {
+        foreach($primaries::XYY as $values) {
             $primariesXYZ[] = array_values(self::xyY_to_XYZ($values));
         }
 
@@ -891,7 +891,7 @@ class ModelConversion {
         } else{
             return [
                 'values' => AdaptationMath::matrixVector(AdaptationMath::transpose3x3Matrix($primariesXYZ), $rgb_gamma), 
-                'illuminantName' => $primaries->getIlluminantName(),
+                'illuminantName' => $primaries->getIlluminant()->get('name'),
                 'illuminantTristimulus' => $primaries->getIlluminantTristimulus(),
             ];
         }
@@ -1359,18 +1359,13 @@ class ModelConversion {
             }
         } elseif(is_array($var)) {
             $length = count($var); 
-            if($length == 3) {
-                // assume XYZ
-                return
-                    ArrayMethods::checkForKeys($var, 'XYZ') === false
-                        ? false
-                        : array_values($var);
-            } elseif($length == 2) {
-                // assume xy
-                return
-                    ArrayMethods::checkForKeys($var, 'xy') === false
-                        ? false
-                        : self::xy_to_XYZ($var);
+            switch($length) {
+                case 3: // assume XYZ
+                    return ArrayMethods::checkForKeys($var, 'XYZ') === false ? false : $var;
+                    break;
+                case 2: // assume xy
+                    return ArrayMethods::checkForKeys($var, 'xy') === false ? false : self::xy_to_XYZ($var);
+                    break;
             }
         }
         return false;

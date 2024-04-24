@@ -70,4 +70,13 @@ abstract class RGBPrimaries implements RGBPrimariesInterface {
      */
     public function getGamma() { return static::GAMMA; }
 
+    /**
+     * Returns tristimulus of the illuminant.
+     *
+     * @return array
+     */
+    public function getIlluminantTristimulus(): array {
+        return ($this->getIlluminant())->getTristimulus();
+    }
+
 }
