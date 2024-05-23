@@ -2,7 +2,7 @@
 
 namespace tei187\ColorTools\Abstracts;
 
-use tei187\ColorTools\Chromaticity\Temperature;
+use tei187\ColorTools\Math\Chromaticity\Temperature;
 use tei187\ColorTools\Traits\ChromaticAdaptation;
 use tei187\ColorTools\Traits\CalculatesDeltaE;
 

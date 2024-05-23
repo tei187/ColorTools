@@ -1,6 +1,6 @@
 <?php
 
-namespace tei187\ColorTools\Chromaticity;
+namespace tei187\ColorTools\Math\Chromaticity;
 
 use tei187\ColorTools\Helpers\ArrayMethods;
 
