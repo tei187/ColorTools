@@ -12,7 +12,7 @@ use tei187\ColorTools\Dictionaries\Illuminants\Standard\Dictionary;
  */
 interface Illuminant
 {
-    public function __construct(array $xy = [], int $angle = 2, ?string $name = null);
+    //public function __construct(array $xy = [], int $angle = 2, ?string $name = null);
 
     // static
     static function from(string $name, int $angle = 2, IlluminantDictionary $dictionary = new Dictionary): ?Illuminant;

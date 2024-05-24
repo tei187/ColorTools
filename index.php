@@ -28,6 +28,7 @@
     require_once __DIR__ . "/src/Traits/Companding/sRGBCompanding.php";
     require_once __DIR__ . "/src/Traits/CalculatesDeltaE.php";
     require_once __DIR__ . "/src/Traits/CalculatesContrast.php";
+    require_once __DIR__ . "/src/Traits/IsStandardIlluminant.php";
 
 // deltaE
     require_once __DIR__ . "/src/Math/DeltaE/CIE76.php";
@@ -49,8 +50,6 @@
     require_once __DIR__ . "/src/Math/Chromaticity/Temperature.php";
 
 // Standard Illuminants / standard observers
-    
-    
     require_once __DIR__ . "/src/Illuminants/Illuminant.php";
 
 // Converters
@@ -89,3 +88,35 @@
     require_once __DIR__ . "/src/ColorModels/RGB.php";
     require_once __DIR__ . "/src/ColorModels/HSL.php";
     require_once __DIR__ . "/src/ColorModels/HSV.php";
+
+// Illuminants (direct classes)
+    require_once __DIR__ . "/src/Illuminants/Standard/A.php";
+    require_once __DIR__ . "/src/Illuminants/Standard/B.php";
+    require_once __DIR__ . "/src/Illuminants/Standard/C.php";
+    require_once __DIR__ . "/src/Illuminants/Standard/D50.php";
+    require_once __DIR__ . "/src/Illuminants/Standard/D55.php";
+    require_once __DIR__ . "/src/Illuminants/Standard/D65.php";
+    require_once __DIR__ . "/src/Illuminants/Standard/D75.php";
+    require_once __DIR__ . "/src/Illuminants/Standard/D93.php";
+    require_once __DIR__ . "/src/Illuminants/Standard/E.php";
+    require_once __DIR__ . "/src/Illuminants/Standard/F1.php";
+    require_once __DIR__ . "/src/Illuminants/Standard/F2.php";
+    require_once __DIR__ . "/src/Illuminants/Standard/F3.php";
+    require_once __DIR__ . "/src/Illuminants/Standard/F4.php";
+    require_once __DIR__ . "/src/Illuminants/Standard/F5.php";
+    require_once __DIR__ . "/src/Illuminants/Standard/F6.php";
+    require_once __DIR__ . "/src/Illuminants/Standard/F7.php";
+    require_once __DIR__ . "/src/Illuminants/Standard/F8.php";
+    require_once __DIR__ . "/src/Illuminants/Standard/F9.php";
+    require_once __DIR__ . "/src/Illuminants/Standard/F10.php";
+    require_once __DIR__ . "/src/Illuminants/Standard/F11.php";
+    require_once __DIR__ . "/src/Illuminants/Standard/F12.php";
+    require_once __DIR__ . "/src/Illuminants/Standard/LED_B1.php";
+    require_once __DIR__ . "/src/Illuminants/Standard/LED_B2.php";
+    require_once __DIR__ . "/src/Illuminants/Standard/LED_B3.php";
+    require_once __DIR__ . "/src/Illuminants/Standard/LED_B4.php";
+    require_once __DIR__ . "/src/Illuminants/Standard/LED_B5.php";
+    require_once __DIR__ . "/src/Illuminants/Standard/LED_BH1.php";
+    require_once __DIR__ . "/src/Illuminants/Standard/LED_RGB1.php";
+    require_once __DIR__ . "/src/Illuminants/Standard/LED_V1.php";
+    require_once __DIR__ . "/src/Illuminants/Standard/LED_V2.php";

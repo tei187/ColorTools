@@ -2,7 +2,7 @@
 
 namespace tei187\ColorTools\Abstracts;
 
-use tei187\ColorTools\Illuminants\Illuminant;
+use tei187\ColorTools\Interfaces\Illuminant as IlluminantInterface;
 use tei187\ColorTools\Interfaces\IlluminantDictionary as IlluminantDictionaryInterface;
 use tei187\ColorTools\Math\ModelConversion;
 
@@ -151,11 +151,9 @@ abstract class IlluminantDictionary implements IlluminantDictionaryInterface {
      *
      * @param string $name The name of the standard illuminant, e.g. "D65", "A", "F11".
      * @param int $angle The angle of the standard illuminant, typically 2 or 10 degrees. Defaults to 2 degrees if not provided.
-     * @return Illuminant Returns illuminant if found in dictionary.
+     * @return IlluminantInterface Returns illuminant if found in dictionary.
      */   
-    public static function getIlluminant(string $name, ?int $angle = null): Illuminant {
-        return new Illuminant(self::getChromaticCoordinates($name, $angle), $angle, $name);
-    }
+    abstract public static function getIlluminant(string $name, ?int $angle = null): IlluminantInterface;
 
     public static function index(): array {
         return static::INDEX;

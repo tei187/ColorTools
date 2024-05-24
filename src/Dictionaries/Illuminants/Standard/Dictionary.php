@@ -3,6 +3,8 @@
 namespace tei187\ColorTools\Dictionaries\Illuminants\Standard;
 
 use tei187\ColorTools\Abstracts\IlluminantDictionary as DictionaryAbstract;
+use tei187\ColorTools\Interfaces\Illuminant as IlluminantInterface;
+use tei187\ColorTools\Illuminants\Illuminant;
 
 
 /**
@@ -51,4 +53,19 @@ class Dictionary extends DictionaryAbstract
      * @var string
      */
     const WHITEPOINT = "\\tei187\\ColorTools\\Dictionaries\\Illuminants\\Standard\\WhitePoint";
+
+    /**
+     * Looks up the illuminant object for the specified name and angle and returns as Illuminant if found.
+     *
+     * @param string $name The name of the standard illuminant, e.g. "D65", "A", "F11".
+     * @param int $angle The angle of the standard illuminant, typically 2 or 10 degrees. Defaults to 2 degrees if not provided.
+     * @return IlluminantInterface Returns illuminant if found in dictionary.
+     */   
+    public static function getIlluminant(string $name, ?int $angle = null): IlluminantInterface {
+        if(in_array($name, self::INDEX)) {
+            $classname = '\\tei187\\ColorTools\\Illuminants\\Standard\\' . $name;
+            return new $classname($angle);
+        }
+        return new Illuminant(self::getChromaticCoordinates($name, $angle), $angle, $name);
+    }
 }

@@ -23,5 +23,5 @@ public static function assessStandardIlluminant(string $name);
 public static function _retrieveConst(string $name, int $angle = 2);
 public static function getChromaticCoordinates(string $name, int $angle = 2);
 public static function getTristimulus(string $name, int $angle = 2);
-public static function getIlluminant(string $name, int $angle = 2): \tei187\ColorTools\Illuminants\Illuminant;
+public static function getIlluminant(string $name, int $angle = 2): \tei187\ColorTools\Interfaces\Illuminant;
 }
