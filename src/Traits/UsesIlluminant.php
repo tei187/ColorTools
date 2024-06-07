@@ -5,6 +5,8 @@ namespace tei187\ColorTools\Traits;
 use tei187\ColorTools\Dictionaries\Illuminants\Standard\Dictionary;
 use tei187\ColorTools\Interfaces\IlluminantDictionary;
 use tei187\ColorTools\Illuminants\Illuminant;
+use tei187\ColorTools\Interfaces\Illuminant as IlluminantInterface;
+use tei187\ColorTools\Interfaces\StandardIlluminant as StandardIlluminantInterface;
 
 /**
  * Trait handling illuminant-oriented properties and methods.
@@ -21,7 +23,7 @@ trait UsesIlluminant {
     /**
      * Sets values and angle of illuminant used during measurement.
      *
-     * @param string|array|Illuminant $illuminant The illuminant to use. Can be a string (e.g. 'D65'), an array of (x, y) chromacity values, an array of (X, Y, Z) tristimulus values, or an Illuminant object.
+     * @param string|array|IlluminantInterface|StandardIlluminantInterface $illuminant The illuminant to use. Can be a string (e.g. 'D65'), an array of (x, y) chromacity values, an array of (X, Y, Z) tristimulus values, or an Illuminant object.
      * @param int $angle The angle of the illuminant, typically 2 or 10 degrees. Ommited if `$illuminant` is a Illuminant class object.
      * @param string $name The name of the custom illuminant. Ommited if `$illuminant` is a Illuminant class object.
      * @param IlluminantDictionary $dictionary The dictionary to use for looking up illuminant data. By default uses standard illuminant dictionary.
@@ -58,10 +60,10 @@ trait UsesIlluminant {
                     throw new \InvalidArgumentException('Wrong input for illuminant. Array does not match any of the accepted formats (xy or XYZ).');
                     break;
             }
-        } elseif (is_object($illuminant) && $illuminant instanceof Illuminant) {
+        } elseif (is_object($illuminant) && ($illuminant instanceof IlluminantInterface || $illuminant instanceof StandardIlluminantInterface)) {
             $this->illuminant = $illuminant;
         } else {
-            throw new \Error('Wrong input for illuminant. Must be a valid string, array of (x,y) or (X,Y,Z), or Illuminant object.');
+            throw new \Error('Wrong input for illuminant. Must be a valid string, array of (x,y) or (X,Y,Z), or Illuminant-like object (implementing Illuminant or StandardIlluminant interface).');
         }
         return $this;
     }

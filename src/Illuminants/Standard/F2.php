@@ -2,9 +2,11 @@
 
 namespace tei187\ColorTools\Illuminants\Standard;
 
-use tei187\ColorTools\Illuminants\Illuminant;
+use tei187\ColorTools\Interfaces\StandardIlluminant as StandardIlluminantInterface;
+use tei187\ColorTools\Traits\StandardIlluminant;
 use tei187\ColorTools\Traits\IsStandardIlluminant;
 
-class F2 extends Illuminant {
-    use IsStandardIlluminant;
+readonly class F2 implements StandardIlluminantInterface {
+    use IsStandardIlluminant,
+        StandardIlluminant;
 }

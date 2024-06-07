@@ -4,20 +4,29 @@
     require_once __DIR__ . "/src/Helpers/ArrayMethods.php";
     require_once __DIR__ . "/src/Helpers/ClassMethods.php";
 
+// Enums
+    require_once __DIR__ . "/src/Enums/CAT.php";
+    require_once __DIR__ . "/src/Enums/DeltaE.php";
+    require_once __DIR__ . "/src/Enums/DeltaModes.php";
+    require_once __DIR__ . "/src/Enums/RGBPrimaries.php";
+    require_once __DIR__ . "/src/Enums/StandardIlluminants.php";
+
 // Interfaces
     require_once __DIR__ . "/src/Interfaces/IlluminantDictionary.php";
     require_once __DIR__ . "/src/Interfaces/Companding.php";
     require_once __DIR__ . "/src/Interfaces/Measure.php";
     require_once __DIR__ . "/src/Interfaces/RGBPrimaries.php";
     require_once __DIR__ . "/src/Interfaces/Illuminant.php";
+    require_once __DIR__ . "/src/Interfaces/StandardIlluminant.php";
 
+// Standard Illuminants (dictionary)
     require_once __DIR__ . "/src/Abstracts/IlluminantDictionary.php";
     require_once __DIR__ . "/src/Dictionaries/Illuminants/Standard/Dictionary.php";
     require_once __DIR__ . "/src/Dictionaries/Illuminants/Standard/WhitePoint2.php";
     require_once __DIR__ . "/src/Dictionaries/Illuminants/Standard/WhitePoint10.php";
     require_once __DIR__ . "/src/Dictionaries/Illuminants/Standard/Tristimulus2.php";
     require_once __DIR__ . "/src/Dictionaries/Illuminants/Standard/Tristimulus10.php";
-
+    
 // Traits
     require_once __DIR__ . "/src/Traits/ConvertsBetweenXYandXYZ.php";
     require_once __DIR__ . "/src/Traits/ChromaticAdaptation.php";
@@ -29,6 +38,7 @@
     require_once __DIR__ . "/src/Traits/CalculatesDeltaE.php";
     require_once __DIR__ . "/src/Traits/CalculatesContrast.php";
     require_once __DIR__ . "/src/Traits/IsStandardIlluminant.php";
+    require_once __DIR__ . "/src/Traits/StandardIlluminant.php";
 
 // deltaE
     require_once __DIR__ . "/src/Math/DeltaE/CIE76.php";
@@ -74,7 +84,6 @@
     require_once __DIR__ . "/src/Dictionaries/RGBPrimaries/Standard/Primaries/SMPTECRGB.php";
     require_once __DIR__ . "/src/Dictionaries/RGBPrimaries/Standard/Primaries/sRGB.php";
     require_once __DIR__ . "/src/Dictionaries/RGBPrimaries/Standard/Primaries/WideGamutRGB.php";
-
 
 // Objects
     require_once __DIR__ . "/src/Abstracts/DeviceIndependent.php";
