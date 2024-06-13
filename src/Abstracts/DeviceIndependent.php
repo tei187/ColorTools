@@ -15,7 +15,8 @@ use tei187\ColorTools\ColorModels\Luv;
 use tei187\ColorTools\ColorModels\RGB;
 use tei187\ColorTools\ColorModels\HSL;
 use tei187\ColorTools\ColorModels\HSV;
-use tei187\ColorTools\Illuminants\Illuminant;
+use tei187\ColorTools\Interfaces\Illuminant as IlluminantInterface;
+use tei187\ColorTools\Interfaces\StandardIlluminant as StandardIlluminantInterface;
 use tei187\ColorTools\Traits\CalculatesContrast;
 use tei187\ColorTools\Traits\UsesIlluminant;
 
@@ -101,7 +102,12 @@ abstract class DeviceIndependent {
         return $e[array_key_last($e)];
     }
 
-    public function getIlluminant() : Illuminant {
+    /**
+     * Retrieves illuminant object.
+     *
+     * @return IlluminantInterface|StandardIlluminantInterface
+     */
+    public function getIlluminant() {
         return $this->illuminant;
     }
 

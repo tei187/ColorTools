@@ -17,7 +17,8 @@ use tei187\ColorTools\ColorModels\Luv;
 use tei187\ColorTools\ColorModels\RGB;
 use tei187\ColorTools\ColorModels\HSL;
 use tei187\ColorTools\ColorModels\HSV;
-use tei187\ColorTools\Illuminants\Illuminant;
+use tei187\ColorTools\Interfaces\Illuminant as IlluminantInterface;
+use tei187\ColorTools\Interfaces\StandardIlluminant as StandardIlluminantInterface;
 
 /**
  * Abstract class for device-dependent measures.
@@ -57,7 +58,7 @@ abstract class DeviceDependent extends DeviceIndependentAbstract {
         return $this->primaries;
     }
 
-    public function getIlluminant(): Illuminant {
+    public function getIlluminant() {
         return $this->primaries->getIlluminant();
     }
 
