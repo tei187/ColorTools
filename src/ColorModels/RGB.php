@@ -2,6 +2,7 @@
 
 namespace tei187\ColorTools\ColorModels;
 
+use tei187\ColorTools\Helpers\ArrayMethods;
 use tei187\ColorTools\Math\ModelConversion;
 use tei187\ColorTools\Abstracts\DeviceDependent as DeviceDependentAbstract;
 
@@ -19,6 +20,86 @@ class RGB extends DeviceDependentAbstract {
         $this->_setValuesKeys('RGB');
         $this->setValues($values);
         $this->setPrimaries($primaries);
+    }
+
+    /**
+     * Sets values for object.
+     *
+     * @param array|string $values Treats string as hexadecimal transcription of RGB (#rgb or #rrggbb)
+     * @return self If input values are incorrect and do not fall under any interpretation, sets values as rgb(0,0,0).
+     */
+    public function setValues(...$values) : self {
+        if(count($values) == 1) {
+            $values = array_values($values)[0];
+            if(is_string($values)) {
+                $t = str_replace(["#", " "], "", trim($values));
+                $t_l = strlen($t);
+                if(ctype_xdigit($t)) {
+                    if($t_l == 3 || $t_l == 4) {
+                        $this->values = 
+                            [
+                                'R' => hexdec($t[0].$t[0]) / 255,
+                                'G' => hexdec($t[1].$t[1]) / 255,
+                                'B' => hexdec($t[2].$t[2]) / 255
+                            ];
+                    } elseif($t_l == 6 || $t_l == 8) {
+                        $this->values = 
+                            [
+                                'R' => hexdec($t[0].$t[1]) / 255,
+                                'G' => hexdec($t[2].$t[3]) / 255,
+                                'B' => hexdec($t[4].$t[5]) / 255
+                            ];
+                    } else {
+                        $this->values = [ 'R' => 0, 'G' => 0, 'B' => 0 ];
+                    }
+                } else {
+                    $this->values = [ 'R' => 0, 'G' => 0, 'B' => 0 ];
+                }
+            } elseif ( is_array($values) ) {
+                if(count($values) == 3) {
+                    if(ArrayMethods::itemsBetween0and1($values)) {
+                        $values = array_values($values);
+                        $this->values = [
+                            'R' => $values[0],
+                            'G' => $values[1],
+                            'B' => $values[2]
+                        ];
+                    } elseif(ArrayMethods::itemsBetween0and255($values)) {
+                        $values = array_values($values);
+                        $this->values = [
+                            'R' => $values[0] / 255,
+                            'G' => $values[1] / 255,
+                            'B' => $values[2] / 255
+                        ];
+                    } else {
+                        $this->values = [ 'R' => 0, 'G' => 0, 'B' => 0 ];
+                    }
+                } else {
+                    $this->values = [ 'R' => 0, 'G' => 0, 'B' => 0 ];
+                }
+            } else {
+                $this->values = [ 'R' => 0, 'G' => 0, 'B' => 0 ];
+            }
+        } elseif(count($values) == 3) {
+            if(ArrayMethods::itemsBetween0and1($values)) {
+                $values = array_values($values);
+                $this->values = [
+                    'R' => $values[0],
+                    'G' => $values[1],
+                    'B' => $values[2]
+                ];
+            } elseif(ArrayMethods::itemsBetween0and255($values)) {
+                $values = array_values($values);
+                $this->values = [
+                    'R' => $values[0] / 255,
+                    'G' => $values[1] / 255,
+                    'B' => $values[2] / 255
+                ];
+            } else {
+                $this->values = [ 'R' => 0, 'G' => 0, 'B' => 0 ];
+            }
+        }
+        return $this;
     }
 
     public function toXYZ(): XYZ {
