@@ -3,7 +3,7 @@
 namespace tei187\ColorTools\Traits\Companding;
 
 /**
- * Methods specific for sRGB companding. Native for sRRGB color space.
+ * Methods specific for sRGB companding. Native for sRGB color space.
  */
 trait sRGBCompanding {
     /**
