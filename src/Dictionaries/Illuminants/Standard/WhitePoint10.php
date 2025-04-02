@@ -93,4 +93,40 @@ Class WhitePoint10 {
      * Philips TL83, Ultralume 30.
      */
     const F12 = [ 0.44256, 0.39717 ];
+    /**
+     * Phosphor-converted blue.
+     */
+    const LED_B1 = [ 0.462505, 0.403042 ];
+    /**
+     * Phosphor-converted blue.
+     */
+    const LED_B2 = [ 0.442119, 0.396634 ];
+    /**
+     * Phosphor-converted blue.
+     */
+    const LED_B3 = [ 0.380852, 0.368518 ];
+    /**
+     * Phosphor-converted blue.
+     */
+    const LED_B4 = [ 0.348371, 0.345065 ];
+    /**
+     * Phosphor-converted blue.
+     */
+    const LED_B5 = [ 0.316927, 0.322060 ];
+    /**
+     * Mixing of phosphor-converted blue LED and red LED (blue-hybrid).
+     */
+    const LED_BH1 = [ 0.452773, 0.400032 ];
+    /**
+     * Mixing of red, green, and blue LEDs.
+     */
+    const LED_RGB1 = [ 0.457036, 0.425381 ];
+    /**
+     * Phosphor-converted blue.
+     */
+    const LED_V1 = [ 0.453603, 0.398200 ];
+    /**
+     * Phosphor-converted blue.
+     */
+    const LED_V2 = [ 0.377728, 0.374512 ];
 }

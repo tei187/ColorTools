@@ -93,4 +93,40 @@ Class Tristimulus10 {
      * Philips TL83, Ultralume 30.
      */
     const F12 = [ 1.11428, 1.00000, 0.40353 ];
+        /**
+     * Phosphor-converted blue.
+     */
+    const LED_B1 = [ 1.14754, 1, 0.3336 ];
+    /**
+     * Phosphor-converted blue.
+     */
+    const LED_B2 = [ 1.11468, 1, 0.40654 ];
+    /**
+     * Phosphor-converted blue.
+     */
+    const LED_B3 = [ 1.03347, 1, 0.6801 ];
+    /**
+     * Phosphor-converted blue.
+     */
+    const LED_B4 = [ 1.00958, 1, 0.88842 ];
+    /**
+     * Phosphor-converted blue.
+     */
+    const LED_B5 = [ 0.98406, 1, 1.12095 ];
+    /**
+     * Mixing of phosphor-converted blue LED and red LED (blue-hybrid).
+     */
+    const LED_BH1 = [ 1.13184, 1, 0.36796 ];
+    /**
+     * Mixing of red, green, and blue LEDs.
+     */
+    const LED_RGB1 = [ 1.07442, 1, 0.27642 ];
+    /**
+     * Phosphor-converted blue.
+     */
+    const LED_V1 = [ 1.13913, 1, 0.37217 ];
+    /**
+     * Phosphor-converted blue.
+     */
+    const LED_V2 = [ 1.00859, 1, 0.66155 ];
 }
