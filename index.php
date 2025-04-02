@@ -35,6 +35,7 @@
     require_once __DIR__ . "/src/Traits/Companding/GammaCompanding.php";
     require_once __DIR__ . "/src/Traits/Companding/LCompanding.php";
     require_once __DIR__ . "/src/Traits/Companding/sRGBCompanding.php";
+    require_once __DIR__ . "/src/Traits/Companding/Rec709Companding.php";
     require_once __DIR__ . "/src/Traits/CalculatesDeltaE.php";
     require_once __DIR__ . "/src/Traits/CalculatesContrast.php";
     require_once __DIR__ . "/src/Traits/IsStandardIlluminant.php";
@@ -81,6 +82,7 @@
     require_once __DIR__ . "/src/Dictionaries/RGBPrimaries/Standard/Primaries/PALSECAMRGB.php";
     require_once __DIR__ . "/src/Dictionaries/RGBPrimaries/Standard/Primaries/ProPhotoRGB.php";
     require_once __DIR__ . "/src/Dictionaries/RGBPrimaries/Standard/Primaries/RadianceRGB.php";
+    require_once __DIR__ . "/src/Dictionaries/RGBPrimaries/Standard/Primaries/Rec709.php";
     require_once __DIR__ . "/src/Dictionaries/RGBPrimaries/Standard/Primaries/SMPTECRGB.php";
     require_once __DIR__ . "/src/Dictionaries/RGBPrimaries/Standard/Primaries/sRGB.php";
     require_once __DIR__ . "/src/Dictionaries/RGBPrimaries/Standard/Primaries/WideGamutRGB.php";

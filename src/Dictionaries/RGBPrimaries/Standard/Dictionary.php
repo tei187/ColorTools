@@ -20,6 +20,7 @@ namespace tei187\ColorTools\Dictionaries\RGBPrimaries\Standard;
  * - PALSECAMRGB,
  * - ProPhotoRGB,
  * - RadianceRGB,
+ * - Rec709
  * - SMPTECRGB,
  * - sRGB,
  * - WideGamutRGB.
@@ -46,6 +47,7 @@ class Dictionary
         'PALSECAMRGB',
         'ProPhotoRGB',
         'RadianceRGB',
+        'Rec709',
         'SMPTECRGB',
         'sRGB',
         'WideGamutRGB',
@@ -81,6 +83,11 @@ class Dictionary
         'prophoto' =>    'ProPhotoRGB',
         'pro-photo' =>   'ProPhotoRGB',
         'radiance' =>    'RadianceRGB',
+        'rec709' =>      'Rec709',
+        'rec.709' =>     'Rec709',
+        'r709' =>        'Rec709',
+        'bt709' =>       'Rec709',
+        'bt.709' =>      'Rec709',
         'smptec' =>      'SMPTECRGB',
         'smpte-c' =>     'SMPTECRGB',
         'rgb' =>         'sRGB',
