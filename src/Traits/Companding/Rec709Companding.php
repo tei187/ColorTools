@@ -9,7 +9,7 @@ trait Rec709Companding {
     /**
      * Applies Rec.709 companding to the given value.
      *
-     * If the value is less than or equal to 0.0031308, it is scaled using the linear Rec.709 formula.
+     * If the value is less than or equal to 0.0018, it is scaled using the linear Rec.709 formula.
      * Otherwise, it is transformed using the nonlinear Rec.709 formula.
      *
      * @param float|integer $value The value to apply Rec.709 companding to.
@@ -26,7 +26,7 @@ trait Rec709Companding {
     /**
      * Applies inverse Rec.709 companding.
      *
-     * If the value is less than or equal to 0.04045, it is scaled using the linear Rec.709 formula.
+     * If the value is less than or equal to 0.081, it is scaled using the linear Rec.709 formula.
      * Otherwise, it is transformed using the nonlinear Rec.709 formula.
      *
      * @param float|integer $value The value to apply inverse Rec.709 companding to.
